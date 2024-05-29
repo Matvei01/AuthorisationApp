@@ -14,6 +14,7 @@
 		1AB3E5342C07704D0040DE8D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1AB3E5332C07704D0040DE8D /* Base */; };
 		1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E53C2C0771430040DE8D /* SignInViewController.swift */; };
 		1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */; };
+		1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		1AB3E5352C07704D0040DE8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB3E53C2C0771430040DE8D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseLabel.swift; sourceTree = "<group>"; };
+		1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */,
+				1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */,
 			);
 			path = ReuseViews;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			files = (
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
+				1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */,
 				1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,
