@@ -13,6 +13,7 @@
 		1AB3E5312C07704D0040DE8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB3E5302C07704D0040DE8D /* Assets.xcassets */; };
 		1AB3E5342C07704D0040DE8D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1AB3E5332C07704D0040DE8D /* Base */; };
 		1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E53C2C0771430040DE8D /* SignInViewController.swift */; };
+		1AB3E5432C0775CB0040DE8D /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5422C0775CB0040DE8D /* UILabel + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		1AB3E5332C07704D0040DE8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1AB3E5352C07704D0040DE8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB3E53C2C0771430040DE8D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		1AB3E5422C0775CB0040DE8D /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		1AB3E5262C07704C0040DE8D /* AuthorisationApp */ = {
 			isa = PBXGroup;
 			children = (
+				1AB3E5412C0775AB0040DE8D /* Extensions */,
 				1AB3E53B2C0771100040DE8D /* Controllers */,
 				1AB3E5402C0771940040DE8D /* LaunchScreen */,
 				1AB3E53F2C0771800040DE8D /* Resources */,
@@ -97,6 +100,14 @@
 				1AB3E5322C07704D0040DE8D /* LaunchScreen.storyboard */,
 			);
 			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		1AB3E5412C0775AB0040DE8D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1AB3E5422C0775CB0040DE8D /* UILabel + Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
+				1AB3E5432C0775CB0040DE8D /* UILabel + Extension.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,
