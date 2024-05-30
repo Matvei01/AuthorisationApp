@@ -15,6 +15,8 @@
 		1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E53C2C0771430040DE8D /* SignInViewController.swift */; };
 		1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */; };
 		1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */; };
+		1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20422C08AC1C006173D3 /* ReuseLargeButton.swift */; };
+		1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		1AB3E53C2C0771430040DE8D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseLabel.swift; sourceTree = "<group>"; };
 		1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextField.swift; sourceTree = "<group>"; };
+		1ADE20422C08AC1C006173D3 /* ReuseLargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseLargeButton.swift; sourceTree = "<group>"; };
+		1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseSmallButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 			children = (
 				1AB3E5482C07842B0040DE8D /* ReuseLabel.swift */,
 				1AB3E54A2C078F8B0040DE8D /* ReuseTextField.swift */,
+				1ADE20422C08AC1C006173D3 /* ReuseLargeButton.swift */,
+				1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */,
 			);
 			path = ReuseViews;
 			sourceTree = "<group>";
@@ -185,6 +191,8 @@
 			files = (
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
+				1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */,
+				1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */,
 				1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */,
 				1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
