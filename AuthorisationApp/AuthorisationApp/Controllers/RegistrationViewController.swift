@@ -8,10 +8,223 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController {
-
+    
+    // MARK: - UI Elements
+    private lazy var nameTextField = ReuseTextField(
+        placeholder: "Имя",
+        returnKeyType: .next,
+        tag: 0
+    )
+    private lazy var emailTextField = ReuseTextField(
+        placeholder: "Почта",
+        returnKeyType: .next,
+        tag: 1
+    )
+    private lazy var passwordTextField = ReuseTextField(
+        placeholder: "Пароль",
+        isSecureTextEntry: true,
+        returnKeyType: .done,
+        tag: 2
+    )
+    
+    private lazy var registrationLabel = ReuseLabel(
+        text: "Регистрация",
+        textColor: .white,
+        font: .systemFont(ofSize: 34.4, weight: .bold),
+        textAlignment: .center
+    )
+    
+    private lazy var privacyPolicyLabel = ReuseLabel(
+        text: "Я согласен с Условиями предоставления услуг и Политикой конфиденциальности",
+        textColor: .appGray,
+        font: .systemFont(ofSize: 13.76, weight: .regular)
+    )
+    
+    private lazy var questionLabel = ReuseLabel(
+        text: "Уже есть аккаунт?",
+        textColor: .appDark,
+        font: .systemFont(ofSize: 18.35, weight: .regular)
+    )
+    
+    private lazy var registrationButton = ReuseLargeButton(
+        title: "РЕГИСТРАЦИЯ",
+        target: self,
+        selector: #selector(registrationButtonTapped)
+    )
+    
+    private lazy var signInButton = ReuseSmallButton(
+        title: "ВОЙТИ",
+        target: self,
+        selector: #selector(signInButtonTapped)
+    )
+    
+    private lazy var textFieldsStackView = ReuseStackView(
+        subviews: [nameTextField, emailTextField, passwordTextField],
+        axis: .vertical,
+        alignment: .fill,
+        spacing: 10
+    )
+    
+    private lazy var firstRegistrationStackView = ReuseStackView(
+        subviews: [
+            registrationLabel,
+            textFieldsStackView,
+            privacyPolicyLabel
+        ],
+        axis: .vertical,
+        alignment: .fill,
+        spacing: 15
+    )
+    
+    private lazy var secondRegistrationStackView = ReuseStackView(
+        subviews: [
+            registrationButton,
+            signInStackView
+        ],
+        axis: .vertical,
+        alignment: .center,
+        spacing: 28.67
+    )
+    
+    private lazy var mainRegistrationStackView = ReuseStackView(
+        subviews: [
+            firstRegistrationStackView,
+            secondRegistrationStackView
+        ],
+        axis: .vertical,
+        alignment: .fill,
+        autoresizing: false,
+        spacing: 50.98
+    )
+    
+    private lazy var signInStackView = ReuseStackView(
+        subviews: [
+            questionLabel,
+            signInButton
+        ],
+        axis: .horizontal,
+        alignment: .fill,
+        spacing: 9.81
+    )
+    
+    // MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        setupView()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 }
+
+// MARK: - Private methods
+private extension RegistrationViewController {
+    func setupView() {
+        view.backgroundColor = .appBlack
+        
+        addSubviews()
+        
+        setupTextFields(
+            nameTextField,
+            emailTextField,
+            passwordTextField
+        )
+        
+        setConstraints()
+    }
+    
+    func addSubviews() {
+        setupSubviews(mainRegistrationStackView)
+    }
+    
+    func setupSubviews(_ subviews: UIView... ) {
+        for subview in subviews {
+            view.addSubview(subview)
+        }
+    }
+    
+    func setupTextFields(_ textFields: UITextField...) {
+        for textField in textFields {
+            textField.delegate = self
+        }
+    }
+    
+    @objc func registrationButtonTapped() {
+        print("Registration")
+    }
+    
+    @objc func signInButtonTapped() {
+        let signInVC = SignInViewController()
+        signInVC.modalPresentationStyle = .fullScreen
+        
+        present(signInVC, animated: true)
+    }
+}
+
+// MARK: - Alert Controller
+extension RegistrationViewController {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            textField?.text = ""
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField.tag {
+        case 0:
+            emailTextField.becomeFirstResponder()
+        case 1:
+            passwordTextField.becomeFirstResponder()
+        default:
+            registrationButtonTapped()
+        }
+        return true
+    }
+}
+
+// MARK: - Constraints
+private extension RegistrationViewController {
+    func setConstraints() {
+        NSLayoutConstraint.activate([
+            mainRegistrationStackView.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor,
+                constant: 50
+            ),
+            
+            mainRegistrationStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 27.52
+            ),
+            mainRegistrationStackView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -27.52
+            ),
+            
+            nameTextField.heightAnchor.constraint(
+                equalToConstant: 71.09
+            ),
+            emailTextField.heightAnchor.constraint(
+                equalToConstant: 71.09
+            ),
+            passwordTextField.heightAnchor.constraint(
+                equalToConstant: 71.09
+            ),
+            
+            registrationButton.heightAnchor.constraint(equalToConstant: 71.09),
+            registrationButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
+            
+            signInButton.widthAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+}
+
+
 

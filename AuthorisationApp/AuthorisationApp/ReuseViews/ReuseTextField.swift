@@ -16,10 +16,22 @@ final class ReuseTextField: UITextField {
         right: 21.79
     )
     
+    // MARK: - UI Elements
+    private lazy var eyeButton = UIButton(type: .custom)
+    
     // MARK: - Initializer
-    init(placeholder: String) {
+    init(placeholder: String,
+         isSecureTextEntry: Bool? = nil,
+         returnKeyType: UIReturnKeyType,
+         tag: Int) {
+        
         super.init(frame: .zero)
-        setupTextField(placeholder: placeholder)
+        setupTextField(
+            placeholder: placeholder,
+            isSecureTextEntry: isSecureTextEntry ?? false,
+            returnKeyType: returnKeyType,
+            tag: tag
+        )
     }
     
     @available(*, unavailable)
@@ -43,10 +55,55 @@ final class ReuseTextField: UITextField {
 
 // MARK: - Private methods
 private extension ReuseTextField {
-    func setupTextField(placeholder: String) {
+    func setupTextField(placeholder: String,
+                        isSecureTextEntry: Bool,
+                        returnKeyType: UIReturnKeyType,
+                        tag: Int) {
+        
         self.layer.cornerRadius = 11.47
         self.backgroundColor = .appClear
         self.placeholder = placeholder
         self.font = .systemFont(ofSize: 16)
+        self.isSecureTextEntry = isSecureTextEntry
+        self.returnKeyType = returnKeyType
+        self.tag = tag
+        
+        if isSecureTextEntry {
+            self.textContentType = .oneTimeCode
+            setupEyeButton()
+        }
+    }
+    
+    func setupEyeButton() {
+        eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        eyeButton.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
+        eyeButton.imageView?.tintColor = .appGray
+        
+        let containerView = UIView(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: eyeButton.intrinsicContentSize.width + 47,
+                height: eyeButton.intrinsicContentSize.height
+            )
+        )
+        
+        eyeButton.frame = CGRect(
+            x: 27,
+            y: 0,
+            width: eyeButton.intrinsicContentSize.width,
+            height: eyeButton.intrinsicContentSize.height
+        )
+        
+        containerView.addSubview(eyeButton)
+        
+        rightView = containerView
+        rightViewMode = .always
+    }
+    
+    @objc func eyeButtonTapped() {
+        isSecureTextEntry.toggle()
+        eyeButton.isSelected.toggle()
     }
 }

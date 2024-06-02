@@ -10,9 +10,9 @@ import UIKit
 final class ReuseSmallButton: UIButton {
     
     // MARK: - Initializer
-    init(title: String, selector: Selector) {
+    init(title: String, target: Any?, selector: Selector) {
         super.init(frame: .zero)
-        setupButton(title: title, selector: selector)
+        setupButton(title: title, target: target, selector: selector)
     }
     
     @available(*, unavailable)
@@ -23,10 +23,10 @@ final class ReuseSmallButton: UIButton {
 
 // MARK: - Private methods
 private extension ReuseSmallButton {
-    func setupButton(title: String, selector: Selector) {
+    func setupButton(title: String, target: Any?, selector: Selector) {
         self.setTitle(title, for: .normal)
         self.setTitleColor(.appPurple, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: 16.05, weight: .bold)
-        self.addTarget(self, action: selector, for: .touchUpInside)
+        self.addTarget(target, action: selector, for: .touchUpInside)
     }
 }

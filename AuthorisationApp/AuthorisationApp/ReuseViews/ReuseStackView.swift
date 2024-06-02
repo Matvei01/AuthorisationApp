@@ -13,16 +13,16 @@ final class ReuseStackView: UIStackView {
     init(subviews: [UIView],
          axis: NSLayoutConstraint.Axis,
          alignment: UIStackView.Alignment,
-         distribution: UIStackView.Distribution,
-         autoresizing: Bool? = nil) {
+         autoresizing: Bool? = nil,
+         spacing: CGFloat) {
         
         super.init(frame: .zero)
         setupStackView(
             subviews: subviews,
             axis: axis,
             alignment: alignment,
-            distribution: distribution,
-            autoresizing: autoresizing ?? false
+            autoresizing: autoresizing ?? true,
+            spacing: spacing
         )
     }
     
@@ -37,8 +37,8 @@ private extension ReuseStackView {
     func setupStackView(subviews: [UIView],
                         axis: NSLayoutConstraint.Axis,
                         alignment: UIStackView.Alignment,
-                        distribution: UIStackView.Distribution,
-                        autoresizing: Bool) {
+                        autoresizing: Bool,
+                        spacing: CGFloat) {
         
         for subview in subviews {
             self.addArrangedSubview(subview)
@@ -46,7 +46,8 @@ private extension ReuseStackView {
         
         self.axis = axis
         self.alignment = alignment
-        self.distribution = distribution
+        self.distribution = .fill
+        self.spacing = spacing
         self.translatesAutoresizingMaskIntoConstraints = autoresizing
     }
 }
