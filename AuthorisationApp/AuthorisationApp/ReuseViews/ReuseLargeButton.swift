@@ -12,7 +12,7 @@ final class ReuseLargeButton: UIButton {
     // MARK: - Initializer
     init(title: String, target: Any?, selector: Selector) {
         super.init(frame: .zero)
-        setupButton(title: title, target: target, selector: selector)
+        setupButton(title, target, selector)
     }
     
     @available(*, unavailable)
@@ -23,7 +23,7 @@ final class ReuseLargeButton: UIButton {
 
 // MARK: - Private methods
 private extension ReuseLargeButton {
-    func setupButton(title: String, target: Any?, selector: Selector) {
+    func setupButton(_ title: String, _ target: Any?, _ selector: Selector) {
         self.backgroundColor = .appPurple
         self.setTitle(title, for: .normal)
         self.setTitleColor(.white, for: .normal)

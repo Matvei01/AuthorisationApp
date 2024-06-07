@@ -10,9 +10,13 @@ import UIKit
 final class ReuseLabel: UILabel {
     
     // MARK: - Initializer
-    init(text: String, textColor: UIColor, font: UIFont, textAlignment: NSTextAlignment? = nil) {
+    init(text: String,
+         textColor: UIColor,
+         font: UIFont,
+         textAlignment: NSTextAlignment? = nil) {
+        
         super.init(frame: .zero)
-        setupLabel(text: text, textColor: textColor, font: font, textAlignment: textAlignment ?? .left)
+        setupLabel(text, textColor, font, textAlignment ?? .left)
     }
     
     @available(*, unavailable)
@@ -23,7 +27,11 @@ final class ReuseLabel: UILabel {
 
 // MARK: - Private Methods
 private extension ReuseLabel {
-    func setupLabel(text: String, textColor: UIColor, font: UIFont, textAlignment: NSTextAlignment) {
+    func setupLabel(_ text: String,
+                    _ textColor: UIColor,
+                    _ font: UIFont,
+                    _ textAlignment: NSTextAlignment) {
+        
         self.text = text
         self.font = font
         self.textColor = textColor

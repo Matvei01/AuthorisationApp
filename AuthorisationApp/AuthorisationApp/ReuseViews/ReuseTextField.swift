@@ -27,10 +27,10 @@ final class ReuseTextField: UITextField {
         
         super.init(frame: .zero)
         setupTextField(
-            placeholder: placeholder,
-            isSecureTextEntry: isSecureTextEntry ?? false,
-            returnKeyType: returnKeyType,
-            tag: tag
+            placeholder,
+            isSecureTextEntry ?? false,
+            returnKeyType,
+            tag
         )
     }
     
@@ -55,10 +55,10 @@ final class ReuseTextField: UITextField {
 
 // MARK: - Private methods
 private extension ReuseTextField {
-    func setupTextField(placeholder: String,
-                        isSecureTextEntry: Bool,
-                        returnKeyType: UIReturnKeyType,
-                        tag: Int) {
+    func setupTextField(_ placeholder: String,
+                        _ isSecureTextEntry: Bool,
+                        _ returnKeyType: UIReturnKeyType,
+                        _ tag: Int) {
         
         self.layer.cornerRadius = 11.47
         self.backgroundColor = .appClear

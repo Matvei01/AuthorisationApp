@@ -178,18 +178,6 @@ private extension RegistrationViewController {
     }
 }
 
-// MARK: - Alert Controller
-extension RegistrationViewController {
-    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            textField?.text = ""
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-}
-
 // MARK: - UITextFieldDelegate
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -208,36 +196,19 @@ extension RegistrationViewController: UITextFieldDelegate {
 // MARK: - Constraints
 private extension RegistrationViewController {
     func setConstraints() {
-        NSLayoutConstraint.activate([
-            mainRegistrationStackView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor,
-                constant: 50
-            ),
-            
-            mainRegistrationStackView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: 27.52
-            ),
-            mainRegistrationStackView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -27.52
-            ),
-            //optimization
-            nameTextField.heightAnchor.constraint(
-                equalToConstant: 71.09
-            ),
-            emailTextField.heightAnchor.constraint(
-                equalToConstant: 71.09
-            ),
-            passwordTextField.heightAnchor.constraint(
-                equalToConstant: 71.09
-            ),
-            
-            registrationButton.heightAnchor.constraint(equalToConstant: 71.09),
-            registrationButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            
-            signInButton.widthAnchor.constraint(equalToConstant: 60)
-        ])
+        setConstraintsFor(mainRegistrationStackView)
+        
+        setConstraintsFor(
+            largeAuthButton: registrationButton,
+            smallAuthButton: signInButton,
+            widthAnchorForSmallButton: 60
+        )
+        
+        setConstraintsFor(
+            nameTextField,
+            emailTextField,
+            passwordTextField
+        )
     }
 }
 

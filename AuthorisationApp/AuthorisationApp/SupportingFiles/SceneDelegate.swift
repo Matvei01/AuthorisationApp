@@ -15,11 +15,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let window = UIWindow(windowScene: windowScene)
+        window = UIWindow(windowScene: windowScene)
         let viewController = RegistrationViewController()
-        window.rootViewController = viewController
-        self.window = window
-        window.makeKeyAndVisible()
+        setRootViewController(viewController)
+        window?.makeKeyAndVisible()
         
         NotificationCenter.default.addObserver(
             self,
@@ -46,11 +45,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         case .showSignIn:
             setRootViewController(SignInViewController())
         case .showProfile:
-            setRootViewController(UINavigationController(rootViewController: ProfileViewController()))
-        case .showRegister:
-            setRootViewController(RegistrationViewController())
+            setRootViewController(UINavigationController(
+                rootViewController: ProfileViewController()
+            ))
         default:
-            break
+            setRootViewController(RegistrationViewController())
         }
     }
     

@@ -10,26 +10,25 @@ import UIKit
 final class ReuseProfileButton: UIButton {
     
     // MARK: - Initializer
-    init(
-        title: String,
-        target: Any?,
-        selector: Selector,
-        imageName: String? = nil,
-        alignment :UIControl.ContentHorizontalAlignment? = nil,
-        headerOffsetRight: CGFloat? = nil,
-        autoresizing: Bool? = nil) {
-            
-            super.init(frame: .zero)
-            setupButton(
-                title: title,
-                target: target,
-                selector: selector,
-                imageName: imageName,
-                alignment: alignment ?? .left,
-                headerOffsetRight: headerOffsetRight ?? 27,
-                autoresizing: autoresizing ?? true
-            )
-        }
+    init(title: String,
+         target: Any?,
+         selector: Selector,
+         imageName: String? = nil,
+         alignment :UIControl.ContentHorizontalAlignment? = nil,
+         headerOffsetRight: CGFloat? = nil,
+         autoresizing: Bool? = nil) {
+        
+        super.init(frame: .zero)
+        setupButton(
+            title,
+            target,
+            selector,
+            imageName,
+            alignment ?? .left,
+            headerOffsetRight ?? 27,
+            autoresizing ?? true
+        )
+    }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -40,13 +39,13 @@ final class ReuseProfileButton: UIButton {
 // MARK: - Private methods
 private extension ReuseProfileButton {
     func setupButton(
-        title: String,
-        target: Any?,
-        selector: Selector,
-        imageName: String?,
-        alignment :UIControl.ContentHorizontalAlignment,
-        headerOffsetRight: CGFloat,
-        autoresizing: Bool) {
+        _ title: String,
+        _ target: Any?,
+        _ selector: Selector,
+        _ imageName: String?,
+        _ alignment :UIControl.ContentHorizontalAlignment,
+        _ headerOffsetRight: CGFloat,
+        _ autoresizing: Bool) {
             
             self.backgroundColor = .appDarkProfileBtn
             self.setTitle(title, for: .normal)

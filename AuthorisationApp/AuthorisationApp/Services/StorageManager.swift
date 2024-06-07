@@ -7,9 +7,9 @@
 
 import Foundation
 
-class StorageManager {
+final class StorageManager {
     static let shared = StorageManager()
-
+    
     var name: String?
     var email: String?
     var password: String?
