@@ -8,16 +8,19 @@
 import UIKit
 
 final class SignInViewController: UIViewController {
-
+    
+    // MARK: - Private Properties
+    private var storageManager = StorageManager.shared
+    
     // MARK: - UI Elements
     private lazy var emailTextField = ReuseTextField(
-        placeholder: "Почта", 
+        placeholder: "Почта",
         returnKeyType: .next,
         tag: 0
     )
     private lazy var passwordTextField = ReuseTextField(
         placeholder: "Пароль",
-        isSecureTextEntry: true, 
+        isSecureTextEntry: true,
         returnKeyType: .done,
         tag: 1
     )
@@ -136,14 +139,21 @@ private extension SignInViewController {
     }
     
     @objc func signInButtonTapped() {
-        let profileVC = UINavigationController(rootViewController: ProfileViewController())
-        profileVC.modalPresentationStyle = .fullScreen
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         
-        present(profileVC, animated: true)
+        if email == storageManager.email && password == storageManager.password {
+            NotificationCenter.default.post(name: .showProfile, object: nil)
+        } else {
+            showAlert(
+                title: "Ошибка",
+                message: "Неверные данные",
+                textField: passwordTextField
+            )
+        }
     }
     
     @objc func registrationButtonTapped() {
-        print("Registration")
+        NotificationCenter.default.post(name: .showRegister, object: nil)
     }
 }
 
