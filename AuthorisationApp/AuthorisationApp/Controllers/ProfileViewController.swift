@@ -144,22 +144,68 @@ private extension ProfileViewController {
 // MARK: - Constraints
 private extension ProfileViewController {
     func setConstraints() {
+        setConstraintsForMainStackView()
+        
+        setConstraintsForLogoutButton()
+        
+        setConstraintsForProfileImageView()
+        
+        setConstraintsFor(
+            accountButton,
+            settingsButton,
+            helpButton,
+            logoutButton
+        )
+    }
+    
+    func setConstraintsFor(_ buttons: UIButton...) {
+        for button in buttons {
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 44)
+            ])
+        }
+    }
+    
+    func setConstraintsForMainStackView() {
         NSLayoutConstraint.activate([
-            mainStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 5),
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 71),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -69),
-            
-            logoutButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            logoutButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            
-            profileImageView.heightAnchor.constraint(equalToConstant: 148),
-            profileImageView.widthAnchor.constraint(equalToConstant: 148),
-            
-            accountButton.heightAnchor.constraint(equalToConstant: 44),
-            settingsButton.heightAnchor.constraint(equalToConstant: 44),
-            helpButton.heightAnchor.constraint(equalToConstant: 44),
-            logoutButton.heightAnchor.constraint(equalToConstant: 44)
+            mainStackView.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor,
+                constant: 5
+            ),
+            mainStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 71
+            ),
+            mainStackView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -69
+            )
+        ])
+    }
+    
+    func setConstraintsForLogoutButton() {
+        NSLayoutConstraint.activate([
+            logoutButton.leadingAnchor.constraint(
+                equalTo: mainStackView.leadingAnchor
+            ),
+            logoutButton.trailingAnchor.constraint(
+                equalTo: mainStackView.trailingAnchor
+            ),
+            logoutButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -30
+            )
+        ])
+    }
+    
+    func setConstraintsForProfileImageView() {
+        NSLayoutConstraint.activate([
+            profileImageView.heightAnchor.constraint(
+                equalToConstant: 148
+            ),
+            profileImageView.widthAnchor.constraint(
+                equalToConstant: 148
+            )
         ])
     }
 }

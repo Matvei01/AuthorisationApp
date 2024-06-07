@@ -18,11 +18,11 @@ final class ReuseStackView: UIStackView {
         
         super.init(frame: .zero)
         setupStackView(
-            subviews: subviews,
-            axis: axis,
-            alignment: alignment,
-            autoresizing: autoresizing ?? true,
-            spacing: spacing
+            subviews,
+            axis,
+            alignment,
+            autoresizing ?? true,
+            spacing
         )
     }
     
@@ -34,11 +34,11 @@ final class ReuseStackView: UIStackView {
 
 // MARK: - Private methods
 private extension ReuseStackView {
-    func setupStackView(subviews: [UIView],
-                        axis: NSLayoutConstraint.Axis,
-                        alignment: UIStackView.Alignment,
-                        autoresizing: Bool,
-                        spacing: CGFloat) {
+    func setupStackView(_ subviews: [UIView],
+                        _ axis: NSLayoutConstraint.Axis,
+                        _ alignment: UIStackView.Alignment,
+                        _ autoresizing: Bool,
+                        _ spacing: CGFloat) {
         
         for subview in subviews {
             self.addArrangedSubview(subview)

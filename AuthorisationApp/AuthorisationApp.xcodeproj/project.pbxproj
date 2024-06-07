@@ -22,6 +22,7 @@
 		1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE206A2C0C4E1F006173D3 /* ReuseProfileButton.swift */; };
 		1ADE206E2C0C7C06006173D3 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE206D2C0C7C06006173D3 /* StorageManager.swift */; };
 		1ADE20732C12EA8C006173D3 /* Extension + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */; };
+		1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20742C132C31006173D3 /* Extension + UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		1ADE206A2C0C4E1F006173D3 /* ReuseProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseProfileButton.swift; sourceTree = "<group>"; };
 		1ADE206D2C0C7C06006173D3 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Notification.swift"; sourceTree = "<group>"; };
+		1ADE20742C132C31006173D3 /* Extension + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */,
+				1ADE20742C132C31006173D3 /* Extension + UIViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */,
 				1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
+				1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
