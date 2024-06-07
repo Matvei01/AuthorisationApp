@@ -20,6 +20,8 @@
 		1ADE20672C08C936006173D3 /* ReuseStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20662C08C936006173D3 /* ReuseStackView.swift */; };
 		1ADE20692C0BA326006173D3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20682C0BA326006173D3 /* ProfileViewController.swift */; };
 		1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE206A2C0C4E1F006173D3 /* ReuseProfileButton.swift */; };
+		1ADE206E2C0C7C06006173D3 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE206D2C0C7C06006173D3 /* StorageManager.swift */; };
+		1ADE20732C12EA8C006173D3 /* Extension + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		1ADE20662C08C936006173D3 /* ReuseStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseStackView.swift; sourceTree = "<group>"; };
 		1ADE20682C0BA326006173D3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ADE206A2C0C4E1F006173D3 /* ReuseProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseProfileButton.swift; sourceTree = "<group>"; };
+		1ADE206D2C0C7C06006173D3 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Notification.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 		1AB3E5262C07704C0040DE8D /* AuthorisationApp */ = {
 			isa = PBXGroup;
 			children = (
+				1ADE20712C12EA6B006173D3 /* Extensions */,
+				1ADE206C2C0C7BD8006173D3 /* Services */,
 				1AB3E5412C0775AB0040DE8D /* ReuseViews */,
 				1AB3E53B2C0771100040DE8D /* Controllers */,
 				1AB3E5402C0771940040DE8D /* LaunchScreen */,
@@ -126,6 +132,22 @@
 				1ADE20662C08C936006173D3 /* ReuseStackView.swift */,
 			);
 			path = ReuseViews;
+			sourceTree = "<group>";
+		};
+		1ADE206C2C0C7BD8006173D3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1ADE206D2C0C7C06006173D3 /* StorageManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		1ADE20712C12EA6B006173D3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1ADE20722C12EA8C006173D3 /* Extension + Notification.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,7 +223,9 @@
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
 				1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */,
 				1ADE20672C08C936006173D3 /* ReuseStackView.swift in Sources */,
+				1ADE206E2C0C7C06006173D3 /* StorageManager.swift in Sources */,
 				1ADE20692C0BA326006173D3 /* ProfileViewController.swift in Sources */,
+				1ADE20732C12EA8C006173D3 /* Extension + Notification.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
 				1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */,
 				1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */,

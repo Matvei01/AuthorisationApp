@@ -9,11 +9,14 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    // MARK: - Private Properties
+    private var storageManager = StorageManager.shared
+    
     // MARK: - UI Elements
     private lazy var profileImageView = UIImageView()
     
     private lazy var emailLabel = ReuseLabel(
-        text: "Email пользователя",
+        text: storageManager.email ?? "Invalid email",
         textColor: .white,
         font: .systemFont(ofSize: 28, weight: .semibold),
         textAlignment: .center
@@ -72,7 +75,7 @@ final class ProfileViewController: UIViewController {
     )
     
     
-
+    
     // MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,7 +137,7 @@ private extension ProfileViewController {
     }
     
     @objc func logoutButtonTapped() {
-        print("Выйти")
+        NotificationCenter.default.post(name: .showRegister, object: nil)
     }
 }
 
@@ -149,14 +152,14 @@ private extension ProfileViewController {
             logoutButton.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            logoutButton.heightAnchor.constraint(equalToConstant: 44),
             
             profileImageView.heightAnchor.constraint(equalToConstant: 148),
             profileImageView.widthAnchor.constraint(equalToConstant: 148),
             
             accountButton.heightAnchor.constraint(equalToConstant: 44),
             settingsButton.heightAnchor.constraint(equalToConstant: 44),
-            helpButton.heightAnchor.constraint(equalToConstant: 44)
+            helpButton.heightAnchor.constraint(equalToConstant: 44),
+            logoutButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 }

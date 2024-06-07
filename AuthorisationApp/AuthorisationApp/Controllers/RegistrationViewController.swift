@@ -9,6 +9,9 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     
+    // MARK: - Private Properties
+    private var storageManager = StorageManager.shared
+    
     // MARK: - UI Elements
     private lazy var nameTextField = ReuseTextField(
         placeholder: "Имя",
@@ -152,14 +155,26 @@ private extension RegistrationViewController {
     }
     
     @objc func registrationButtonTapped() {
-        print("Registration")
+        guard let name = nameTextField.text,
+              let email = emailTextField.text,
+              let password = passwordTextField.text,
+              !name.isEmpty,
+              !email.isEmpty,
+              !password.isEmpty else {
+            
+            showAlert(title: "Ошибка", message: "Заполните все поля")
+            return
+        }
+        
+        storageManager.name = name
+        storageManager.email = email
+        storageManager.password = password
+        
+        NotificationCenter.default.post(name: .showSignIn, object: nil)
     }
     
     @objc func signInButtonTapped() {
-        let signInVC = SignInViewController()
-        signInVC.modalPresentationStyle = .fullScreen
-        
-        present(signInVC, animated: true)
+        NotificationCenter.default.post(name: .showSignIn, object: nil)
     }
 }
 
@@ -207,7 +222,7 @@ private extension RegistrationViewController {
                 equalTo: view.trailingAnchor,
                 constant: -27.52
             ),
-            
+            //optimization
             nameTextField.heightAnchor.constraint(
                 equalToConstant: 71.09
             ),
