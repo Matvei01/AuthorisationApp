@@ -10,7 +10,7 @@ import UIKit
 final class SignInViewController: UIViewController {
     
     // MARK: - Private Properties
-    private var storageManager = StorageManager.shared
+    private let authModel = AuthorisationModel()
     
     // MARK: - UI Elements
     private lazy var emailTextField = ReuseTextField(
@@ -141,14 +141,27 @@ private extension SignInViewController {
     @objc func signInButtonTapped() {
         guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         
-        if email == storageManager.email && password == storageManager.password {
-            NotificationCenter.default.post(name: .showProfile, object: nil)
-        } else {
-            showAlert(
-                title: "Ошибка",
-                message: "Неверные данные",
-                textField: passwordTextField
-            )
+        let authUserData = AuthUserData(email: email, password: password)
+        
+        authModel.SignIn(userData: authUserData) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let success):
+                switch success {
+                case .verified:
+                    print("Go to profile")
+                    NotificationCenter.default.post(name: .showProfile, object: nil)
+                case .noVerified:
+                    self.showAlert(title: "Error", message: "Your email is not verified")
+                }
+            case .failure(let failure):
+                self.showAlert(
+                    title: "Error",
+                    message: failure.localizedDescription,
+                    textField: passwordTextField
+                )
+            }
         }
     }
     

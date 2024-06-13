@@ -11,14 +11,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    private let appModel = AppModel()
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let viewController = RegistrationViewController()
-        setRootViewController(viewController)
         window?.makeKeyAndVisible()
+        
+        if appModel.isUserLogin() {
+            setRootViewController(ProfileViewController())
+        } else {
+            setRootViewController(RegistrationViewController())
+        }
         
         NotificationCenter.default.addObserver(
             self,
