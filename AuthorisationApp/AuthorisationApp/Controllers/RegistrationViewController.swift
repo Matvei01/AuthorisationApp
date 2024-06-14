@@ -10,7 +10,7 @@ import UIKit
 final class RegistrationViewController: UIViewController {
     
     // MARK: - Private Properties
-    private var storageManager = StorageManager.shared
+    private let registrationModel = RegistrationModel()
     
     // MARK: - UI Elements
     private lazy var nameTextField = ReuseTextField(
@@ -157,20 +157,22 @@ private extension RegistrationViewController {
     @objc func registrationButtonTapped() {
         guard let name = nameTextField.text,
               let email = emailTextField.text,
-              let password = passwordTextField.text,
-              !name.isEmpty,
-              !email.isEmpty,
-              !password.isEmpty else {
+              let password = passwordTextField.text else { return }
+        
+        let userData = RegUserData(name: name, email: email, password: password)
+        
+        registrationModel.register(userData: userData) { [weak self] result in
+            guard let self = self else { return }
             
-            showAlert(title: "Ошибка", message: "Заполните все поля")
-            return
+            switch result {
+            case .success(let success):
+                if success {
+                    NotificationCenter.default.post(name: .showSignIn, object: nil)
+                }
+            case .failure(let failure):
+                self.showAlert(title: "Error", message: failure.localizedDescription)
+            }
         }
-        
-        storageManager.name = name
-        storageManager.email = email
-        storageManager.password = password
-        
-        NotificationCenter.default.post(name: .showSignIn, object: nil)
     }
     
     @objc func signInButtonTapped() {

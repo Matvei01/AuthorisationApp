@@ -1,5 +1,5 @@
 //
-//  Extension + Notification.swift
+//  Extension + Notification.name.swift
 //  AuthorisationApp
 //
 //  Created by Matvei Khlestov on 07.06.2024.

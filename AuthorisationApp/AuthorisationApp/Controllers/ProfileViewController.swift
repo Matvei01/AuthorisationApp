@@ -6,17 +6,18 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
-    private var storageManager = StorageManager.shared
+    private let signOutService = SignOutService.shared
     
     // MARK: - UI Elements
     private lazy var profileImageView = UIImageView()
     
     private lazy var emailLabel = ReuseLabel(
-        text: storageManager.email ?? "Invalid email",
+        text: "Invalid email",
         textColor: .white,
         font: .systemFont(ofSize: 28, weight: .semibold),
         textAlignment: .center
@@ -90,6 +91,8 @@ private extension ProfileViewController {
         
         addSubviews()
         
+        updateEmailLabel()
+        
         setupImageView()
         
         setupNavigationBar()
@@ -124,6 +127,12 @@ private extension ProfileViewController {
         profileImageView.layer.cornerRadius = 74
     }
     
+    func updateEmailLabel() {
+        if let user = Auth.auth().currentUser {
+            emailLabel.text = user.email
+        }
+    }
+    
     @objc func accountButtonTapped() {
         print("Перейти в аккаунт")
     }
@@ -137,7 +146,16 @@ private extension ProfileViewController {
     }
     
     @objc func logoutButtonTapped() {
-        NotificationCenter.default.post(name: .showRegister, object: nil)
+        signOutService.signOut { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let success):
+                NotificationCenter.default.post(name: .showRegister, object: nil)
+            case .failure(let failure):
+                self.showAlert(title: "Error", message: failure.localizedDescription)
+            }
+        }
     }
 }
 
