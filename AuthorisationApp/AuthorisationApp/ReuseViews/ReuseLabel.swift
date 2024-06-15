@@ -10,13 +10,13 @@ import UIKit
 final class ReuseLabel: UILabel {
     
     // MARK: - Initializer
-    init(text: String,
+    init(text: String? = nil,
          textColor: UIColor,
          font: UIFont,
          textAlignment: NSTextAlignment? = nil) {
         
         super.init(frame: .zero)
-        setupLabel(text, textColor, font, textAlignment ?? .left)
+        setupLabel(text ?? "", textColor, font, textAlignment ?? .left)
     }
     
     @available(*, unavailable)

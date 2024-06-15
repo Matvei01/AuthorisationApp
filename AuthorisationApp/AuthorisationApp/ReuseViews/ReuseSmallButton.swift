@@ -25,7 +25,7 @@ final class ReuseSmallButton: UIButton {
 private extension ReuseSmallButton {
     func setupButton(_ title: String, _ target: Any?, _ selector: Selector) {
         self.setTitle(title, for: .normal)
-        self.setTitleColor(.appPurple, for: .normal)
+        self.setTitleColor(.appRed, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: 16.05, weight: .bold)
         self.addTarget(target, action: selector, for: .touchUpInside)
     }

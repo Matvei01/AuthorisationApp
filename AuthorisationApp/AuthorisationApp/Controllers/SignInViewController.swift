@@ -25,9 +25,9 @@ final class SignInViewController: UIViewController {
         tag: 1
     )
     
-    private lazy var registrationLabel = ReuseLabel(
+    private lazy var signInLabel = ReuseLabel(
         text: "Войти",
-        textColor: .white,
+        textColor: .appBlack,
         font: .systemFont(ofSize: 34.4, weight: .bold),
         textAlignment: .center
     )
@@ -54,33 +54,33 @@ final class SignInViewController: UIViewController {
         subviews: [emailTextField, passwordTextField],
         axis: .vertical,
         alignment: .fill,
-        spacing: 10
+        spacing: 15
     )
     
-    private lazy var firstRegistrationStackView = ReuseStackView(
+    private lazy var firstSignInStackView = ReuseStackView(
         subviews: [
-            registrationLabel,
+            signInLabel,
             textFieldsStackView,
         ],
         axis: .vertical,
         alignment: .fill,
-        spacing: 15
+        spacing: 20
     )
     
-    private lazy var secondRegistrationStackView = ReuseStackView(
+    private lazy var secondSignInStackView = ReuseStackView(
         subviews: [
             signInButton,
-            signInStackView
+            registrationInStackView
         ],
         axis: .vertical,
         alignment: .center,
         spacing: 28.67
     )
     
-    private lazy var mainRegistrationStackView = ReuseStackView(
+    private lazy var mainSignInStackView = ReuseStackView(
         subviews: [
-            firstRegistrationStackView,
-            secondRegistrationStackView
+            firstSignInStackView,
+            secondSignInStackView
         ],
         axis: .vertical,
         alignment: .fill,
@@ -88,7 +88,7 @@ final class SignInViewController: UIViewController {
         spacing: 50.89
     )
     
-    private lazy var signInStackView = ReuseStackView(
+    private lazy var registrationInStackView = ReuseStackView(
         subviews: [
             questionLabel,
             registrationButton
@@ -113,7 +113,7 @@ final class SignInViewController: UIViewController {
 // MARK: - Private methods
 private extension SignInViewController {
     func setupView() {
-        view.backgroundColor = .appBlack
+        view.backgroundColor = .white
         
         addSubviews()
         
@@ -123,7 +123,7 @@ private extension SignInViewController {
     }
     
     func addSubviews() {
-        setupSubviews(mainRegistrationStackView)
+        setupSubviews(mainSignInStackView)
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -186,14 +186,13 @@ extension SignInViewController: UITextFieldDelegate {
 // MARK: - Constraints
 private extension SignInViewController {
     func setConstraints() {
-        setConstraintsFor(mainRegistrationStackView)
+        setConstraintsFor(mainSignInStackView)
         
         setConstraintsFor(
             largeAuthButton: signInButton,
             smallAuthButton: registrationButton,
-            widthAnchorForSmallButton: 125
+            widthAnchorForSmallButton: 125,
+            stackView: mainSignInStackView
         )
-        
-        setConstraintsFor(emailTextField, passwordTextField)
     }
 }

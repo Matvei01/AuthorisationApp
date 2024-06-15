@@ -12,15 +12,26 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
     private let signOutService = SignOutService.shared
+    private let networkDataFetcher = NetworkDataFetcher.shared
     
     // MARK: - UI Elements
-    private lazy var profileImageView = UIImageView()
+    private lazy var profileImageView = ReuseImageView(
+        image: UIImage(systemName: "person.crop.circle.fill.badge.plus") ?? UIImage()
+    )
+    
+    private lazy var nameLabel = ReuseLabel(
+        textColor: .appBlack,
+        font: .systemFont(ofSize: 16, weight: .medium)
+    )
     
     private lazy var emailLabel = ReuseLabel(
-        text: "Invalid email",
-        textColor: .white,
-        font: .systemFont(ofSize: 28, weight: .semibold),
-        textAlignment: .center
+        textColor: .appBlack,
+        font: .systemFont(ofSize: 16, weight: .medium)
+    )
+    
+    private lazy var birthDayLabel = ReuseLabel(
+        textColor: .appBlack,
+        font: .systemFont(ofSize: 16, weight: .medium)
     )
     
     private lazy var accountButton = ReuseProfileButton(
@@ -54,10 +65,17 @@ final class ProfileViewController: UIViewController {
     )
     
     private lazy var profileStackView = ReuseStackView(
-        subviews: [profileImageView, emailLabel],
+        subviews: [profileImageView, labelsStackView],
         axis: .vertical,
         alignment: .center,
         spacing: 30
+    )
+    
+    private lazy var labelsStackView = ReuseStackView(
+        subviews: [nameLabel, emailLabel, birthDayLabel],
+        axis: .vertical,
+        alignment: .fill,
+        spacing: 10
     )
     
     private lazy var buttonsStackView = ReuseStackView(
@@ -75,25 +93,24 @@ final class ProfileViewController: UIViewController {
         spacing: 40
     )
     
-    
-    
     // MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserData()
     }
 }
 
 // MARK: - Private methods
 private extension ProfileViewController {
     func setupView() {
-        view.backgroundColor = .appBlack
+        view.backgroundColor = .white
         
         addSubviews()
-        
-        updateEmailLabel()
-        
-        setupImageView()
         
         setupNavigationBar()
         
@@ -114,22 +131,29 @@ private extension ProfileViewController {
         title = "Мой профиль"
         
         navigationController?.navigationBar.largeTitleTextAttributes = [
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.appBlack
         ]
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .appBlack
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func setupImageView() {
-        profileImageView.image = UIImage(resource: .profile)
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.clipsToBounds = true
-        profileImageView.layer.cornerRadius = 74
+    func calculateAge(from birthDate: Date) -> Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year], from: birthDate, to: Date())
+        return components.year ?? 0
     }
     
-    func updateEmailLabel() {
-        if let user = Auth.auth().currentUser {
-            emailLabel.text = user.email
+    func fetchUserData() {
+        networkDataFetcher.fetchUserData { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let userData):
+                self.nameLabel.text = "Name: \(userData.name)"
+                self.emailLabel.text = "Email: \(userData.email)"
+                self.birthDayLabel.text = "Age: \(self.calculateAge(from: userData.birthDate))"
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -150,7 +174,7 @@ private extension ProfileViewController {
             guard let self = self else { return }
             
             switch result {
-            case .success(let success):
+            case .success(_):
                 NotificationCenter.default.post(name: .showRegister, object: nil)
             case .failure(let failure):
                 self.showAlert(title: "Error", message: failure.localizedDescription)
@@ -179,7 +203,7 @@ private extension ProfileViewController {
     func setConstraintsFor(_ buttons: UIButton...) {
         for button in buttons {
             NSLayoutConstraint.activate([
-                button.heightAnchor.constraint(equalToConstant: 44)
+                button.heightAnchor.constraint(equalToConstant: 50)
             ])
         }
     }
@@ -188,15 +212,15 @@ private extension ProfileViewController {
         NSLayoutConstraint.activate([
             mainStackView.centerYAnchor.constraint(
                 equalTo: view.centerYAnchor,
-                constant: 5
+                constant: -50
             ),
             mainStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
-                constant: 71
+                constant: 70
             ),
             mainStackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
-                constant: -69
+                constant: -70
             )
         ])
     }
@@ -211,7 +235,7 @@ private extension ProfileViewController {
             ),
             logoutButton.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -30
+                constant: -60
             )
         ])
     }

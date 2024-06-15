@@ -24,7 +24,7 @@ final class ReuseLargeButton: UIButton {
 // MARK: - Private methods
 private extension ReuseLargeButton {
     func setupButton(_ title: String, _ target: Any?, _ selector: Selector) {
-        self.backgroundColor = .appPurple
+        self.backgroundColor = .appRed
         self.setTitle(title, for: .normal)
         self.setTitleColor(.white, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: 16.05, weight: .bold)

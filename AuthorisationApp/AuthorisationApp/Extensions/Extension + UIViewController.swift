@@ -24,35 +24,28 @@ extension UIViewController {
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(
                 equalTo: view.centerYAnchor,
-                constant: 50
+                constant: 40
             ),
             
             stackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
-                constant: 27.52
+                constant: 30
             ),
             stackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
-                constant: -27.52
+                constant: -30
             )
         ])
     }
     
-    func setConstraintsFor(_ textFields: UITextField...) {
-        for textField in textFields {
-            NSLayoutConstraint.activate([
-                textField.heightAnchor.constraint(equalToConstant: 71.09)
-            ])
-        }
-    }
-    
     func setConstraintsFor(largeAuthButton: UIButton,
                            smallAuthButton: UIButton,
-                           widthAnchorForSmallButton: CGFloat) {
+                           widthAnchorForSmallButton: CGFloat,
+                           stackView: UIStackView) {
         
         NSLayoutConstraint.activate([
             largeAuthButton.heightAnchor.constraint(equalToConstant: 71.09),
-            largeAuthButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
+            largeAuthButton.widthAnchor.constraint(equalTo: stackView.widthAnchor),
             
             smallAuthButton.widthAnchor.constraint(equalToConstant: widthAnchorForSmallButton)
         ])

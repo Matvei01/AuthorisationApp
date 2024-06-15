@@ -21,7 +21,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         if appModel.isUserLogin() {
-            setRootViewController(ProfileViewController())
+            setRootViewController(
+                UINavigationController(
+                    rootViewController: ProfileViewController()
+                )
+            )
         } else {
             setRootViewController(RegistrationViewController())
         }
