@@ -25,17 +25,22 @@ final class RegistrationModel {
             
             result?.user.sendEmailVerification()
             
-            self.setUserData(uid: uid, name: userData.name)
+            self.setUserData(
+                uid: uid,
+                name: userData.name,
+                birthDate: userData.birthDate,
+                imageUrl: userData.imageUrl
+            )
             
             completion(.success(true))
         }
     }
     
-    private func setUserData(uid: String, name: String) {
+    private func setUserData(uid: String, name: String, birthDate: Date, imageUrl: String) {
         let userData: [String: Any] = [
             "name": name,
-            "isActive": true,
-            "interests": ["work", "sport"]
+            "birthDate": Timestamp(date: birthDate),
+            "imageUrl": imageUrl
         ]
         Firestore.firestore()
             .collection("users")

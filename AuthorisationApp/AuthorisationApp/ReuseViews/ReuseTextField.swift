@@ -10,10 +10,10 @@ import UIKit
 final class ReuseTextField: UITextField {
     // MARK: - Private Properties
     private let padding  = UIEdgeInsets(
-        top: 26.37,
-        left: 21.79,
-        bottom: 25.72,
-        right: 21.79
+        top: 20,
+        left: 20,
+        bottom: 20,
+        right: 20
     )
     
     // MARK: - UI Elements

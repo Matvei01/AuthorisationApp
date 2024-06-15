@@ -23,16 +23,23 @@ final class RegistrationViewController: UIViewController {
         returnKeyType: .next,
         tag: 1
     )
+    
+    private lazy var birthDateTextField = ReuseTextField(
+        placeholder: "дд.мм.гггг",
+        returnKeyType: .next,
+        tag: 2
+    )
+    
     private lazy var passwordTextField = ReuseTextField(
         placeholder: "Пароль",
         isSecureTextEntry: true,
         returnKeyType: .done,
-        tag: 2
+        tag: 3
     )
     
     private lazy var registrationLabel = ReuseLabel(
         text: "Регистрация",
-        textColor: .white,
+        textColor: .appBlack,
         font: .systemFont(ofSize: 34.4, weight: .bold),
         textAlignment: .center
     )
@@ -49,6 +56,14 @@ final class RegistrationViewController: UIViewController {
         font: .systemFont(ofSize: 18.35, weight: .regular)
     )
     
+    private lazy var loadLabel = ReuseLabel(
+        text: "Загрузите своё фото",
+        textColor: .appBlack,
+        font: .systemFont(ofSize: 16, weight: .regular)
+    )
+    
+    private lazy var loadImageView = ReuseImageView(image: .addPhoto)
+    
     private lazy var registrationButton = ReuseLargeButton(
         title: "РЕГИСТРАЦИЯ",
         target: self,
@@ -62,10 +77,16 @@ final class RegistrationViewController: UIViewController {
     )
     
     private lazy var textFieldsStackView = ReuseStackView(
-        subviews: [nameTextField, emailTextField, passwordTextField],
+        subviews: [
+            nameTextField,
+            emailTextField,
+            birthDateTextField,
+            passwordTextField,
+            loadStackView
+        ],
         axis: .vertical,
         alignment: .fill,
-        spacing: 10
+        spacing: 15
     )
     
     private lazy var firstRegistrationStackView = ReuseStackView(
@@ -76,7 +97,7 @@ final class RegistrationViewController: UIViewController {
         ],
         axis: .vertical,
         alignment: .fill,
-        spacing: 15
+        spacing: 20
     )
     
     private lazy var secondRegistrationStackView = ReuseStackView(
@@ -97,7 +118,7 @@ final class RegistrationViewController: UIViewController {
         axis: .vertical,
         alignment: .fill,
         autoresizing: false,
-        spacing: 50.98
+        spacing: 30
     )
     
     private lazy var signInStackView = ReuseStackView(
@@ -109,6 +130,25 @@ final class RegistrationViewController: UIViewController {
         alignment: .fill,
         spacing: 9.81
     )
+    
+    private lazy var loadStackView = ReuseStackView(
+        subviews: [
+            loadLabel,
+            loadImageView
+        ],
+        axis: .horizontal,
+        alignment: .fill,
+        spacing: 10
+    )
+    
+    private lazy var datePicker = UIDatePicker()
+    
+    private lazy var imagePicker = UIImagePickerController()
+    
+    // MARK: -  Action
+    private lazy var doneButtonTapped = UIAction { [unowned self] _ in
+        birthDateTextField.resignFirstResponder()
+    }
     
     // MARK: - Override Methods
     override func viewDidLoad() {
@@ -125,15 +165,20 @@ final class RegistrationViewController: UIViewController {
 // MARK: - Private methods
 private extension RegistrationViewController {
     func setupView() {
-        view.backgroundColor = .appBlack
+        view.backgroundColor = .white
         
         addSubviews()
         
         setupTextFields(
             nameTextField,
             emailTextField,
+            birthDateTextField,
             passwordTextField
         )
+        
+        setupDatePicker()
+        
+        setupTapGestureRecognizer()
         
         setConstraints()
     }
@@ -154,12 +199,64 @@ private extension RegistrationViewController {
         }
     }
     
-    @objc func registrationButtonTapped() {
-        guard let name = nameTextField.text,
-              let email = emailTextField.text,
-              let password = passwordTextField.text else { return }
+    func setupDatePicker() {
+        datePicker.datePickerMode = .date
+        datePicker.maximumDate = Date()
+        datePicker.preferredDatePickerStyle = .wheels
         
-        let userData = RegUserData(name: name, email: email, password: password)
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: doneButtonTapped)
+        toolbar.setItems([doneButton], animated: false)
+        
+        birthDateTextField.inputView = datePicker
+        birthDateTextField.inputAccessoryView = toolbar
+        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+    }
+    
+    @objc func dateChanged() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        birthDateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+    
+    func setupTapGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(loadImageTapped)
+        )
+        
+        loadImageView.addGestureRecognizer(tapGestureRecognizer)
+        loadImageView.isUserInteractionEnabled = true
+    }
+    
+    func setupImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+    }
+    
+    @objc func loadImageTapped() {
+        present(imagePicker, animated: true)
+    }
+    
+    @objc func registrationButtonTapped() {
+        guard let name = nameTextField.text, !name.isEmpty,
+              let email = emailTextField.text, !email.isEmpty,
+              let birthDate = birthDateTextField.text, !birthDate.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
+            showAlert(title: "Error", message: "Fill in all the fields")
+            return
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        guard let birthDate = dateFormatter.date(from: birthDate) else {
+            showAlert(title: "Error", message: "Invalid birth date format")
+            return
+        }
+        
+        let userData = RegUserData(name: name, email: email, birthDate: birthDate, password: password, imageUrl: "")
         
         registrationModel.register(userData: userData) { [weak self] result in
             guard let self = self else { return }
@@ -187,6 +284,8 @@ extension RegistrationViewController: UITextFieldDelegate {
         case 0:
             emailTextField.becomeFirstResponder()
         case 1:
+            birthDateTextField.becomeFirstResponder()
+        case 2:
             passwordTextField.becomeFirstResponder()
         default:
             registrationButtonTapped()
@@ -195,21 +294,32 @@ extension RegistrationViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage {
+            loadImageView.image = image
+        }
+        
+        picker.dismiss(animated: true)
+    }
+}
+
 // MARK: - Constraints
 private extension RegistrationViewController {
     func setConstraints() {
+        
+        NSLayoutConstraint.activate([
+            loadImageView.heightAnchor.constraint(equalToConstant: 40),
+            loadImageView.widthAnchor.constraint(equalToConstant: 40)
+        ])
         setConstraintsFor(mainRegistrationStackView)
         
         setConstraintsFor(
             largeAuthButton: registrationButton,
             smallAuthButton: signInButton,
-            widthAnchorForSmallButton: 60
-        )
-        
-        setConstraintsFor(
-            nameTextField,
-            emailTextField,
-            passwordTextField
+            widthAnchorForSmallButton: 60,
+            stackView: mainRegistrationStackView
         )
     }
 }

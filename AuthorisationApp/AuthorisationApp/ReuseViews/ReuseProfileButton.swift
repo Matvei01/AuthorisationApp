@@ -47,11 +47,11 @@ private extension ReuseProfileButton {
         _ headerOffsetRight: CGFloat,
         _ autoresizing: Bool) {
             
-            self.backgroundColor = .appDarkProfileBtn
+            self.backgroundColor = .appRed
             self.setTitle(title, for: .normal)
             self.setTitleColor(.white, for: .normal)
-            self.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-            self.layer.cornerRadius = 5
+            self.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+            self.layer.cornerRadius = 7
             self.addTarget(target, action: selector, for: .touchUpInside)
             self.contentHorizontalAlignment = alignment
             self.titleEdgeInsets = UIEdgeInsets(

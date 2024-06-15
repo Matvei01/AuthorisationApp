@@ -11,6 +11,7 @@
 		1A96D4AB2C1A07CC00852112 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A96D4AA2C1A07CC00852112 /* FirebaseAuth */; };
 		1A96D4AD2C1A07CC00852112 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A96D4AC2C1A07CC00852112 /* FirebaseFirestore */; };
 		1A96D4AF2C1A07CC00852112 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1A96D4AE2C1A07CC00852112 /* FirebaseStorage */; };
+		1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */; };
 		1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5272C07704C0040DE8D /* AppDelegate.swift */; };
 		1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5292C07704C0040DE8D /* SceneDelegate.swift */; };
 		1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E52B2C07704C0040DE8D /* RegistrationViewController.swift */; };
@@ -25,6 +26,8 @@
 		1AB586C02C1AF6A4001B890A /* AuthUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB586BF2C1AF6A4001B890A /* AuthUserData.swift */; };
 		1AB586C32C1B0F1A001B890A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB586C22C1B0F1A001B890A /* AppModel.swift */; };
 		1AB586C62C1B123C001B890A /* SignOutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB586C52C1B123C001B890A /* SignOutService.swift */; };
+		1AB586C92C1CA028001B890A /* FetchUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB586C82C1CA028001B890A /* FetchUserData.swift */; };
+		1AB586CC2C1CA0E9001B890A /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB586CB2C1CA0E9001B890A /* NetworkDataFetcher.swift */; };
 		1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20422C08AC1C006173D3 /* ReuseLargeButton.swift */; };
 		1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */; };
 		1ADE20672C08C936006173D3 /* ReuseStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE20662C08C936006173D3 /* ReuseStackView.swift */; };
@@ -36,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		1A96D4A62C1A043400852112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseImageView.swift; sourceTree = "<group>"; };
 		1AB3E5242C07704C0040DE8D /* AuthorisationApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthorisationApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB3E5272C07704C0040DE8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AB3E5292C07704C0040DE8D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +56,8 @@
 		1AB586BF2C1AF6A4001B890A /* AuthUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUserData.swift; sourceTree = "<group>"; };
 		1AB586C22C1B0F1A001B890A /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		1AB586C52C1B123C001B890A /* SignOutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutService.swift; sourceTree = "<group>"; };
+		1AB586C82C1CA028001B890A /* FetchUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserData.swift; sourceTree = "<group>"; };
+		1AB586CB2C1CA0E9001B890A /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 		1ADE20422C08AC1C006173D3 /* ReuseLargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseLargeButton.swift; sourceTree = "<group>"; };
 		1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseSmallButton.swift; sourceTree = "<group>"; };
 		1ADE20662C08C936006173D3 /* ReuseStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseStackView.swift; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 				1ADE20442C08C1D9006173D3 /* ReuseSmallButton.swift */,
 				1ADE206A2C0C4E1F006173D3 /* ReuseProfileButton.swift */,
 				1ADE20662C08C936006173D3 /* ReuseStackView.swift */,
+				1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */,
 			);
 			path = ReuseViews;
 			sourceTree = "<group>";
@@ -168,6 +175,7 @@
 		1AB586B62C1AC9A1001B890A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1AB586C72C1C9FC1001B890A /* FetchData */,
 				1AB586BD2C1AF674001B890A /* Registration */,
 				1AB586BE2C1AF689001B890A /* Authorisation */,
 			);
@@ -208,9 +216,26 @@
 			path = SignOut;
 			sourceTree = "<group>";
 		};
+		1AB586C72C1C9FC1001B890A /* FetchData */ = {
+			isa = PBXGroup;
+			children = (
+				1AB586C82C1CA028001B890A /* FetchUserData.swift */,
+			);
+			path = FetchData;
+			sourceTree = "<group>";
+		};
+		1AB586CA2C1CA095001B890A /* FetchData */ = {
+			isa = PBXGroup;
+			children = (
+				1AB586CB2C1CA0E9001B890A /* NetworkDataFetcher.swift */,
+			);
+			path = FetchData;
+			sourceTree = "<group>";
+		};
 		1ADE206C2C0C7BD8006173D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1AB586CA2C1CA095001B890A /* FetchData */,
 				1AB586C42C1B1224001B890A /* SignOut */,
 			);
 			path = Services;
@@ -304,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB586CC2C1CA0E9001B890A /* NetworkDataFetcher.swift in Sources */,
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
 				1AB586C62C1B123C001B890A /* SignOutService.swift in Sources */,
 				1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */,
@@ -313,6 +339,8 @@
 				1ADE20732C12EA8C006173D3 /* Extension + Notification.name.swift in Sources */,
 				1AB586BC2C1AF57B001B890A /* AuthorisationModel.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
+				1AB586C92C1CA028001B890A /* FetchUserData.swift in Sources */,
+				1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */,
 				1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */,
 				1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */,
 				1AB586C32C1B0F1A001B890A /* AppModel.swift in Sources */,
