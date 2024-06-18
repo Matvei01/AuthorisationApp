@@ -11,4 +11,5 @@ struct FetchUserData {
     let name: String
     let email: String
     let birthDate: Date
+    let imageUrl: String?
 }

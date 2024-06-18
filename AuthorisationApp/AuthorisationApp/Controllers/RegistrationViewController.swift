@@ -47,7 +47,8 @@ final class RegistrationViewController: UIViewController {
     private lazy var privacyPolicyLabel = ReuseLabel(
         text: "Я согласен с Условиями предоставления услуг и Политикой конфиденциальности",
         textColor: .appGray,
-        font: .systemFont(ofSize: 13.76, weight: .regular)
+        font: .systemFont(ofSize: 13.76, weight: .regular),
+        numberOfLines: 0
     )
     
     private lazy var questionLabel = ReuseLabel(
@@ -57,12 +58,12 @@ final class RegistrationViewController: UIViewController {
     )
     
     private lazy var loadLabel = ReuseLabel(
-        text: "Загрузите своё фото",
+        text: "Загрузите ваше фото",
         textColor: .appBlack,
-        font: .systemFont(ofSize: 16, weight: .regular)
+        font: .systemFont(ofSize: 16, weight: .semibold)
     )
     
-    private lazy var loadImageView = ReuseImageView(image: .addPhoto)
+    private lazy var loadImageView = ReuseImageView()
     
     private lazy var registrationButton = ReuseLargeButton(
         title: "РЕГИСТРАЦИЯ",
@@ -137,7 +138,7 @@ final class RegistrationViewController: UIViewController {
             loadImageView
         ],
         axis: .horizontal,
-        alignment: .fill,
+        alignment: .center,
         spacing: 10
     )
     
@@ -178,6 +179,8 @@ private extension RegistrationViewController {
         
         setupDatePicker()
         
+        setupImagePicker()
+        
         setupTapGestureRecognizer()
         
         setConstraints()
@@ -201,7 +204,7 @@ private extension RegistrationViewController {
     
     func setupDatePicker() {
         datePicker.datePickerMode = .date
-        datePicker.maximumDate = Date()
+        datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: -18, to: Date())
         datePicker.preferredDatePickerStyle = .wheels
         
         let toolbar = UIToolbar()
@@ -244,7 +247,9 @@ private extension RegistrationViewController {
         guard let name = nameTextField.text, !name.isEmpty,
               let email = emailTextField.text, !email.isEmpty,
               let birthDate = birthDateTextField.text, !birthDate.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
+              let password = passwordTextField.text, !password.isEmpty,
+              let image = loadImageView.image,
+              let imageData = image.jpegData(compressionQuality: 0.1) else {
             showAlert(title: "Error", message: "Fill in all the fields")
             return
         }
@@ -256,9 +261,9 @@ private extension RegistrationViewController {
             return
         }
         
-        let userData = RegUserData(name: name, email: email, birthDate: birthDate, password: password, imageUrl: "")
+        let userData = RegUserData(name: name, email: email, birthDate: birthDate, password: password)
         
-        registrationModel.register(userData: userData) { [weak self] result in
+        registrationModel.register(userData: userData, imageData: imageData) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -267,7 +272,7 @@ private extension RegistrationViewController {
                     NotificationCenter.default.post(name: .showSignIn, object: nil)
                 }
             case .failure(let failure):
-                self.showAlert(title: "Error", message: failure.localizedDescription)
+                showAlert(title: "Error", message: failure.localizedDescription)
             }
         }
     }
@@ -297,8 +302,8 @@ extension RegistrationViewController: UITextFieldDelegate {
 // MARK: - UIImagePickerControllerDelegate
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
-            loadImageView.image = image
+        if let editedImage = info[.editedImage] as? UIImage {
+            loadImageView.image = editedImage
         }
         
         picker.dismiss(animated: true)
@@ -310,8 +315,8 @@ private extension RegistrationViewController {
     func setConstraints() {
         
         NSLayoutConstraint.activate([
-            loadImageView.heightAnchor.constraint(equalToConstant: 40),
-            loadImageView.widthAnchor.constraint(equalToConstant: 40)
+            loadImageView.heightAnchor.constraint(equalToConstant: 50),
+            loadImageView.widthAnchor.constraint(equalToConstant: 50)
         ])
         setConstraintsFor(mainRegistrationStackView)
         

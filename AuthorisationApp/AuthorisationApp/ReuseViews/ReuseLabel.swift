@@ -13,10 +13,11 @@ final class ReuseLabel: UILabel {
     init(text: String? = nil,
          textColor: UIColor,
          font: UIFont,
-         textAlignment: NSTextAlignment? = nil) {
+         textAlignment: NSTextAlignment? = nil,
+         numberOfLines: Int? = nil) {
         
         super.init(frame: .zero)
-        setupLabel(text ?? "", textColor, font, textAlignment ?? .left)
+        setupLabel(text ?? "", textColor, font, textAlignment ?? .left, numberOfLines ?? 1)
     }
     
     @available(*, unavailable)
@@ -30,12 +31,13 @@ private extension ReuseLabel {
     func setupLabel(_ text: String,
                     _ textColor: UIColor,
                     _ font: UIFont,
-                    _ textAlignment: NSTextAlignment) {
+                    _ textAlignment: NSTextAlignment, _ numberOfLines: Int) {
         
         self.text = text
         self.font = font
         self.textColor = textColor
-        self.numberOfLines = 0
+        self.numberOfLines = 1
         self.textAlignment = textAlignment
+        self.numberOfLines = numberOfLines
     }
 }

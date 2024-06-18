@@ -12,5 +12,4 @@ struct RegUserData {
     let email: String
     let birthDate: Date
     let password: String
-    let imageUrl: String
 }

@@ -1,5 +1,5 @@
 //
-//  NetworkDataFetcher.swift
+//  FetchDataService.swift
 //  AuthorisationApp
 //
 //  Created by Matvei Khlestov on 14.06.2024.
@@ -9,8 +9,8 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-final class NetworkDataFetcher {
-    static let shared = NetworkDataFetcher()
+final class FetchDataService {
+    static let shared = FetchDataService()
     
     private init() {}
     
@@ -34,20 +34,21 @@ final class NetworkDataFetcher {
             guard let document = document, document.exists,
                   let data = document.data(),
                   let name = data["name"] as? String,
-                  let birthDateTimestamp = data["birthDate"] as? Timestamp else {
+                  let birthDateTimestamp = data["birthDate"] as? Timestamp,
+                  let imageUrl = data["imageUrl"] as? String else {
                 completion(.failure(.invalidData))
                 print("Invalid data received from server.")
                 return
             }
             
             let birthDate = birthDateTimestamp.dateValue()
-            let userData = FetchUserData(name: name, email: user.email ?? "No email", birthDate: birthDate)
+            let userData = FetchUserData(name: name, email: user.email ?? "No email", birthDate: birthDate, imageUrl: imageUrl)
             completion(.success(userData))
         }
     }
 }
 
-extension NetworkDataFetcher {
+extension FetchDataService {
     enum FetchDataError: Error {
         case invalidUser
         case invalidData
