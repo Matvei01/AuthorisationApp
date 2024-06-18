@@ -10,10 +10,10 @@ import UIKit
 final class ReuseTextField: UITextField {
     // MARK: - Private Properties
     private let padding  = UIEdgeInsets(
-        top: 20,
-        left: 20,
-        bottom: 20,
-        right: 20
+        top: 15,
+        left: 15,
+        bottom: 15,
+        right: 15
     )
     
     // MARK: - UI Elements
@@ -75,8 +75,8 @@ private extension ReuseTextField {
     }
     
     func setupEyeButton() {
-        eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+        eyeButton.setImage(UIImage(systemName: "eye"), for: .selected)
+        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         eyeButton.addTarget(self, action: #selector(eyeButtonTapped), for: .touchUpInside)
         eyeButton.imageView?.tintColor = .appGray
         
