@@ -41,17 +41,4 @@ final class UploadImageService {
             }
         }
     }
-    
-    func updateUserImageUrl(_ imageUrl: String) {
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        let userRef = Firestore.firestore().collection("users").document(currentUserId)
-        userRef.updateData(["imageUrl": imageUrl]) { error in
-            if let error = error {
-                print("Error updating image URL: \(error.localizedDescription)")
-            } else {
-                print("Successfully updated image URL")
-            }
-        }
-    }
 }

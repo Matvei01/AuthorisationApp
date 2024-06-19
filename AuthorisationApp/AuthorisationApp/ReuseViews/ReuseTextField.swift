@@ -22,15 +22,13 @@ final class ReuseTextField: UITextField {
     // MARK: - Initializer
     init(placeholder: String,
          isSecureTextEntry: Bool? = nil,
-         returnKeyType: UIReturnKeyType,
-         tag: Int) {
+         returnKeyType: UIReturnKeyType? = nil) {
         
         super.init(frame: .zero)
         setupTextField(
             placeholder,
             isSecureTextEntry ?? false,
-            returnKeyType,
-            tag
+            returnKeyType ?? .done
         )
     }
     
@@ -57,8 +55,7 @@ final class ReuseTextField: UITextField {
 private extension ReuseTextField {
     func setupTextField(_ placeholder: String,
                         _ isSecureTextEntry: Bool,
-                        _ returnKeyType: UIReturnKeyType,
-                        _ tag: Int) {
+                        _ returnKeyType: UIReturnKeyType) {
         
         self.layer.cornerRadius = 11.47
         self.backgroundColor = .appClear
@@ -66,7 +63,6 @@ private extension ReuseTextField {
         self.font = .systemFont(ofSize: 16)
         self.isSecureTextEntry = isSecureTextEntry
         self.returnKeyType = returnKeyType
-        self.tag = tag
         
         if isSecureTextEntry {
             self.textContentType = .oneTimeCode

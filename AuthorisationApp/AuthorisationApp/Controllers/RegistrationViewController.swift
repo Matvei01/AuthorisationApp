@@ -13,138 +13,228 @@ final class RegistrationViewController: UIViewController {
     private let registrationModel = RegistrationModel()
     
     // MARK: - UI Elements
-    private lazy var nameTextField = ReuseTextField(
-        placeholder: "Имя",
-        returnKeyType: .next,
-        tag: 0
-    )
-    private lazy var emailTextField = ReuseTextField(
-        placeholder: "Почта",
-        returnKeyType: .next,
-        tag: 1
-    )
+    private lazy var nameTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Имя",
+            returnKeyType: .next
+        )
+        textField.tag = 0
+        return textField
+    }()
     
-    private lazy var birthDateTextField = ReuseTextField(
-        placeholder: "дд.мм.гггг",
-        returnKeyType: .next,
-        tag: 2
-    )
+    private lazy var emailTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Почта",
+            returnKeyType: .next
+        )
+        textField.tag = 1
+        textField.autocapitalizationType = .none
+        return textField
+    }()
     
-    private lazy var passwordTextField = ReuseTextField(
-        placeholder: "Пароль",
-        isSecureTextEntry: true,
-        returnKeyType: .done,
-        tag: 3
-    )
+    private lazy var birthDateTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "дд.мм.гггг",
+            returnKeyType: .next
+        )
+        textField.tag = 2
+        textField.inputView = datePicker
+        textField.inputAccessoryView = toolbar
+        return textField
+    }()
     
-    private lazy var registrationLabel = ReuseLabel(
-        text: "Регистрация",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 34.4, weight: .bold),
-        textAlignment: .center
-    )
+    private lazy var passwordTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Пароль",
+            isSecureTextEntry: true,
+            returnKeyType: .done
+        )
+        textField.tag = 3
+        return textField
+    }()
     
-    private lazy var privacyPolicyLabel = ReuseLabel(
-        text: "Я согласен с Условиями предоставления услуг и Политикой конфиденциальности",
-        textColor: .appGray,
-        font: .systemFont(ofSize: 13.76, weight: .regular),
-        numberOfLines: 0
-    )
+    private lazy var registrationLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Регистрация",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 34, weight: .bold),
+            textAlignment: .center
+        )
+        return label
+    }()
     
-    private lazy var questionLabel = ReuseLabel(
-        text: "Уже есть аккаунт?",
-        textColor: .appDark,
-        font: .systemFont(ofSize: 18.35, weight: .regular)
-    )
+    private lazy var privacyPolicyLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Я согласен с Условиями предоставления услуг и Политикой конфиденциальности",
+            textColor: .appGray,
+            font: .systemFont(ofSize: 13, weight: .regular),
+            numberOfLines: 0
+        )
+        return label
+    }()
     
-    private lazy var loadLabel = ReuseLabel(
-        text: "Загрузите ваше фото",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 16, weight: .semibold)
-    )
+    private lazy var questionLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Уже есть аккаунт?",
+            textColor: .appDark,
+            font: .systemFont(ofSize: 18, weight: .regular)
+        )
+        return label
+    }()
     
-    private lazy var loadImageView = ReuseImageView()
+    private lazy var loadLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Загрузите ваше фото",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 16, weight: .semibold)
+        )
+        return label
+    }()
     
-    private lazy var registrationButton = ReuseLargeButton(
-        title: "РЕГИСТРАЦИЯ",
-        target: self,
-        selector: #selector(registrationButtonTapped)
-    )
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(loadImageTapped)
+        )
+        return tapGestureRecognizer
+    }()
     
-    private lazy var signInButton = ReuseSmallButton(
-        title: "ВОЙТИ",
-        target: self,
-        selector: #selector(signInButtonTapped)
-    )
+    private lazy var loadImageView: UIImageView = {
+        let imageView = ReuseImageView(
+            tapGestureRecognizer: tapGestureRecognizer
+        )
+        return imageView
+    }()
     
-    private lazy var textFieldsStackView = ReuseStackView(
-        subviews: [
-            nameTextField,
-            emailTextField,
-            birthDateTextField,
-            passwordTextField,
-            loadStackView
-        ],
-        axis: .vertical,
-        alignment: .fill,
-        spacing: 15
-    )
+    private lazy var registrationButton: UIButton = {
+        let button = ReuseLargeButton(
+            title: "РЕГИСТРАЦИЯ",
+            target: self,
+            selector: #selector(registrationButtonTapped)
+        )
+        return button
+    }()
     
-    private lazy var firstRegistrationStackView = ReuseStackView(
-        subviews: [
-            registrationLabel,
-            textFieldsStackView,
-            privacyPolicyLabel
-        ],
-        axis: .vertical,
-        alignment: .fill,
-        spacing: 20
-    )
+    private lazy var signInButton: UIButton = {
+        let button = ReuseSmallButton(
+            title: "ВОЙТИ",
+            target: self,
+            selector: #selector(signInButtonTapped)
+        )
+        return button
+    }()
     
-    private lazy var secondRegistrationStackView = ReuseStackView(
-        subviews: [
-            registrationButton,
-            signInStackView
-        ],
-        axis: .vertical,
-        alignment: .center,
-        spacing: 28.67
-    )
+    private lazy var textFieldsStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                nameTextField,
+                emailTextField,
+                birthDateTextField,
+                passwordTextField,
+                loadStackView
+            ],
+            axis: .vertical,
+            alignment: .fill,
+            spacing: 15
+        )
+        return stackView
+    }()
     
-    private lazy var mainRegistrationStackView = ReuseStackView(
-        subviews: [
-            firstRegistrationStackView,
-            secondRegistrationStackView
-        ],
-        axis: .vertical,
-        alignment: .fill,
-        autoresizing: false,
-        spacing: 30
-    )
+    private lazy var firstRegistrationStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                registrationLabel,
+                textFieldsStackView,
+                privacyPolicyLabel
+            ],
+            axis: .vertical,
+            alignment: .fill,
+            spacing: 20
+        )
+        return stackView
+    }()
     
-    private lazy var signInStackView = ReuseStackView(
-        subviews: [
-            questionLabel,
-            signInButton
-        ],
-        axis: .horizontal,
-        alignment: .fill,
-        spacing: 9.81
-    )
+    private lazy var secondRegistrationStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                registrationButton,
+                signInStackView
+            ],
+            axis: .vertical,
+            alignment: .center,
+            spacing: 28
+        )
+        return stackView
+    }()
     
-    private lazy var loadStackView = ReuseStackView(
-        subviews: [
-            loadLabel,
-            loadImageView
-        ],
-        axis: .horizontal,
-        alignment: .center,
-        spacing: 10
-    )
+    private lazy var mainRegistrationStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                firstRegistrationStackView,
+                secondRegistrationStackView
+            ],
+            axis: .vertical,
+            alignment: .fill,
+            autoresizing: false,
+            spacing: 30
+        )
+        return stackView
+    }()
     
-    private lazy var datePicker = UIDatePicker()
+    private lazy var signInStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                questionLabel,
+                signInButton
+            ],
+            axis: .horizontal,
+            alignment: .fill,
+            spacing: 9
+        )
+        return stackView
+    }()
     
-    private lazy var imagePicker = UIImagePickerController()
+    private lazy var loadStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                loadLabel,
+                loadImageView
+            ],
+            axis: .horizontal,
+            alignment: .center,
+            spacing: 10
+        )
+        return stackView
+    }()
+    
+    private lazy var datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.maximumDate = Calendar.current.date(
+            byAdding: .year,
+            value: -18,
+            to: Date()
+        )
+        picker.preferredDatePickerStyle = .wheels
+        picker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        return picker
+    }()
+    
+    private lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: doneButtonTapped)
+        toolbar.setItems([doneButton], animated: false)
+        return toolbar
+    }()
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        return picker
+    }()
     
     // MARK: -  Action
     private lazy var doneButtonTapped = UIAction { [unowned self] _ in
@@ -177,12 +267,6 @@ private extension RegistrationViewController {
             passwordTextField
         )
         
-        setupDatePicker()
-        
-        setupImagePicker()
-        
-        setupTapGestureRecognizer()
-        
         setConstraints()
     }
     
@@ -202,41 +286,10 @@ private extension RegistrationViewController {
         }
     }
     
-    func setupDatePicker() {
-        datePicker.datePickerMode = .date
-        datePicker.maximumDate = Calendar.current.date(byAdding: .year, value: -18, to: Date())
-        datePicker.preferredDatePickerStyle = .wheels
-        
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(systemItem: .done, primaryAction: doneButtonTapped)
-        toolbar.setItems([doneButton], animated: false)
-        
-        birthDateTextField.inputView = datePicker
-        birthDateTextField.inputAccessoryView = toolbar
-        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
-    }
-    
     @objc func dateChanged() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         birthDateTextField.text = dateFormatter.string(from: datePicker.date)
-    }
-    
-    func setupTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(loadImageTapped)
-        )
-        
-        loadImageView.addGestureRecognizer(tapGestureRecognizer)
-        loadImageView.isUserInteractionEnabled = true
-    }
-    
-    func setupImagePicker() {
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
     }
     
     @objc func loadImageTapped() {

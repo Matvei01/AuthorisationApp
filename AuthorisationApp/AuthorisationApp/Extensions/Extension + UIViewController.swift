@@ -19,6 +19,23 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
+    func showAlertForUpdateData(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            SignOutService.shared.signOut { result in
+                switch result {
+                case .success(_):
+                    NotificationCenter.default.post(name: .showSignIn, object: nil)
+                case .failure(let failure):
+                    self.showAlert(title: "Error", message: failure.localizedDescription)
+                }
+            }
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+    }
+    
     // MARK: - Reuse Constraints
     func setConstraintsFor(_ stackView: UIStackView) {
         NSLayoutConstraint.activate([
