@@ -1,5 +1,5 @@
 //
-//  FetchDataService.swift
+//  LoadingUserDataService.swift
 //  AuthorisationApp
 //
 //  Created by Matvei Khlestov on 14.06.2024.
@@ -9,14 +9,14 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-final class FetchDataService {
-    static let shared = FetchDataService()
+final class LoadingUserDataService {
+    static let shared = LoadingUserDataService()
     
     private init() {}
     
-    func fetchUserData(completion: @escaping (Result<FetchUserData, FetchDataError>) -> Void) {
+    func loadingUserData(completion: @escaping (Result<LoadUserData, LoadDataError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(.invalidUser))
+            completion(.failure(.userNotAuthenticated))
             print("User not authenticated.")
             return
         }
@@ -25,9 +25,8 @@ final class FetchDataService {
         let userRef = db.collection("users").document(user.uid)
         
         userRef.getDocument { document, error in
-            if error != nil {
-                completion(.failure(.unknownError))
-                print("An unknown error occurred.")
+            if let error = error {
+                completion(.failure(.documentRetrievalFailed))
                 return
             }
             
@@ -42,17 +41,20 @@ final class FetchDataService {
             }
             
             let birthDate = birthDateTimestamp.dateValue()
-            let userData = FetchUserData(name: name, email: user.email ?? "No email", birthDate: birthDate, imageUrl: imageUrl)
+            let userData = LoadUserData(name: name, email: user.email ?? "No email", birthDate: birthDate, imageUrl: imageUrl)
             completion(.success(userData))
         }
     }
 }
 
-extension FetchDataService {
-    enum FetchDataError: Error {
-        case invalidUser
+extension LoadingUserDataService {
+    enum LoadDataError: Error {
+        case userNotAuthenticated
         case invalidData
-        case unknownError
+        case documentRetrievalFailed
+        case updateFailed
+        case emailVerificationFailed
+        case reauthenticationFailed
     }
 }
 

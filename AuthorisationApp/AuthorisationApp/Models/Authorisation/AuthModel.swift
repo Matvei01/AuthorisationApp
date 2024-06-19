@@ -1,5 +1,5 @@
 //
-//  AuthorisationModel.swift
+//  AuthModel.swift
 //  AuthorisationApp
 //
 //  Created by Matvei Khlestov on 13.06.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-final class AuthorisationModel {
+final class AuthModel {
     func SignIn(userData: AuthUserData, completion: @escaping(Result<UserVerification, Error>) -> ()) {
         Auth.auth().signIn(withEmail: userData.email,
                            password: userData.password) { result, error in
@@ -26,7 +26,7 @@ final class AuthorisationModel {
     }
 }
 
-extension AuthorisationModel {
+extension AuthModel {
     enum UserVerification {
         case verified
         case noVerified

@@ -7,154 +7,292 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 import SDWebImage
 
 final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
     private let signOutService = SignOutService.shared
-    private let networkDataFetcher = FetchDataService.shared
+    private let loadingUserDataService = LoadingUserDataService.shared
+    private let updateDataService = UpdateDataService.shared
     
     // MARK: - UI Elements
-    private lazy var profileImageView = ReuseImageView(radius: 74)
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(loadImageTapped)
+        )
+        return tapGestureRecognizer
+    }()
     
-    private lazy var nameLabel = ReuseLabel(
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 15, weight: .medium)
-    )
+    private lazy var profileImageView: UIImageView = {
+        let imageView = ReuseImageView(
+            radius: 74,
+            tapGestureRecognizer: tapGestureRecognizer
+        )
+        return imageView
+    }()
     
-    private lazy var emailLabel = ReuseLabel(
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 15, weight: .medium)
-    )
+    private lazy var nameLabel: UILabel = {
+        let label = ReuseLabel(
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 15, weight: .medium)
+        )
+        return label
+    }()
     
-    private lazy var birthDayLabel = ReuseLabel(
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 15, weight: .medium)
-    )
+    private lazy var emailLabel: UILabel = {
+        let label = ReuseLabel(
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 15, weight: .medium)
+        )
+        return label
+    }()
     
-    private lazy var nameFieldTitleLabel = ReuseLabel(
-        text: "Имя:",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 14, weight: .regular)
-    )
+    private lazy var birthDateLabel: UILabel = {
+        let label = ReuseLabel(
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 15, weight: .medium)
+        )
+        return label
+    }()
     
-    private lazy var emailFieldTitleLabel = ReuseLabel(
-        text: "Email:",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 14, weight: .regular)
-    )
+    private lazy var nameFieldTitleLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Имя:",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 14, weight: .regular)
+        )
+        return label
+    }()
     
-    private lazy var birthDayFieldTitleLabel = ReuseLabel(
-        text: "Дата рождения:",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 14, weight: .regular)
-    )
+    private lazy var emailFieldTitleLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Email:",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 14, weight: .regular)
+        )
+        return label
+    }()
     
-    private lazy var editProfileButton = ReuseProfileButton(
-        title: "Редактировать профиль",
-        target: self,
-        selector: #selector(editProfileButtonTapped),
-        imageName: "gearshape.fill"
-    )
+    private lazy var birthDayFieldTitleLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Дата рождения:",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 14, weight: .regular)
+        )
+        return label
+    }()
     
-    private lazy var notesButton = ReuseProfileButton(
-        title: "Мои заметки",
-        target: self,
-        selector: #selector(notesButtonTapped),
-        imageName: "list.bullet.clipboard.fill"
-    )
+    private lazy var logoutButton: UIButton = {
+        let button = ReuseProfileButton(
+            title: "Выход",
+            target: self,
+            selector: #selector(logoutButtonTapped),
+            imageName: "pip.exit"
+        )
+        return button
+    }()
     
-    private lazy var logoutButton = ReuseProfileButton(
-        title: "Выход",
-        target: self,
-        selector: #selector(logoutButtonTapped),
-        alignment: .center,
-        headerOffsetRight: 0,
-        autoresizing: false
-    )
+    private lazy var notesButton: UIButton = {
+        let button = ReuseProfileButton(
+            title: "Мои заметки",
+            target: self,
+            selector: #selector(notesButtonTapped),
+            imageName: "list.bullet.clipboard.fill"
+        )
+        return button
+    }()
     
-    private lazy var namePencilButton = ReusePencilButton(
-        target: self,
-        selector: #selector(pencilButtonTapped),
-        tag: 0
-    )
+    private lazy var namePencilButton: UIButton = {
+        let button = ReusePencilButton(
+            target: self,
+            selector: #selector(pencilButtonTapped),
+            tag: 0
+        )
+        return button
+    }()
     
-    private lazy var birthDatePencilButton = ReusePencilButton(
-        target: self,
-        selector: #selector(pencilButtonTapped),
-        tag: 1
-    )
+    private lazy var birthDatePencilButton: UIButton = {
+        let button = ReusePencilButton(
+            target: self,
+            selector: #selector(pencilButtonTapped),
+            tag: 1
+        )
+        return button
+    }()
     
-    private lazy var emailPencilButton = ReusePencilButton(
-        target: self,
-        selector: #selector(pencilButtonTapped),
-        tag: 2
-    )
+    private lazy var emailPencilButton: UIButton = {
+        let button = ReusePencilButton(
+            target: self,
+            selector: #selector(pencilButtonTapped),
+            tag: 2
+        )
+        return button
+    }()
     
-    private lazy var nameStackView = ReuseStackView(
-        subviews: [
-            nameFieldTitleLabel,
-            nameLabel,
-            namePencilButton
-        ],
-        axis: .horizontal,
-        alignment: .fill,
-        spacing: 5
-    )
+    private lazy var nameStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                nameFieldTitleLabel,
+                nameLabel,
+                namePencilButton
+            ],
+            axis: .horizontal,
+            alignment: .fill,
+            spacing: 5
+        )
+        return stackView
+    }()
     
-    private lazy var birthDateStackView = ReuseStackView(
-        subviews: [
-            birthDayFieldTitleLabel,
-            birthDayLabel,
-            birthDatePencilButton
-        ],
-        axis: .horizontal,
-        alignment: .fill,
-        spacing: 5
-    )
+    private lazy var birthDateStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                birthDayFieldTitleLabel,
+                birthDateLabel,
+                birthDatePencilButton
+            ],
+            axis: .horizontal,
+            alignment: .fill,
+            spacing: 5
+        )
+        return stackView
+    }()
     
-    private lazy var emailStackView = ReuseStackView(
-        subviews: [emailFieldTitleLabel, emailLabel, emailPencilButton],
-        axis: .horizontal,
-        alignment: .fill,
-        spacing: 5
-    )
+    private lazy var emailStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [emailFieldTitleLabel, emailLabel, emailPencilButton],
+            axis: .horizontal,
+            alignment: .fill,
+            spacing: 5
+        )
+        return stackView
+    }()
     
-    private lazy var mainInfoUsersLabelsStackView = ReuseStackView(
-        subviews: [
-            nameStackView,
-            birthDateStackView,
-            emailStackView
-        ],
-        axis: .vertical,
-        alignment: .leading,
-        spacing: 5
-    )
+    private lazy var mainInfoUsersLabelsStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                nameStackView,
+                birthDateStackView,
+                emailStackView
+            ],
+            axis: .vertical,
+            alignment: .leading,
+            spacing: 5
+        )
+        return stackView
+    }()
     
-    private lazy var profileStackView = ReuseStackView(
-        subviews: [profileImageView, mainInfoUsersLabelsStackView],
-        axis: .vertical,
-        alignment: .center,
-        spacing: 30
-    )
+    private lazy var profileStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [profileImageView, mainInfoUsersLabelsStackView],
+            axis: .vertical,
+            alignment: .center,
+            spacing: 30
+        )
+        return stackView
+    }()
     
-    private lazy var buttonsStackView = ReuseStackView(
-        subviews: [notesButton, editProfileButton],
-        axis: .vertical,
-        alignment: .fill,
-        spacing: 10
-    )
+    private lazy var buttonsStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [notesButton, logoutButton],
+            axis: .vertical,
+            alignment: .fill,
+            spacing: 15
+        )
+        return stackView
+    }()
     
-    private lazy var mainStackView = ReuseStackView(
-        subviews: [profileStackView, buttonsStackView],
-        axis: .vertical,
-        alignment: .fill,
-        autoresizing: false,
-        spacing: 40
-    )
+    private lazy var mainStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [profileStackView, buttonsStackView],
+            axis: .vertical,
+            alignment: .fill,
+            autoresizing: false,
+            spacing: 50
+        )
+        return stackView
+    }()
     
-    private lazy var imagePicker = UIImagePickerController()
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        return picker
+    }()
+    
+    private lazy var datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.maximumDate = Calendar.current.date(
+            byAdding: .year,
+            value: -18,
+            to: Date()
+        )
+        picker.preferredDatePickerStyle = .wheels
+        picker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        return picker
+    }()
+    
+    private lazy var nameTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Введите свое имя"
+        )
+        textField.layer.borderColor = UIColor.appRed.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.cornerRadius = 8.0
+        textField.delegate = self
+        return textField
+    }()
+    
+    private lazy var birthDateTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Введите свою дату рождения"
+        )
+        textField.layer.borderColor = UIColor.appRed.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.cornerRadius = 8.0
+        textField.inputView = datePicker
+        return textField
+    }()
+    
+    private lazy var emailTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Введите свой email"
+        )
+        textField.layer.borderColor = UIColor.appRed.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.cornerRadius = 8.0
+        textField.delegate = self
+        textField.autocapitalizationType = .none
+        return textField
+    }()
+    
+    private lazy var toolbarName: UIToolbar = {
+        createToolbar(
+            textField: nameTextField,
+            saveButtonAction: #selector(saveNameButtonTapped),
+            cancelButtonAction: #selector(cancelNameButtonTapped)
+        )
+    }()
+    
+    private lazy var toolbarBirthDate: UIToolbar = {
+        createToolbar(
+            textField: birthDateTextField,
+            saveButtonAction: #selector(saveBirthDateButtonTapped),
+            cancelButtonAction: #selector(cancelBirthDateButtonTapped)
+        )
+    }()
+    
+    private lazy var toolbarEmail: UIToolbar = {
+        createToolbar(
+            textField: emailTextField,
+            saveButtonAction: #selector(saveEmailButtonTapped),
+            cancelButtonAction: #selector(cancelEmailButtonTapped)
+        )
+    }()
     
     // MARK: - Override Methods
     override func viewDidLoad() {
@@ -177,15 +315,11 @@ private extension ProfileViewController {
         
         setupNavigationBar()
         
-        setupImagePicker()
-        
-        setupTapGestureRecognizer()
-        
         setConstraints()
     }
     
     func addSubviews() {
-        setupSubviews(mainStackView, logoutButton)
+        setupSubviews(mainStackView)
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -204,40 +338,24 @@ private extension ProfileViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func setupTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(loadImageTapped)
-        )
-        
-        profileImageView.addGestureRecognizer(tapGestureRecognizer)
-        profileImageView.isUserInteractionEnabled = true
-    }
-    
     @objc func loadImageTapped() {
         present(imagePicker, animated: true)
     }
     
-    func setupImagePicker() {
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
+    func formatBirthDate(_ birthDate: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        return dateFormatter.string(from: birthDate)
     }
     
-    func formatBirthDate(_ birthDate: Date) -> String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy"
-            return dateFormatter.string(from: birthDate)
-        }
-    
     func fetchUserData() {
-        networkDataFetcher.fetchUserData { [weak self] result in
+        loadingUserDataService.loadingUserData { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let userData):
                 self.nameLabel.text = "\(userData.name)"
                 self.emailLabel.text = "\(userData.email)"
-                self.birthDayLabel.text = "\(self.formatBirthDate(userData.birthDate))"
+                self.birthDateLabel.text = "\(self.formatBirthDate(userData.birthDate))"
                 self.loadProfileImage(for: userData)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -245,7 +363,7 @@ private extension ProfileViewController {
         }
     }
     
-    func loadProfileImage(for userData: FetchUserData) {
+    func loadProfileImage(for userData: LoadUserData) {
         guard let imageUrl = userData.imageUrl else {
             print("Image URL is not available")
             return
@@ -264,15 +382,93 @@ private extension ProfileViewController {
         guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
         
         UploadImageService.shared.uploadImage(currentUserId: currentUserId, imageData) { [weak self] result in
-            guard let _ = self else { return }
+            guard let self = self else { return }
             
             switch result {
             case .success(let imageUrl):
-                UploadImageService.shared.updateUserImageUrl(imageUrl)
+                self.updateDataService.updateUserImageUrl(imageUrl) { result in
+                    switch result {
+                    case .success(_):
+                        self.showAlert(title: "Success", message: "Photo successfully updated")
+                    case .failure(let failure):
+                        print(failure.localizedDescription)
+                    }
+                }
             case .failure(let error):
                 print("Error uploading image: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func promptForPassword(completion: @escaping (String?) -> Void) {
+        let alertController = UIAlertController(
+            title: "Введите пароль",
+            message: "Для изменения email введите текущий пароль",
+            preferredStyle: .alert
+        )
+        alertController.addTextField { textField in
+            textField.isSecureTextEntry = true
+            textField.placeholder = "Пароль"
+        }
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { _ in
+            if let password = alertController.textFields?.first?.text {
+                completion(password)
+            } else {
+                completion(nil)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel) { _ in
+            completion(nil)
+        }
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "^[A-Za-z0-9._%+-]+@gmail\\.com$"
+        let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    
+    func createToolbar(textField: UITextField, saveButtonAction: Selector, cancelButtonAction: Selector) -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textFieldItem = UIBarButtonItem(customView: textField)
+        
+        let cancelButton = UIBarButtonItem(
+            title: "cancel",
+            style: .plain,
+            target: self,
+            action: cancelButtonAction
+        )
+        let saveButton = UIBarButtonItem(
+            title: "Save",
+            style: .plain,
+            target: self,
+            action: saveButtonAction
+        )
+        
+        saveButton.tintColor = .appRed
+        
+        let flexibleSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        toolbar.setItems(
+            [
+                cancelButton,
+                flexibleSpace,
+                textFieldItem,
+                flexibleSpace,
+                saveButton
+            ],
+            animated: false
+        )
+        return toolbar
     }
 }
 
@@ -282,20 +478,21 @@ private extension ProfileViewController {
     @objc func pencilButtonTapped(_ sender: UIButton) {
         switch sender.tag {
         case 0:
-            print("Редактировать имя")
+            nameTextField.text = nameLabel.text
+            view.addSubview(toolbarName)
+            nameTextField.becomeFirstResponder()
+            setConstraintsForToolbar(toolbarName)
         case 1:
-            print("Редактировать дату рождения")
+            birthDateTextField.text = birthDateLabel.text
+            view.addSubview(toolbarBirthDate)
+            birthDateTextField.becomeFirstResponder()
+            setConstraintsForToolbar(toolbarBirthDate)
         default:
-            print("Редактировать email")
+            emailTextField.text = emailLabel.text
+            view.addSubview(toolbarEmail)
+            emailTextField.becomeFirstResponder()
+            setConstraintsForToolbar(toolbarEmail)
         }
-    }
-    
-    @objc func editProfileButtonTapped() {
-        print("Редактировать профиль")
-    }
-    
-    @objc func notesButtonTapped() {
-        print("Перейти в мои заметки")
     }
     
     @objc func logoutButtonTapped() {
@@ -304,11 +501,116 @@ private extension ProfileViewController {
             
             switch result {
             case .success(_):
-                NotificationCenter.default.post(name: .showRegister, object: nil)
+                NotificationCenter.default.post(name: .showSignIn, object: nil)
             case .failure(let failure):
                 self.showAlert(title: "Error", message: failure.localizedDescription)
             }
         }
+    }
+    
+    @objc func notesButtonTapped() {
+        print("Перейти в мои заметки")
+    }
+    
+    @objc func cancelNameButtonTapped() {
+        nameTextField.resignFirstResponder()
+        toolbarName.removeFromSuperview()
+    }
+    
+    @objc func cancelBirthDateButtonTapped() {
+        birthDateTextField.resignFirstResponder()
+        toolbarBirthDate.removeFromSuperview()
+    }
+    
+    @objc func cancelEmailButtonTapped() {
+        emailTextField.resignFirstResponder()
+        toolbarEmail.removeFromSuperview()
+    }
+    
+    @objc func saveNameButtonTapped() {
+        guard let newName = nameTextField.text, !newName.isEmpty else { return }
+        
+        nameLabel.text = newName
+        updateDataService.updateUserNameInFirebase(newName) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                self.showAlert(title: "Success", message: "Name successfully updated")
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+        
+        nameTextField.resignFirstResponder()
+        toolbarName.removeFromSuperview()
+    }
+    
+    @objc func saveBirthDateButtonTapped() {
+        guard let newBirthDateText = birthDateTextField.text, !newBirthDateText.isEmpty else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        if let newBirthDate = dateFormatter.date(from: newBirthDateText) {
+            birthDateLabel.text = newBirthDateText
+            updateDataService.updateUserBirthDateInFirebase(newBirthDate) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(_):
+                    self.showAlert(title: "Success", message: "Birth date successfully updated")
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+        }
+        
+        birthDateTextField.resignFirstResponder()
+        toolbarBirthDate.removeFromSuperview()
+    }
+    
+    @objc func saveEmailButtonTapped() {
+        guard let newEmail = emailTextField.text, !newEmail.isEmpty else { return }
+        
+        promptForPassword { [weak self] password in
+            guard let self = self else { return }
+            
+            guard let password = password else { return }
+            if isValidEmail(newEmail) {
+                emailLabel.text = newEmail
+                self.updateDataService.updateAuthEmail(newEmail, password: password) { result in
+                    switch result {
+                    case .success(_):
+                        self.showAlertForUpdateData(title: "Success", message: "Email successfully updated")
+                    case .failure(let failure):
+                        print(failure.localizedDescription)
+                    }
+                }
+            } else {
+                self.showAlert(title: "Error", message: "Invalid email format")
+            }
+        }
+        
+        emailTextField.resignFirstResponder()
+        toolbarEmail.removeFromSuperview()
+    }
+    
+    @objc func dateChanged() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        birthDateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nameTextField {
+            saveBirthDateButtonTapped()
+        } else if textField == birthDateTextField {
+            saveBirthDateButtonTapped()
+        }
+        return true
     }
 }
 
@@ -329,14 +631,11 @@ private extension ProfileViewController {
     func setConstraints() {
         setConstraintsForMainStackView()
         
-        setConstraintsForLogoutButton()
-        
         setConstraintsForProfileImageView()
         
         setConstraintsFor(
-            editProfileButton,
-            notesButton,
-            logoutButton
+            logoutButton,
+            notesButton
         )
     }
     
@@ -347,7 +646,7 @@ private extension ProfileViewController {
             ])
         }
     }
-        
+    
     func setConstraintsForMainStackView() {
         NSLayoutConstraint.activate([
             mainStackView.centerYAnchor.constraint(
@@ -365,21 +664,6 @@ private extension ProfileViewController {
         ])
     }
     
-    func setConstraintsForLogoutButton() {
-        NSLayoutConstraint.activate([
-            logoutButton.leadingAnchor.constraint(
-                equalTo: mainStackView.leadingAnchor
-            ),
-            logoutButton.trailingAnchor.constraint(
-                equalTo: mainStackView.trailingAnchor
-            ),
-            logoutButton.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -60
-            )
-        ])
-    }
-    
     func setConstraintsForProfileImageView() {
         NSLayoutConstraint.activate([
             profileImageView.heightAnchor.constraint(
@@ -391,9 +675,35 @@ private extension ProfileViewController {
         ])
     }
     
-    func setConstraintsForStackView(_ stackView: UIStackView, widthAnchorConstant: CGFloat) {
+    func setConstraintsForToolbar() {
         NSLayoutConstraint.activate([
-            stackView.widthAnchor.constraint(equalToConstant: widthAnchorConstant)
+            toolbarName.bottomAnchor.constraint(
+                equalTo: view.keyboardLayoutGuide.topAnchor
+            ),
+            toolbarName.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            toolbarName.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            toolbarName.heightAnchor.constraint(
+                equalToConstant: 120
+            )
+        ])
+    }
+    
+    func setConstraintsForToolbar(_ toolbar: UIToolbar) {
+        NSLayoutConstraint.activate([
+            toolbar.bottomAnchor.constraint(
+                equalTo: view.keyboardLayoutGuide.topAnchor
+            ),
+            toolbar.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            toolbar.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            toolbar.heightAnchor.constraint(equalToConstant: 140)
         ])
     }
 }

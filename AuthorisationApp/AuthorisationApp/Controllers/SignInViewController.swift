@@ -10,93 +10,132 @@ import UIKit
 final class SignInViewController: UIViewController {
     
     // MARK: - Private Properties
-    private let authModel = AuthorisationModel()
+    private let authModel = AuthModel()
     
     // MARK: - UI Elements
-    private lazy var emailTextField = ReuseTextField(
-        placeholder: "Почта",
-        returnKeyType: .next,
-        tag: 0
-    )
-    private lazy var passwordTextField = ReuseTextField(
-        placeholder: "Пароль",
-        isSecureTextEntry: true,
-        returnKeyType: .done,
-        tag: 1
-    )
+    private lazy var emailTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Почта",
+            returnKeyType: .next
+        )
+        textField.tag = 0
+        textField.delegate = self
+        textField.autocapitalizationType = .none
+        return textField
+    }()
     
-    private lazy var signInLabel = ReuseLabel(
-        text: "Войти",
-        textColor: .appBlack,
-        font: .systemFont(ofSize: 34.4, weight: .bold),
-        textAlignment: .center
-    )
+    private lazy var passwordTextField: UITextField = {
+        let textField = ReuseTextField(
+            placeholder: "Пароль",
+            isSecureTextEntry: true,
+            returnKeyType: .done
+        )
+        textField.tag = 1
+        textField.delegate = self
+        return textField
+    }()
     
-    private lazy var questionLabel = ReuseLabel(
-        text: "У вас нет аккаунта?",
-        textColor: .appDark,
-        font: .systemFont(ofSize: 18.35, weight: .regular)
-    )
+    private lazy var signInLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "Войти",
+            textColor: .appBlack,
+            font: .systemFont(ofSize: 34, weight: .bold),
+            textAlignment: .center
+        )
+        return label
+    }()
     
-    private lazy var signInButton = ReuseLargeButton(
-        title: "ВОЙТИ",
-        target: self,
-        selector: #selector(signInButtonTapped)
-    )
+    private lazy var questionLabel: UILabel = {
+        let label = ReuseLabel(
+            text: "У вас нет аккаунта?",
+            textColor: .appDark,
+            font: .systemFont(ofSize: 18, weight: .regular)
+        )
+        return label
+    }()
     
-    private lazy var registrationButton = ReuseSmallButton(
-        title: "РЕГИСТРАЦИЯ",
-        target: self,
-        selector: #selector(registrationButtonTapped)
-    )
+    private lazy var signInButton: UIButton = {
+        let button = ReuseLargeButton(
+            title: "ВОЙТИ",
+            target: self,
+            selector: #selector(signInButtonTapped)
+        )
+        return button
+    }()
     
-    private lazy var textFieldsStackView = ReuseStackView(
-        subviews: [emailTextField, passwordTextField],
-        axis: .vertical,
-        alignment: .fill,
-        spacing: 15
-    )
+    private lazy var registrationButton: UIButton = {
+        let button = ReuseSmallButton(
+            title: "РЕГИСТРАЦИЯ",
+            target: self,
+            selector: #selector(registrationButtonTapped)
+        )
+        return button
+    }()
     
-    private lazy var firstSignInStackView = ReuseStackView(
-        subviews: [
-            signInLabel,
-            textFieldsStackView,
-        ],
-        axis: .vertical,
-        alignment: .fill,
-        spacing: 20
-    )
+    private lazy var textFieldsStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [emailTextField, passwordTextField],
+            axis: .vertical,
+            alignment: .fill,
+            spacing: 15
+        )
+        return stackView
+    }()
     
-    private lazy var secondSignInStackView = ReuseStackView(
-        subviews: [
-            signInButton,
-            registrationInStackView
-        ],
-        axis: .vertical,
-        alignment: .center,
-        spacing: 28.67
-    )
+    private lazy var firstSignInStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                signInLabel,
+                textFieldsStackView,
+            ],
+            axis: .vertical,
+            alignment: .fill,
+            spacing: 20
+        )
+        return stackView
+    }()
     
-    private lazy var mainSignInStackView = ReuseStackView(
-        subviews: [
-            firstSignInStackView,
-            secondSignInStackView
-        ],
-        axis: .vertical,
-        alignment: .fill,
-        autoresizing: false,
-        spacing: 50.89
-    )
+    private lazy var secondSignInStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                signInButton,
+                registrationInStackView
+            ],
+            axis: .vertical,
+            alignment: .center,
+            spacing: 28
+        )
+        return stackView
+    }()
     
-    private lazy var registrationInStackView = ReuseStackView(
-        subviews: [
-            questionLabel,
-            registrationButton
-        ],
-        axis: .horizontal,
-        alignment: .fill,
-        spacing: 9.81
-    )
+    private lazy var mainSignInStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                firstSignInStackView,
+                secondSignInStackView
+            ],
+            axis: .vertical,
+            alignment: .fill,
+            autoresizing: false,
+            spacing: 50
+        )
+        return stackView
+    }()
+    
+    
+    
+    private lazy var registrationInStackView: UIStackView = {
+        let stackView = ReuseStackView(
+            subviews: [
+                questionLabel,
+                registrationButton
+            ],
+            axis: .horizontal,
+            alignment: .fill,
+            spacing: 9
+        )
+        return stackView
+    }()
     
     // MARK: - Override Methods
     override func viewDidLoad() {
@@ -117,8 +156,6 @@ private extension SignInViewController {
         
         addSubviews()
         
-        setupTextFields(emailTextField, passwordTextField)
-        
         setConstraints()
     }
     
@@ -129,12 +166,6 @@ private extension SignInViewController {
     func setupSubviews(_ subviews: UIView... ) {
         for subview in subviews {
             view.addSubview(subview)
-        }
-    }
-    
-    func setupTextFields(_ textFields: UITextField...) {
-        for textField in textFields {
-            textField.delegate = self
         }
     }
     
