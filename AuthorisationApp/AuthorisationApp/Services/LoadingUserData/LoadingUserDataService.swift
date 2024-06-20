@@ -27,6 +27,7 @@ final class LoadingUserDataService {
         userRef.getDocument { document, error in
             if let error = error {
                 completion(.failure(.documentRetrievalFailed))
+                print("Failed to retrieve document for user ID \(user.uid): \(error.localizedDescription)")
                 return
             }
             
@@ -41,7 +42,13 @@ final class LoadingUserDataService {
             }
             
             let birthDate = birthDateTimestamp.dateValue()
-            let userData = LoadUserData(name: name, email: user.email ?? "No email", birthDate: birthDate, imageUrl: imageUrl)
+            guard let email = user.email else { return }
+            let userData = LoadUserData(
+                name: name,
+                email: email,
+                birthDate: birthDate,
+                imageUrl: imageUrl
+            )
             completion(.success(userData))
         }
     }
@@ -52,9 +59,6 @@ extension LoadingUserDataService {
         case userNotAuthenticated
         case invalidData
         case documentRetrievalFailed
-        case updateFailed
-        case emailVerificationFailed
-        case reauthenticationFailed
     }
 }
 

@@ -99,12 +99,12 @@
 			path = UploadImage;
 			sourceTree = "<group>";
 		};
-		1A38BFE62C235DB800C22B51 /* UpdateData */ = {
+		1A38BFE62C235DB800C22B51 /* UpdateUserData */ = {
 			isa = PBXGroup;
 			children = (
 				1A38BFE72C235DD500C22B51 /* UpdateDataService.swift */,
 			);
-			path = UpdateData;
+			path = UpdateUserData;
 			sourceTree = "<group>";
 		};
 		1A96D4A92C1A07CC00852112 /* Frameworks */ = {
@@ -262,9 +262,9 @@
 		1ADE206C2C0C7BD8006173D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				1A38BFE62C235DB800C22B51 /* UpdateData */,
-				1A38BFE52C21900C00C22B51 /* UploadImage */,
+				1A38BFE62C235DB800C22B51 /* UpdateUserData */,
 				1AB586CA2C1CA095001B890A /* LoadingUserData */,
+				1A38BFE52C21900C00C22B51 /* UploadImage */,
 				1AB586C42C1B1224001B890A /* SignOut */,
 			);
 			path = Services;
