@@ -28,7 +28,6 @@ final class ProfileViewController: UIViewController {
     
     private lazy var profileImageView: UIImageView = {
         let imageView = ReuseImageView(
-            radius: 74,
             tapGestureRecognizer: tapGestureRecognizer
         )
         return imageView
@@ -243,7 +242,6 @@ final class ProfileViewController: UIViewController {
         textField.layer.borderColor = UIColor.appRed.cgColor
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 8.0
-        textField.delegate = self
         return textField
     }()
     
@@ -265,7 +263,6 @@ final class ProfileViewController: UIViewController {
         textField.layer.borderColor = UIColor.appRed.cgColor
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 8.0
-        textField.delegate = self
         textField.autocapitalizationType = .none
         return textField
     }()
@@ -432,14 +429,17 @@ private extension ProfileViewController {
     }
     
     
-    func createToolbar(textField: UITextField, saveButtonAction: Selector, cancelButtonAction: Selector) -> UIToolbar {
+    func createToolbar(textField: UITextField,
+                       saveButtonAction: Selector,
+                       cancelButtonAction: Selector) -> UIToolbar {
+        
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         
         let textFieldItem = UIBarButtonItem(customView: textField)
         
         let cancelButton = UIBarButtonItem(
-            title: "cancel",
+            title: "Cancel",
             style: .plain,
             target: self,
             action: cancelButtonAction
@@ -470,6 +470,18 @@ private extension ProfileViewController {
         )
         return toolbar
     }
+    
+    func setupPencilButtonAction(for textField: UITextField, label: UILabel, toolbar: UIToolbar) {
+        textField.text = label.text
+        view.addSubview(toolbar)
+        textField.becomeFirstResponder()
+        setConstraintsForToolbar(toolbar)
+    }
+    
+    private func cancelEditing(for textField: UITextField, toolbar: UIToolbar) {
+        textField.resignFirstResponder()
+        toolbar.removeFromSuperview()
+    }
 }
 
 // MARK: - Button Actions
@@ -478,20 +490,23 @@ private extension ProfileViewController {
     @objc func pencilButtonTapped(_ sender: UIButton) {
         switch sender.tag {
         case 0:
-            nameTextField.text = nameLabel.text
-            view.addSubview(toolbarName)
-            nameTextField.becomeFirstResponder()
-            setConstraintsForToolbar(toolbarName)
+            setupPencilButtonAction(
+                for: nameTextField,
+                label: nameLabel,
+                toolbar: toolbarName
+            )
         case 1:
-            birthDateTextField.text = birthDateLabel.text
-            view.addSubview(toolbarBirthDate)
-            birthDateTextField.becomeFirstResponder()
-            setConstraintsForToolbar(toolbarBirthDate)
+            setupPencilButtonAction(
+                for: birthDateTextField,
+                label: birthDateLabel,
+                toolbar: toolbarBirthDate
+            )
         default:
-            emailTextField.text = emailLabel.text
-            view.addSubview(toolbarEmail)
-            emailTextField.becomeFirstResponder()
-            setConstraintsForToolbar(toolbarEmail)
+            setupPencilButtonAction(
+                for: emailTextField,
+                label: emailLabel,
+                toolbar: toolbarEmail
+            )
         }
     }
     
@@ -513,25 +528,31 @@ private extension ProfileViewController {
     }
     
     @objc func cancelNameButtonTapped() {
-        nameTextField.resignFirstResponder()
-        toolbarName.removeFromSuperview()
+        cancelEditing(
+            for: nameTextField,
+            toolbar: toolbarName
+        )
     }
     
     @objc func cancelBirthDateButtonTapped() {
-        birthDateTextField.resignFirstResponder()
-        toolbarBirthDate.removeFromSuperview()
+        cancelEditing(
+            for: birthDateTextField,
+            toolbar: toolbarBirthDate
+        )
     }
     
     @objc func cancelEmailButtonTapped() {
-        emailTextField.resignFirstResponder()
-        toolbarEmail.removeFromSuperview()
+        cancelEditing(
+            for: emailTextField,
+            toolbar: toolbarEmail
+        )
     }
     
     @objc func saveNameButtonTapped() {
         guard let newName = nameTextField.text, !newName.isEmpty else { return }
         
         nameLabel.text = newName
-        updateDataService.updateUserNameInFirebase(newName) { [weak self] result in
+        updateDataService.updateUserName(newName) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -553,7 +574,7 @@ private extension ProfileViewController {
         dateFormatter.dateFormat = "dd.MM.yyyy"
         if let newBirthDate = dateFormatter.date(from: newBirthDateText) {
             birthDateLabel.text = newBirthDateText
-            updateDataService.updateUserBirthDateInFirebase(newBirthDate) { [weak self] result in
+            updateDataService.updateUserBirthDate(newBirthDate) { [weak self] result in
                 guard let self = self else { return }
                 
                 switch result {
@@ -581,7 +602,7 @@ private extension ProfileViewController {
                 self.updateDataService.updateAuthEmail(newEmail, password: password) { result in
                     switch result {
                     case .success(_):
-                        self.showAlertForUpdateData(title: "Success", message: "Email successfully updated")
+                        self.showAlertForUpdateData(title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
                     case .failure(let failure):
                         print(failure.localizedDescription)
                     }
@@ -602,18 +623,6 @@ private extension ProfileViewController {
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension ProfileViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == nameTextField {
-            saveBirthDateButtonTapped()
-        } else if textField == birthDateTextField {
-            saveBirthDateButtonTapped()
-        }
-        return true
-    }
-}
-
 // MARK: - UIImagePickerControllerDelegate
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -630,8 +639,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 private extension ProfileViewController {
     func setConstraints() {
         setConstraintsForMainStackView()
-        
-        setConstraintsForProfileImageView()
         
         setConstraintsFor(
             logoutButton,
@@ -664,17 +671,6 @@ private extension ProfileViewController {
         ])
     }
     
-    func setConstraintsForProfileImageView() {
-        NSLayoutConstraint.activate([
-            profileImageView.heightAnchor.constraint(
-                equalToConstant: 148
-            ),
-            profileImageView.widthAnchor.constraint(
-                equalToConstant: 148
-            )
-        ])
-    }
-    
     func setConstraintsForToolbar() {
         NSLayoutConstraint.activate([
             toolbarName.bottomAnchor.constraint(
@@ -703,7 +699,9 @@ private extension ProfileViewController {
             toolbar.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor
             ),
-            toolbar.heightAnchor.constraint(equalToConstant: 140)
+            toolbar.heightAnchor.constraint(
+                equalToConstant: 140
+            )
         ])
     }
 }

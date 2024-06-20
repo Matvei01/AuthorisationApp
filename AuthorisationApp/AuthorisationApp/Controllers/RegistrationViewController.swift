@@ -53,16 +53,6 @@ final class RegistrationViewController: UIViewController {
         return textField
     }()
     
-    private lazy var registrationLabel: UILabel = {
-        let label = ReuseLabel(
-            text: "Регистрация",
-            textColor: .appBlack,
-            font: .systemFont(ofSize: 34, weight: .bold),
-            textAlignment: .center
-        )
-        return label
-    }()
-    
     private lazy var privacyPolicyLabel: UILabel = {
         let label = ReuseLabel(
             text: "Я согласен с Условиями предоставления услуг и Политикой конфиденциальности",
@@ -78,15 +68,6 @@ final class RegistrationViewController: UIViewController {
             text: "Уже есть аккаунт?",
             textColor: .appDark,
             font: .systemFont(ofSize: 18, weight: .regular)
-        )
-        return label
-    }()
-    
-    private lazy var loadLabel: UILabel = {
-        let label = ReuseLabel(
-            text: "Загрузите ваше фото",
-            textColor: .appBlack,
-            font: .systemFont(ofSize: 16, weight: .semibold)
         )
         return label
     }()
@@ -130,8 +111,7 @@ final class RegistrationViewController: UIViewController {
                 nameTextField,
                 emailTextField,
                 birthDateTextField,
-                passwordTextField,
-                loadStackView
+                passwordTextField
             ],
             axis: .vertical,
             alignment: .fill,
@@ -143,12 +123,12 @@ final class RegistrationViewController: UIViewController {
     private lazy var firstRegistrationStackView: UIStackView = {
         let stackView = ReuseStackView(
             subviews: [
-                registrationLabel,
+                loadImageView,
                 textFieldsStackView,
                 privacyPolicyLabel
             ],
             axis: .vertical,
-            alignment: .fill,
+            alignment: .center,
             spacing: 20
         )
         return stackView
@@ -190,19 +170,6 @@ final class RegistrationViewController: UIViewController {
             axis: .horizontal,
             alignment: .fill,
             spacing: 9
-        )
-        return stackView
-    }()
-    
-    private lazy var loadStackView: UIStackView = {
-        let stackView = ReuseStackView(
-            subviews: [
-                loadLabel,
-                loadImageView
-            ],
-            axis: .horizontal,
-            alignment: .center,
-            spacing: 10
         )
         return stackView
     }()
@@ -367,10 +334,12 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
 private extension RegistrationViewController {
     func setConstraints() {
         
-        NSLayoutConstraint.activate([
-            loadImageView.heightAnchor.constraint(equalToConstant: 50),
-            loadImageView.widthAnchor.constraint(equalToConstant: 50)
-        ])
+        setConstraintsFor(
+            nameTextField,
+            emailTextField,
+            birthDateTextField
+        )
+        
         setConstraintsFor(mainRegistrationStackView)
         
         setConstraintsFor(
@@ -379,6 +348,16 @@ private extension RegistrationViewController {
             widthAnchorForSmallButton: 60,
             stackView: mainRegistrationStackView
         )
+    }
+    
+    func setConstraintsFor(_ textFields: UITextField...) {
+        for textField in textFields {
+            NSLayoutConstraint.activate([
+                textField.widthAnchor.constraint(
+                    equalTo: firstRegistrationStackView.widthAnchor
+                )
+            ])
+        }
     }
 }
 

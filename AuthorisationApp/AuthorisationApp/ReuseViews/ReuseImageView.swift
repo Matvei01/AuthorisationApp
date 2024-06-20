@@ -9,22 +9,25 @@ import UIKit
 
 final class ReuseImageView: UIImageView {
     
-    init(radius: CGFloat? = nil, tapGestureRecognizer: UITapGestureRecognizer) {
+    init(tapGestureRecognizer: UITapGestureRecognizer) {
         super.init(frame: .zero)
-        setupImageView(radius: radius ?? 0, tapGestureRecognizer)
+        setupImageView(tapGestureRecognizer)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupImageView(radius: CGFloat, _ tapGestureRecognizer: UITapGestureRecognizer) {
-        self.image = UIImage(systemName: "person.crop.circle.fill.badge.plus")
+    private func setupImageView(_ tapGestureRecognizer: UITapGestureRecognizer) {
+        self.image = UIImage(systemName: "person.circle.fill")
         self.tintColor = .appRed
         self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
-        self.layer.cornerRadius = radius
+        self.layer.cornerRadius = 74
         self.addGestureRecognizer(tapGestureRecognizer)
         self.isUserInteractionEnabled = true
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(equalToConstant: 148).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 148).isActive = true
     }
 }
