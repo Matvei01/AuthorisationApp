@@ -19,15 +19,14 @@ final class ReuseImageView: UIImageView {
     }
     
     private func setupImageView(_ tapGestureRecognizer: UITapGestureRecognizer) {
-        self.image = UIImage(systemName: "person.circle.fill")
-        self.tintColor = .appRed
+        self.image = .profile
         self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
-        self.layer.cornerRadius = 74
+        self.layer.cornerRadius = 76
         self.addGestureRecognizer(tapGestureRecognizer)
         self.isUserInteractionEnabled = true
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.widthAnchor.constraint(equalToConstant: 148).isActive = true
-        self.heightAnchor.constraint(equalToConstant: 148).isActive = true
+        self.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
 }

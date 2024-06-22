@@ -89,7 +89,7 @@ final class ProfileViewController: UIViewController {
             title: "Выход",
             target: self,
             selector: #selector(logoutButtonTapped),
-            imageName: "pip.exit"
+            imageName: "arrow.backward.square.fill"
         )
         return button
     }()
@@ -242,6 +242,7 @@ final class ProfileViewController: UIViewController {
         textField.layer.borderColor = UIColor.appRed.cgColor
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 8.0
+        textField.delegate = self
         return textField
     }()
     
@@ -253,6 +254,7 @@ final class ProfileViewController: UIViewController {
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 8.0
         textField.inputView = datePicker
+        textField.delegate = self
         return textField
     }()
     
@@ -264,6 +266,7 @@ final class ProfileViewController: UIViewController {
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 8.0
         textField.autocapitalizationType = .none
+        textField.delegate = self
         return textField
     }()
     
@@ -300,6 +303,19 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUserData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -369,7 +385,7 @@ private extension ProfileViewController {
         if let url = URL(string: imageUrl) {
             profileImageView.sd_setImage(
                 with: url,
-                placeholderImage: UIImage(systemName: "person.crop.circle.fill.badge.plus")
+                placeholderImage: .profile
             )
         }
     }
@@ -524,7 +540,7 @@ private extension ProfileViewController {
     }
     
     @objc func notesButtonTapped() {
-        print("Перейти в мои заметки")
+        NotificationCenter.default.post(name: .showNotes, object: nil)
     }
     
     @objc func cancelNameButtonTapped() {
@@ -549,7 +565,10 @@ private extension ProfileViewController {
     }
     
     @objc func saveNameButtonTapped() {
-        guard let newName = nameTextField.text, !newName.isEmpty else { return }
+        guard let newName = nameTextField.text, !newName.isEmpty else {
+            self.showAlert(title: "Error", message: "Name field cannot be empty")
+            return
+        }
         
         nameLabel.text = newName
         updateDataService.updateUserName(newName) { [weak self] result in
@@ -568,11 +587,19 @@ private extension ProfileViewController {
     }
     
     @objc func saveBirthDateButtonTapped() {
-        guard let newBirthDateText = birthDateTextField.text, !newBirthDateText.isEmpty else { return }
+        guard let newBirthDateText = birthDateTextField.text, !newBirthDateText.isEmpty else {
+            self.showAlert(title: "Error", message: "Date field cannot be empty")
+            return
+        }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        if let newBirthDate = dateFormatter.date(from: newBirthDateText) {
+        
+        let datePattern = "^\\d{2}\\.\\d{2}\\.\\d{4}$"
+        let dateRegex = NSPredicate(format: "SELF MATCHES %@", datePattern)
+        
+        if dateRegex.evaluate(with: newBirthDateText),
+           let newBirthDate = dateFormatter.date(from: newBirthDateText) {
             birthDateLabel.text = newBirthDateText
             updateDataService.updateUserBirthDate(newBirthDate) { [weak self] result in
                 guard let self = self else { return }
@@ -584,14 +611,20 @@ private extension ProfileViewController {
                     print(failure.localizedDescription)
                 }
             }
+        } else {
+            self.showAlert(title: "Error", message: "Invalid date format. Please use dd.MM.yyyy")
         }
         
         birthDateTextField.resignFirstResponder()
         toolbarBirthDate.removeFromSuperview()
     }
     
+    
     @objc func saveEmailButtonTapped() {
-        guard let newEmail = emailTextField.text, !newEmail.isEmpty else { return }
+        guard let newEmail = emailTextField.text, !newEmail.isEmpty else { 
+            self.showAlert(title: "Error", message: "Email field cannot be empty")
+            return
+        }
         
         promptForPassword { [weak self] password in
             guard let self = self else { return }
@@ -602,7 +635,7 @@ private extension ProfileViewController {
                 self.updateDataService.updateAuthEmail(newEmail, password: password) { result in
                     switch result {
                     case .success(_):
-                        self.showAlertForUpdateData(title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
+                        self.showAlertForUpdateEmail(title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
                     case .failure(let failure):
                         print(failure.localizedDescription)
                     }
@@ -667,23 +700,6 @@ private extension ProfileViewController {
             mainStackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
                 constant: -40
-            )
-        ])
-    }
-    
-    func setConstraintsForToolbar() {
-        NSLayoutConstraint.activate([
-            toolbarName.bottomAnchor.constraint(
-                equalTo: view.keyboardLayoutGuide.topAnchor
-            ),
-            toolbarName.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor
-            ),
-            toolbarName.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor
-            ),
-            toolbarName.heightAnchor.constraint(
-                equalToConstant: 120
             )
         ])
     }
