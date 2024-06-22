@@ -10,9 +10,9 @@ import UIKit
 final class ReusePencilButton: UIButton {
     
     // MARK: - Initializer
-    init(target: Any?, selector: Selector, tag: Int) {
+    init(imageName: String? = nil, target: Any?, selector: Selector, tag: Int) {
         super.init(frame: .zero)
-        setupButton(target, selector, tag)
+        setupButton(imageName ?? "pencil", target, selector, tag)
     }
     
     @available(*, unavailable)
@@ -23,10 +23,10 @@ final class ReusePencilButton: UIButton {
 
 // MARK: - Private methods
 private extension ReusePencilButton {
-    func setupButton(_ target: Any?, _ selector: Selector, _ tag: Int) {
+    func setupButton(_ imageName: String, _ target: Any?, _ selector: Selector, _ tag: Int) {
         self.imageView?.tintColor = .appRed
         self.addTarget(target, action: selector, for: .touchUpInside)
-        self.setImage(UIImage(systemName: "pencil"), for: .normal)
+        self.setImage(UIImage(systemName: imageName), for: .normal)
         self.tag = tag
     }
 }

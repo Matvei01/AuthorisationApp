@@ -129,7 +129,7 @@ final class RegistrationViewController: UIViewController {
             ],
             axis: .vertical,
             alignment: .center,
-            spacing: 20
+            spacing: 25
         )
         return stackView
     }()
@@ -276,8 +276,13 @@ private extension RegistrationViewController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-        guard let birthDate = dateFormatter.date(from: birthDate) else {
-            showAlert(title: "Error", message: "Invalid birth date format")
+        
+        let datePattern = "^\\d{2}\\.\\d{2}\\.\\d{4}$"
+        let dateRegex = NSPredicate(format: "SELF MATCHES %@", datePattern)
+        
+        guard dateRegex.evaluate(with: birthDate),
+              let birthDate = dateFormatter.date(from: birthDate) else {
+            showAlert(title: "Error", message: "Invalid birth date format. Please use dd.MM.yyyy")
             return
         }
         

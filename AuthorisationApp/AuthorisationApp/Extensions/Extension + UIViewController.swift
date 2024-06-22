@@ -19,7 +19,7 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-    func showAlertForUpdateData(title: String, message: String) {
+    func showAlertForUpdateEmail(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             guard let self = self else { return }
