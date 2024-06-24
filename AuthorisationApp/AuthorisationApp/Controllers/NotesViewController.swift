@@ -14,7 +14,7 @@ final class NotesViewController: UICollectionViewController {
     
     private let itemsPerRow: CGFloat = 2
     
-    private let sectionInserts = UIEdgeInsets(
+    private let sectionInsets = UIEdgeInsets(
         top: 20,
         left: 20,
         bottom: 20,
@@ -44,7 +44,7 @@ final class NotesViewController: UICollectionViewController {
     
     private lazy var backBarButtonItem: UIBarButtonItem = {
         let button = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"),
+            image: UIImage(systemName: "arrow.backward"),
             primaryAction: barButtonItemTapped
         )
         button.tag = 0
@@ -99,21 +99,21 @@ extension NotesViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        sectionInserts
+        sectionInsets
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
-        sectionInserts.left
+        sectionInsets.left
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         
-        sectionInserts.left
+        sectionInsets.left
     }
 }
 
@@ -126,6 +126,8 @@ private extension NotesViewController {
             NoteCollectionViewCell.self,
             forCellWithReuseIdentifier: NoteCollectionViewCell.cellId
         )
+        
+        collectionView.backgroundColor = .secondarySystemBackground
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -159,7 +161,7 @@ private extension NotesViewController {
     }
     
     @objc func addNoteButtonTapped() {
-        print("Add note")
+        NotificationCenter.default.post(name: .showAddNotes, object: nil)
     }
 }
 
@@ -167,10 +169,20 @@ private extension NotesViewController {
 private extension NotesViewController {
     func setConstraints() {
         NSLayoutConstraint.activate([
-            addNoteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            addNoteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            addNoteButton.widthAnchor.constraint(equalToConstant: 66),
-            addNoteButton.heightAnchor.constraint(equalTo: addNoteButton.widthAnchor)
+            addNoteButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -80
+            ),
+            addNoteButton.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -30
+            ),
+            addNoteButton.widthAnchor.constraint(
+                equalToConstant: 66
+            ),
+            addNoteButton.heightAnchor.constraint(
+                equalTo: addNoteButton.widthAnchor
+            )
         ])
     }
 }

@@ -16,7 +16,9 @@
 		1A38C0072C259BB200C22B51 /* NotesDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C0062C259BB200C22B51 /* NotesDataService.swift */; };
 		1A38C0092C26C5C000C22B51 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C0082C26C5C000C22B51 /* NotesViewController.swift */; };
 		1A38C00D2C26DDFC00C22B51 /* NoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C00C2C26DDFC00C22B51 /* NoteCollectionViewCell.swift */; };
+		1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */; };
 		1A96D4A72C1A043400852112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A96D4A62C1A043400852112 /* GoogleService-Info.plist */; };
+		1AAC3B122C29744700D14DBF /* ReuseTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B112C29744700D14DBF /* ReuseTextView.swift */; };
 		1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */; };
 		1AB29BA02C1EC2D6001BD233 /* UploadImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B9F2C1EC2D6001BD233 /* UploadImageService.swift */; };
 		1AB29BA72C200B10001BD233 /* ReusePencilButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */; };
@@ -50,7 +52,9 @@
 		1A38C0062C259BB200C22B51 /* NotesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDataService.swift; sourceTree = "<group>"; };
 		1A38C0082C26C5C000C22B51 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		1A38C00C2C26DDFC00C22B51 /* NoteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotesViewController.swift; sourceTree = "<group>"; };
 		1A96D4A62C1A043400852112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AAC3B112C29744700D14DBF /* ReuseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextView.swift; sourceTree = "<group>"; };
 		1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseImageView.swift; sourceTree = "<group>"; };
 		1AB29B9F2C1EC2D6001BD233 /* UploadImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageService.swift; sourceTree = "<group>"; };
 		1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusePencilButton.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				1AB3E53C2C0771430040DE8D /* SignInViewController.swift */,
 				1ADE20682C0BA326006173D3 /* ProfileViewController.swift */,
 				1A38C0082C26C5C000C22B51 /* NotesViewController.swift */,
+				1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 				1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */,
 				1ADE20662C08C936006173D3 /* ReuseStackView.swift */,
 				1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */,
+				1AAC3B112C29744700D14DBF /* ReuseTextView.swift */,
 			);
 			path = ReuseViews;
 			sourceTree = "<group>";
@@ -406,6 +412,7 @@
 				1ADE20732C12EA8C006173D3 /* Extension + Notification.name.swift in Sources */,
 				1AB586BC2C1AF57B001B890A /* AuthModel.swift in Sources */,
 				1AB3E52C2C07704C0040DE8D /* RegistrationViewController.swift in Sources */,
+				1AAC3B122C29744700D14DBF /* ReuseTextView.swift in Sources */,
 				1AB586C92C1CA028001B890A /* LoadUserData.swift in Sources */,
 				1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */,
 				1A38C0092C26C5C000C22B51 /* NotesViewController.swift in Sources */,
@@ -416,6 +423,7 @@
 				1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */,
 				1A38C00D2C26DDFC00C22B51 /* NoteCollectionViewCell.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
+				1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */,
 				1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */,
 				1AB29BA02C1EC2D6001BD233 /* UploadImageService.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,

@@ -56,6 +56,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             name: .showNotes,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNotification),
+            name: .showAddNotes,
+            object: nil
+        )
     }
     
     @objc func handleNotification(_ notification: Notification) {
@@ -71,6 +77,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 rootViewController: NotesViewController(
                     collectionViewLayout: UICollectionViewFlowLayout()
                 )
+            ))
+            
+        case .showAddNotes:
+            setRootViewController(UINavigationController(
+                rootViewController: AddNotesViewController()
             ))
         default:
             setRootViewController(RegistrationViewController())

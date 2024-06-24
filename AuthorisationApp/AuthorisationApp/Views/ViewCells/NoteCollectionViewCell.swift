@@ -88,9 +88,9 @@ final class NoteCollectionViewCell: UICollectionViewCell {
 // MARK: - Private methods
 private extension NoteCollectionViewCell {
     func setupView() {
-        backgroundColor = .secondarySystemBackground
-        layer.cornerRadius = 10
+        backgroundColor = .white
         clipsToBounds = true
+        layer.cornerRadius = 10
         
         addSubviews()
         
