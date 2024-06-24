@@ -658,7 +658,9 @@ private extension ProfileViewController {
 
 // MARK: - UIImagePickerControllerDelegate
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         if let editedImage = info[.editedImage] as? UIImage {
             profileImageView.image = editedImage
             uploadImageToFirebase(image: editedImage)

@@ -326,7 +326,9 @@ extension RegistrationViewController: UITextFieldDelegate {
 
 // MARK: - UIImagePickerControllerDelegate
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         if let editedImage = info[.editedImage] as? UIImage {
             loadImageView.image = editedImage
         }

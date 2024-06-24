@@ -12,4 +12,5 @@ extension Notification.Name {
     static let showProfile = Notification.Name("ShowProfile")
     static let showRegister = Notification.Name("ShowRegister")
     static let showNotes = Notification.Name("ShowNotes")
+    static let showAddNotes = Notification.Name("ShowAddNotes")
 }
