@@ -61,7 +61,7 @@ extension UIViewController {
                            stackView: UIStackView) {
         
         NSLayoutConstraint.activate([
-            largeAuthButton.heightAnchor.constraint(equalToConstant: 71.09),
+            largeAuthButton.heightAnchor.constraint(equalToConstant: 70),
             largeAuthButton.widthAnchor.constraint(equalTo: stackView.widthAnchor),
             
             smallAuthButton.widthAnchor.constraint(equalToConstant: widthAnchorForSmallButton)

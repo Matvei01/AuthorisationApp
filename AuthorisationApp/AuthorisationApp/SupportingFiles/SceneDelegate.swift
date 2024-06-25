@@ -74,9 +74,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ))
         case .showNotes:
             setRootViewController(UINavigationController(
-                rootViewController: NotesViewController(
-                    collectionViewLayout: UICollectionViewFlowLayout()
-                )
+                rootViewController: NotesViewController()
             ))
             
         case .showAddNotes:

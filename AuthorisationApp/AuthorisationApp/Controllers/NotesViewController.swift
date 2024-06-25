@@ -2,46 +2,14 @@
 //  NotesViewController.swift
 //  AuthorisationApp
 //
-//  Created by Matvei Khlestov on 22.06.2024.
+//  Created by Matvei Khlestov on 25.06.2024.
 //
 
 import UIKit
 
-final class NotesViewController: UICollectionViewController {
-    
-    // MARK: - Private Properties
-    private let reuseIdentifier = "Cell"
-    
-    private let itemsPerRow: CGFloat = 2
-    
-    private let sectionInsets = UIEdgeInsets(
-        top: 20,
-        left: 20,
-        bottom: 20,
-        right: 20
-    )
+final class NotesViewController: UITableViewController {
     
     // MARK: -  UI Elements
-    private lazy var addNoteButton: UIButton = {
-        let button = ReusePencilButton(
-            imageName: "plus.circle.fill",
-            target: self,
-            selector: #selector(addNoteButtonTapped),
-            tag: 0
-        )
-        button.imageView?.contentMode = .scaleAspectFill
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 33
-        button.imageEdgeInsets = UIEdgeInsets(
-            top: 70,
-            left: 70,
-            bottom: 70,
-            right: 70
-        )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private lazy var backBarButtonItem: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "arrow.backward"),
@@ -51,95 +19,60 @@ final class NotesViewController: UICollectionViewController {
         return button
     }()
     
+    private lazy var addNoteBarButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            systemItem: .add,
+            primaryAction: barButtonItemTapped
+        )
+        button.tag = 1
+        return button
+    }()
+    
     // MARK: -  Action
     private lazy var barButtonItemTapped = UIAction { [unowned self] action in
         guard let sender = action.sender as? UIBarButtonItem else { return }
         
         switch sender.tag {
         case 0:
-            NotificationCenter.default.post(name: .showProfile, object: nil)
+            barButtonItemAction(notificationName: .showProfile)
         default:
-            print(2)
+            barButtonItemAction(notificationName: .showAddNotes)
         }
     }
     
     // MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        setupTableView()
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: - Table view data source
 extension NotesViewController {
-    
-    override func collectionView(_ collectionView: UICollectionView,
-                                 numberOfItemsInSection section: Int) -> Int {
-        
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         10
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewCell.cellId, for: indexPath)
-        guard let cell = cell as? NoteCollectionViewCell else { return UICollectionViewCell() }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: NoteViewCell.cellId, for: indexPath)
+        guard let cell = cell as? NoteViewCell else { return UITableViewCell() }
         
         return cell
     }
 }
 
-// MARK: UICollectionViewDelegate
-extension NotesViewController {
-    
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension NotesViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        sectionInsets.left
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        sectionInsets.left
-    }
-}
-
 // MARK: - Private methods
 private extension NotesViewController {
-    func setupCollectionView() {
-        view.addSubview(addNoteButton)
-        
-        collectionView.register(
-            NoteCollectionViewCell.self,
-            forCellWithReuseIdentifier: NoteCollectionViewCell.cellId
+    func setupTableView() {
+        tableView.register(
+            NoteViewCell.self,
+            forCellReuseIdentifier: NoteViewCell.cellId
         )
         
-        collectionView.backgroundColor = .secondarySystemBackground
-        
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        }
+        tableView.rowHeight = 100
         
         setupNavigationBar()
-        
-        setConstraints()
-    }
-    
-    func addSubviews() {
-        
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -158,31 +91,12 @@ private extension NotesViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.leftBarButtonItem = backBarButtonItem
+        navigationItem.rightBarButtonItem = addNoteBarButtonItem
     }
     
-    @objc func addNoteButtonTapped() {
-        NotificationCenter.default.post(name: .showAddNotes, object: nil)
+    func barButtonItemAction(notificationName: Notification.Name) {
+        NotificationCenter.default.post(name: notificationName, object: nil)
     }
 }
 
-// MARK: - Constraints
-private extension NotesViewController {
-    func setConstraints() {
-        NSLayoutConstraint.activate([
-            addNoteButton.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -80
-            ),
-            addNoteButton.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -30
-            ),
-            addNoteButton.widthAnchor.constraint(
-                equalToConstant: 66
-            ),
-            addNoteButton.heightAnchor.constraint(
-                equalTo: addNoteButton.widthAnchor
-            )
-        ])
-    }
-}
+
