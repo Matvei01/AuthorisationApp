@@ -186,6 +186,11 @@ private extension AddNotesViewController {
     }
     
     func setupNavigationBar() {
+        title = "Добавьте новую заметку"
+        
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.appBlack
+        ]
         navigationController?.navigationBar.tintColor = .appRed
         
         navigationItem.leftBarButtonItem = backBarButtonItem
@@ -196,6 +201,10 @@ private extension AddNotesViewController {
         formatter.dateFormat = "d MMMM HH:mm"
         formatter.locale = Locale(identifier: "ru_RU")
         return formatter.string(from: Date())
+    }
+    
+    func getCurrentDate() -> Date {
+        return Date()
     }
     
     func updateDateLabel() {
@@ -209,7 +218,25 @@ private extension AddNotesViewController {
     }
     
     @objc func saveButtonTapped() {
-        print("saveButton")
+        guard let title = headerTextView.text, !title.isEmpty,
+              let text = textNoteTextView.text, !text.isEmpty else {
+            showAlert(title: "Ошибка", message: "Заполните все поля")
+            return
+        }
+        
+        let date = getCurrentDate()
+        let note = NoteData(title: title, text: text, date: date, imageUrl: nil)
+        
+        let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
+        
+        NotesDataService.shared.addNote(note: note, imageData: imageData) { [weak self] result in
+            switch result {
+            case .success():
+                NotificationCenter.default.post(name: .showNotes, object: nil)
+            case .failure(let error):
+                self?.showAlert(title: "Error", message: error.localizedDescription)
+            }
+        }
     }
 }
 

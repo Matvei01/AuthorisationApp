@@ -394,7 +394,7 @@ private extension ProfileViewController {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
         
-        UploadImageService.shared.uploadImage(currentUserId: currentUserId, imageData) { [weak self] result in
+        UploadAvatarImageService.shared.uploadImage(currentUserId: currentUserId, imageData) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

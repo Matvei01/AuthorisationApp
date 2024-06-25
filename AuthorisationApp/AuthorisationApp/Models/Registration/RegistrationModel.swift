@@ -28,7 +28,7 @@ final class RegistrationModel {
                 }
             })
             
-            UploadImageService.shared.uploadImage(currentUserId: uid, imageData) { result in
+            UploadAvatarImageService.shared.uploadImage(currentUserId: uid, imageData) { result in
                 switch result {
                 case .success(let imageUrl):
                     self.setUserData(
