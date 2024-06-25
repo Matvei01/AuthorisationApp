@@ -19,8 +19,10 @@
 		1AAC3B1C2C29E1AA00D14DBF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AAC3B1B2C29E1AA00D14DBF /* FirebaseStorage */; };
 		1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */; };
 		1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */; };
+		1AAC3B232C2B30FE00D14DBF /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B222C2B30FE00D14DBF /* NoteData.swift */; };
+		1AAC3B252C2B324600D14DBF /* UploadNoteImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B242C2B324600D14DBF /* UploadNoteImageService.swift */; };
 		1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */; };
-		1AB29BA02C1EC2D6001BD233 /* UploadImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B9F2C1EC2D6001BD233 /* UploadImageService.swift */; };
+		1AB29BA02C1EC2D6001BD233 /* UploadAvatarImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B9F2C1EC2D6001BD233 /* UploadAvatarImageService.swift */; };
 		1AB29BA72C200B10001BD233 /* ReusePencilButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */; };
 		1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5272C07704C0040DE8D /* AppDelegate.swift */; };
 		1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3E5292C07704C0040DE8D /* SceneDelegate.swift */; };
@@ -55,8 +57,10 @@
 		1AAC3B112C29744700D14DBF /* ReuseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextView.swift; sourceTree = "<group>"; };
 		1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewCell.swift; sourceTree = "<group>"; };
+		1AAC3B222C2B30FE00D14DBF /* NoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteData.swift; sourceTree = "<group>"; };
+		1AAC3B242C2B324600D14DBF /* UploadNoteImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadNoteImageService.swift; sourceTree = "<group>"; };
 		1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseImageView.swift; sourceTree = "<group>"; };
-		1AB29B9F2C1EC2D6001BD233 /* UploadImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageService.swift; sourceTree = "<group>"; };
+		1AB29B9F2C1EC2D6001BD233 /* UploadAvatarImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAvatarImageService.swift; sourceTree = "<group>"; };
 		1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusePencilButton.swift; sourceTree = "<group>"; };
 		1AB3E5242C07704C0040DE8D /* AuthorisationApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthorisationApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB3E5272C07704C0040DE8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,7 +108,8 @@
 		1A38BFE52C21900C00C22B51 /* UploadImage */ = {
 			isa = PBXGroup;
 			children = (
-				1AB29B9F2C1EC2D6001BD233 /* UploadImageService.swift */,
+				1AB29B9F2C1EC2D6001BD233 /* UploadAvatarImageService.swift */,
+				1AAC3B242C2B324600D14DBF /* UploadNoteImageService.swift */,
 			);
 			path = UploadImage;
 			sourceTree = "<group>";
@@ -147,6 +152,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1AAC3B212C2B30E400D14DBF /* NoteData */ = {
+			isa = PBXGroup;
+			children = (
+				1AAC3B222C2B30FE00D14DBF /* NoteData.swift */,
+			);
+			path = NoteData;
 			sourceTree = "<group>";
 		};
 		1AB3E51B2C07704C0040DE8D = {
@@ -240,6 +253,7 @@
 		1AB586B62C1AC9A1001B890A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1AAC3B212C2B30E400D14DBF /* NoteData */,
 				1AB586C72C1C9FC1001B890A /* LoadData */,
 				1AB586BD2C1AF674001B890A /* Registration */,
 				1AB586BE2C1AF689001B890A /* Authorisation */,
@@ -406,6 +420,8 @@
 				1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */,
 				1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */,
 				1AB586BA2C1AE6F3001B890A /* RegUserData.swift in Sources */,
+				1AAC3B252C2B324600D14DBF /* UploadNoteImageService.swift in Sources */,
+				1AAC3B232C2B30FE00D14DBF /* NoteData.swift in Sources */,
 				1ADE20672C08C936006173D3 /* ReuseStackView.swift in Sources */,
 				1A38C0072C259BB200C22B51 /* NotesDataService.swift in Sources */,
 				1A38BFE82C235DD500C22B51 /* UpdateDataService.swift in Sources */,
@@ -425,7 +441,7 @@
 				1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */,
 				1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */,
 				1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */,
-				1AB29BA02C1EC2D6001BD233 /* UploadImageService.swift in Sources */,
+				1AB29BA02C1EC2D6001BD233 /* UploadAvatarImageService.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,
 				1AB29BA72C200B10001BD233 /* ReusePencilButton.swift in Sources */,
 				1AB586C02C1AF6A4001B890A /* AuthUserData.swift in Sources */,
