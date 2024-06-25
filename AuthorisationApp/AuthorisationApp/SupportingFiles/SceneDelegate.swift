@@ -25,7 +25,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if appModel.isUserLogin() {
             setRootViewController(
                 UINavigationController(
-                    rootViewController: ProfileViewController()
+                    rootViewController: NotesViewController()
                 )
             )
         } else {

@@ -123,7 +123,7 @@ final class AddNotesViewController: UIViewController {
         
         switch sender.tag {
         case 0:
-            NotificationCenter.default.post(name: .showProfile, object: nil)
+            NotificationCenter.default.post(name: .showNotes, object: nil)
         default:
             print(2)
         }
@@ -225,7 +225,9 @@ private extension AddNotesViewController {
         }
         
         let date = getCurrentDate()
-        let note = Note(title: title, text: text, date: date, imageUrl: nil)
+        let noteID = UUID().uuidString
+        
+        let note = Note(id: noteID, title: title, text: text, date: date, imageUrl: nil)
         
         let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
         

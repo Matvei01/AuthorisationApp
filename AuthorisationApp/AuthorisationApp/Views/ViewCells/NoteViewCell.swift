@@ -14,7 +14,6 @@ final class NoteViewCell: UITableViewCell {
     // MARK: -  UI Elements
     private lazy var noteImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo.badge.plus.fill")
         imageView.tintColor = .appRed
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -83,8 +82,6 @@ final class NoteViewCell: UITableViewCell {
         dateLabel.text = formatDate(note.date)
         if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
             noteImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(systemName: "photo"))
-        } else {
-            noteImageView.image = UIImage(systemName: "photo")
         }
     }
 }
@@ -130,7 +127,7 @@ private extension NoteViewCell {
             
             noteStackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             noteStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            noteStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            noteStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
     }
 }

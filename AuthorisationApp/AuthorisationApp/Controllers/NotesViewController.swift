@@ -66,6 +66,19 @@ extension NotesViewController {
     }
 }
 
+// MARK: - Table view delegate
+extension NotesViewController {
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
+        
+            if editingStyle == .delete {
+                let note = notes[indexPath.row]
+                deleteNoteAt(indexPath: indexPath, note: note)
+            }
+        }
+}
+
 // MARK: - Private methods
 private extension NotesViewController {
     func setupTableView() {
@@ -114,6 +127,18 @@ private extension NotesViewController {
                     }
                 case .failure(let error):
                     print("Failed to fetch notes: \(error)")
+                }
+            }
+        }
+    
+    func deleteNoteAt(indexPath: IndexPath, note: Note) {
+            DeleteNoteService().deleteNote(note) { [weak self] result in
+                switch result {
+                case .success():
+                    self?.notes.remove(at: indexPath.row)
+                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                case .failure(let error):
+                    print("Failed to delete note: \(error.localizedDescription)")
                 }
             }
         }

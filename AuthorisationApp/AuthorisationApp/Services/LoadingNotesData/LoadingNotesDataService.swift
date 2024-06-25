@@ -24,9 +24,9 @@ final class LoadingNotesDataService {
         }
         
         let userID = user.uid
-        let notesRef = db.collection("users").document(userID).collection("notes")
+        let notesRef = db.collection("users").document(userID).collection("notes").order(by: "date", descending: true)
         
-        notesRef.order(by: "date", descending: true).getDocuments { snapshot, error in
+        notesRef.getDocuments { snapshot, error in
             if let error = error {
                 completion(.failure(.documentRetrievalFailed))
                 print("Failed to retrieve documents for user ID \(userID): \(error.localizedDescription)")
@@ -49,8 +49,9 @@ final class LoadingNotesDataService {
                 
                 let date = timestamp.dateValue()
                 let imageUrl = data["imageUrl"] as? String
+                let noteId = document.documentID
                 
-                return Note(title: title, text: text, date: date, imageUrl: imageUrl)
+                return Note(id: noteId, title: title, text: text, date: date, imageUrl: imageUrl)
             }
             
             completion(.success(notes))
