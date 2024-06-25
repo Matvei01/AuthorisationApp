@@ -106,6 +106,17 @@ final class AddNotesViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var saveButton: UIButton = {
+        let button = ReuseLargeButton(
+            title: "СОХРАНИТЬ",
+            target: self,
+            selector: #selector(saveButtonTapped)
+        )
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     // MARK: -  Action
     private lazy var barButtonItemTapped = UIAction { [unowned self] action in
         guard let sender = action.sender as? UIBarButtonItem else { return }
@@ -165,7 +176,7 @@ private extension AddNotesViewController {
     }
     
     func addSubviews() {
-        setupSubviews(addNoteStackView)
+        setupSubviews(addNoteStackView, saveButton)
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -196,6 +207,10 @@ private extension AddNotesViewController {
     @objc func noteImageTapped() {
         present(imagePicker, animated: true)
     }
+    
+    @objc func saveButtonTapped() {
+        print("saveButton")
+    }
 }
 
 // MARK: - Constraints
@@ -219,17 +234,22 @@ private extension AddNotesViewController {
                 equalTo: addNoteStackView.widthAnchor
             ),
             headerTextView.heightAnchor.constraint(
-                equalToConstant: 80
+                equalTo: view.heightAnchor, multiplier: 0.07
             ),
             
             textNoteTextView.widthAnchor.constraint(
                 equalTo: addNoteStackView.widthAnchor
             ),
             textNoteTextView.heightAnchor.constraint(
-                equalToConstant: 250
+                equalTo: view.heightAnchor, multiplier: 0.2
             ),
-            noteImageView.widthAnchor.constraint(equalToConstant: 180),
-            noteImageView.heightAnchor.constraint(equalToConstant: 150)
+            noteImageView.widthAnchor.constraint(equalToConstant: 170),
+            noteImageView.heightAnchor.constraint(equalToConstant: 140),
+            
+            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            saveButton.leadingAnchor.constraint(equalTo: addNoteStackView.leadingAnchor),
+            saveButton.trailingAnchor.constraint(equalTo: addNoteStackView.trailingAnchor),
+            saveButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
 }
