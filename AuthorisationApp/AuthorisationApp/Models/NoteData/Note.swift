@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NoteData {
+struct Note {
     let title: String
     let text: String
     let date: Date

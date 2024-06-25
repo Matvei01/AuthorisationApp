@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class NoteViewCell: UITableViewCell {
     static let cellId = "NoteViewCell"
@@ -63,7 +64,7 @@ final class NoteViewCell: UITableViewCell {
         )
         return stackView
     }()
-
+    
     // MARK: - Override Methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -73,6 +74,18 @@ final class NoteViewCell: UITableViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Public Methods
+    func configure(with note: Note) {
+        headerLabel.text = note.title
+        textNoteLabel.text = note.text
+        dateLabel.text = formatDate(note.date)
+        if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
+            noteImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(systemName: "photo"))
+        } else {
+            noteImageView.image = UIImage(systemName: "photo")
+        }
     }
 }
 
@@ -96,20 +109,27 @@ private extension NoteViewCell {
             addSubview(subview)
         }
     }
+    
+    func formatDate(_ date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MMMM yyyy, HH:mm"
+            formatter.locale = Locale(identifier: "ru_RU")
+            return formatter.string(from: date)
+        }
 }
 
 // MARK: - Constraints
 private extension NoteViewCell {
     func setConstraints() {
         NSLayoutConstraint.activate([
-            noteImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            noteImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
-            noteImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            noteImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            noteImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            noteImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             noteImageView.trailingAnchor.constraint(equalTo: noteStackView.leadingAnchor, constant: -10),
             noteImageView.widthAnchor.constraint(equalToConstant: 110),
             
-            noteStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            noteStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            noteStackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            noteStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
             noteStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
         ])
     }

@@ -16,7 +16,7 @@ final class NotesDataService {
     
     private let db = Firestore.firestore()
     
-    func addNote(note: NoteData, imageData: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
+    func addNote(note: Note, imageData: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated."])))
             return
