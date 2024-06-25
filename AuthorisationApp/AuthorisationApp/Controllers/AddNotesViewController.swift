@@ -225,7 +225,7 @@ private extension AddNotesViewController {
         }
         
         let date = getCurrentDate()
-        let note = NoteData(title: title, text: text, date: date, imageUrl: nil)
+        let note = Note(title: title, text: text, date: date, imageUrl: nil)
         
         let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
         

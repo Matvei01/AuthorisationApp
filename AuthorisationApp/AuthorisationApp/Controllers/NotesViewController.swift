@@ -9,6 +9,9 @@ import UIKit
 
 final class NotesViewController: UITableViewController {
     
+    // MARK: -  Private Properties
+    private var notes: [Note] = []
+    
     // MARK: -  UI Elements
     private lazy var backBarButtonItem: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -49,15 +52,16 @@ final class NotesViewController: UITableViewController {
 
 // MARK: - Table view data source
 extension NotesViewController {
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        notes.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteViewCell.cellId, for: indexPath)
         guard let cell = cell as? NoteViewCell else { return UITableViewCell() }
-        
+        let note = notes[indexPath.row]
+        cell.configure(with: note)
         return cell
     }
 }
@@ -70,7 +74,9 @@ private extension NotesViewController {
             forCellReuseIdentifier: NoteViewCell.cellId
         )
         
-        tableView.rowHeight = 100
+        tableView.rowHeight = 110
+        
+        fetchNotes()
         
         setupNavigationBar()
     }
@@ -97,6 +103,20 @@ private extension NotesViewController {
     func barButtonItemAction(notificationName: Notification.Name) {
         NotificationCenter.default.post(name: notificationName, object: nil)
     }
+    
+    func fetchNotes() {
+            LoadingNotesDataService.shared.fetchNotes { [weak self] result in
+                switch result {
+                case .success(let notes):
+                    self?.notes = notes
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print("Failed to fetch notes: \(error)")
+                }
+            }
+        }
 }
 
 
