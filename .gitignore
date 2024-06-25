@@ -27,3 +27,7 @@ DerivedData/
 .DS_Store
 *.xcuserstate
 Podfile.lock
+
+# Swift Package Manager
+/.build/
+/Package.resolved
