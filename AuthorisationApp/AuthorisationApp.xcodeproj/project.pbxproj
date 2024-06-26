@@ -23,6 +23,8 @@
 		1AAC3B452C2B6C1C00D14DBF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1AAC3B442C2B6C1C00D14DBF /* FirebaseAuth */; };
 		1AAC3B472C2B6C1C00D14DBF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AAC3B462C2B6C1C00D14DBF /* FirebaseFirestore */; };
 		1AAC3B492C2B6C1C00D14DBF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AAC3B482C2B6C1C00D14DBF /* FirebaseStorage */; };
+		1AAC3B4B2C2BF23C00D14DBF /* EditNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B4A2C2BF23C00D14DBF /* EditNoteViewController.swift */; };
+		1AAC3B4E2C2BF83900D14DBF /* UpdateNotesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B4D2C2BF83900D14DBF /* UpdateNotesService.swift */; };
 		1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */; };
 		1AB29BA02C1EC2D6001BD233 /* UploadAvatarImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29B9F2C1EC2D6001BD233 /* UploadAvatarImageService.swift */; };
 		1AB29BA72C200B10001BD233 /* ReusePencilButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */; };
@@ -63,6 +65,8 @@
 		1AAC3B242C2B324600D14DBF /* UploadNoteImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadNoteImageService.swift; sourceTree = "<group>"; };
 		1AAC3B312C2B45F700D14DBF /* LoadingNotesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingNotesDataService.swift; sourceTree = "<group>"; };
 		1AAC3B3E2C2B574C00D14DBF /* DeleteNoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteNoteService.swift; sourceTree = "<group>"; };
+		1AAC3B4A2C2BF23C00D14DBF /* EditNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNoteViewController.swift; sourceTree = "<group>"; };
+		1AAC3B4D2C2BF83900D14DBF /* UpdateNotesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNotesService.swift; sourceTree = "<group>"; };
 		1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseImageView.swift; sourceTree = "<group>"; };
 		1AB29B9F2C1EC2D6001BD233 /* UploadAvatarImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAvatarImageService.swift; sourceTree = "<group>"; };
 		1AB29BA62C200B10001BD233 /* ReusePencilButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusePencilButton.swift; sourceTree = "<group>"; };
@@ -182,6 +186,14 @@
 			path = DeleteNoteData;
 			sourceTree = "<group>";
 		};
+		1AAC3B4C2C2BF7F100D14DBF /* UpdateNoteData */ = {
+			isa = PBXGroup;
+			children = (
+				1AAC3B4D2C2BF83900D14DBF /* UpdateNotesService.swift */,
+			);
+			path = UpdateNoteData;
+			sourceTree = "<group>";
+		};
 		1AB3E51B2C07704C0040DE8D = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +235,7 @@
 				1ADE20682C0BA326006173D3 /* ProfileViewController.swift */,
 				1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */,
 				1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */,
+				1AAC3B4A2C2BF23C00D14DBF /* EditNoteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -334,6 +347,7 @@
 		1ADE206C2C0C7BD8006173D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1AAC3B4C2C2BF7F100D14DBF /* UpdateNoteData */,
 				1AAC3B3D2C2B571400D14DBF /* DeleteNoteData */,
 				1AAC3B302C2B45B900D14DBF /* LoadingNotesData */,
 				1A38C0052C259B8200C22B51 /* NotesData */,
@@ -439,6 +453,7 @@
 				1AB586CC2C1CA0E9001B890A /* LoadingUserDataService.swift in Sources */,
 				1AB3E53D2C0771430040DE8D /* SignInViewController.swift in Sources */,
 				1AB586C62C1B123C001B890A /* SignOutService.swift in Sources */,
+				1AAC3B4B2C2BF23C00D14DBF /* EditNoteViewController.swift in Sources */,
 				1ADE206B2C0C4E1F006173D3 /* ReuseProfileButton.swift in Sources */,
 				1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */,
 				1AAC3B322C2B45F700D14DBF /* LoadingNotesDataService.swift in Sources */,
@@ -467,6 +482,7 @@
 				1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */,
 				1AB29BA02C1EC2D6001BD233 /* UploadAvatarImageService.swift in Sources */,
 				1AB3E52A2C07704C0040DE8D /* SceneDelegate.swift in Sources */,
+				1AAC3B4E2C2BF83900D14DBF /* UpdateNotesService.swift in Sources */,
 				1AB29BA72C200B10001BD233 /* ReusePencilButton.swift in Sources */,
 				1AB586C02C1AF6A4001B890A /* AuthUserData.swift in Sources */,
 				1AB586B82C1AC9C3001B890A /* RegistrationModel.swift in Sources */,

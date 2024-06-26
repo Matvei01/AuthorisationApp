@@ -1,13 +1,15 @@
 //
-//  AddNotesViewController.swift
+//  EditNoteViewController.swift
 //  AuthorisationApp
 //
-//  Created by Matvei Khlestov on 22.06.2024.
+//  Created by Matvei Khlestov on 26.06.2024.
 //
 
 import UIKit
 
-final class AddNotesViewController: UIViewController {
+final class EditNoteViewController: UIViewController {
+    
+    var note: Note?
     
     // MARK: -  UI Elements
     private lazy var headerTextView: UITextView = {
@@ -51,7 +53,7 @@ final class AddNotesViewController: UIViewController {
         return label
     }()
     
-    private lazy var addNoteStackView: UIStackView = {
+    private lazy var editNoteStackView: UIStackView = {
         let stackView = ReuseStackView(
             subviews: [
                 headerLabel,
@@ -147,14 +149,14 @@ final class AddNotesViewController: UIViewController {
 }
 
 // MARK: - UITextViewDelegate
-extension AddNotesViewController: UITextViewDelegate {
+extension EditNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updateDateLabel()
     }
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension AddNotesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EditNoteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -167,7 +169,7 @@ extension AddNotesViewController: UIImagePickerControllerDelegate, UINavigationC
 }
 
 // MARK: - Private methods
-private extension AddNotesViewController {
+private extension EditNoteViewController {
     func setupView() {
         view.backgroundColor = .secondarySystemBackground
         
@@ -175,13 +177,15 @@ private extension AddNotesViewController {
         
         textNoteTextView.delegate = self
         
+        populateNoteDetails()
+        
         setConstraints()
         
         setupNavigationBar()
     }
     
     func addSubviews() {
-        setupSubviews(addNoteStackView, saveButton)
+        setupSubviews(editNoteStackView, saveButton)
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -191,7 +195,7 @@ private extension AddNotesViewController {
     }
     
     func setupNavigationBar() {
-        title = "Добавьте новую заметку"
+        title = "Редактирование заметки"
         
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.appBlack
@@ -212,6 +216,23 @@ private extension AddNotesViewController {
         return Date()
     }
     
+    func populateNoteDetails() {
+        guard let note = note else { return }
+        headerTextView.text = note.title
+        textNoteTextView.text = note.text
+        dateLabel.text = formatDate(note.date)
+        if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
+            noteImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(systemName: "photo"))
+        }
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy, HH:mm"
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter.string(from: date)
+    }
+    
     func updateDateLabel() {
         let dateTimeString = getCurrentDateTime()
         let characterCount = textNoteTextView.text.count
@@ -230,13 +251,12 @@ private extension AddNotesViewController {
         }
         
         let date = getCurrentDate()
-        let noteID = UUID().uuidString
-        
-        let note = Note(id: noteID, title: title, text: text, date: date, imageUrl: nil)
+        let noteID = note?.id ?? UUID().uuidString
+        let note = Note(id: noteID, title: title, text: text, date: date, imageUrl: note?.imageUrl)
         
         let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
         
-        NotesDataService.shared.addNote(note: note, imageData: imageData) { [weak self] result in
+        UpdateNotesService().updateNote(note: note, imageData: imageData) { [weak self] result in
             switch result {
             case .success():
                 NotificationCenter.default.post(name: .showNotes, object: nil)
@@ -248,31 +268,31 @@ private extension AddNotesViewController {
 }
 
 // MARK: - Constraints
-private extension AddNotesViewController {
+private extension EditNoteViewController {
     func setConstraints() {
         NSLayoutConstraint.activate([
-            addNoteStackView.centerYAnchor.constraint(
+            editNoteStackView.centerYAnchor.constraint(
                 equalTo: view.centerYAnchor,
                 constant: -40
             ),
-            addNoteStackView.leadingAnchor.constraint(
+            editNoteStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
                 constant: 30
             ),
-            addNoteStackView.trailingAnchor.constraint(
+            editNoteStackView.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
                 constant: -30
             ),
             
             headerTextView.widthAnchor.constraint(
-                equalTo: addNoteStackView.widthAnchor
+                equalTo: editNoteStackView.widthAnchor
             ),
             headerTextView.heightAnchor.constraint(
                 equalTo: view.heightAnchor, multiplier: 0.07
             ),
             
             textNoteTextView.widthAnchor.constraint(
-                equalTo: addNoteStackView.widthAnchor
+                equalTo: editNoteStackView.widthAnchor
             ),
             textNoteTextView.heightAnchor.constraint(
                 equalTo: view.heightAnchor, multiplier: 0.2
@@ -281,8 +301,8 @@ private extension AddNotesViewController {
             noteImageView.heightAnchor.constraint(equalToConstant: 140),
             
             saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            saveButton.leadingAnchor.constraint(equalTo: addNoteStackView.leadingAnchor),
-            saveButton.trailingAnchor.constraint(equalTo: addNoteStackView.trailingAnchor),
+            saveButton.leadingAnchor.constraint(equalTo: editNoteStackView.leadingAnchor),
+            saveButton.trailingAnchor.constraint(equalTo: editNoteStackView.trailingAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
