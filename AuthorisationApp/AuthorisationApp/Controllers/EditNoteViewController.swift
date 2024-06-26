@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class EditNoteViewController: UIViewController {
     
+    // MARK: -  Public Properties
     var note: Note?
     
     // MARK: -  UI Elements
@@ -98,13 +100,13 @@ final class EditNoteViewController: UIViewController {
     
     private lazy var noteImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo.badge.plus")
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = .appRed
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGestureRecognizer)
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         return imageView
     }()
     
@@ -171,7 +173,7 @@ extension EditNoteViewController: UIImagePickerControllerDelegate, UINavigationC
 // MARK: - Private methods
 private extension EditNoteViewController {
     func setupView() {
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .white
         
         addSubviews()
         
@@ -222,7 +224,7 @@ private extension EditNoteViewController {
         textNoteTextView.text = note.text
         dateLabel.text = formatDate(note.date)
         if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
-            noteImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(systemName: "photo"))
+            noteImageView.sd_setImage(with: imageUrl)
         }
     }
     
@@ -297,13 +299,26 @@ private extension EditNoteViewController {
             textNoteTextView.heightAnchor.constraint(
                 equalTo: view.heightAnchor, multiplier: 0.2
             ),
-            noteImageView.widthAnchor.constraint(equalToConstant: 170),
-            noteImageView.heightAnchor.constraint(equalToConstant: 140),
+            noteImageView.widthAnchor.constraint(
+                equalToConstant: 170
+            ),
+            noteImageView.heightAnchor.constraint(
+                equalToConstant: 140
+            ),
             
-            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            saveButton.leadingAnchor.constraint(equalTo: editNoteStackView.leadingAnchor),
-            saveButton.trailingAnchor.constraint(equalTo: editNoteStackView.trailingAnchor),
-            saveButton.heightAnchor.constraint(equalToConstant: 70)
+            saveButton.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor,
+                constant: -50
+            ),
+            saveButton.leadingAnchor.constraint(
+                equalTo: editNoteStackView.leadingAnchor
+            ),
+            saveButton.trailingAnchor.constraint(
+                equalTo: editNoteStackView.trailingAnchor
+            ),
+            saveButton.heightAnchor.constraint(
+                equalToConstant: 70
+            )
         ])
     }
 }

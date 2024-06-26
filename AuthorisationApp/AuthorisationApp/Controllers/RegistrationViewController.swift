@@ -82,6 +82,7 @@ final class RegistrationViewController: UIViewController {
     
     private lazy var loadImageView: UIImageView = {
         let imageView = ReuseImageView(
+            image: .profile,
             tapGestureRecognizer: tapGestureRecognizer
         )
         return imageView
@@ -142,7 +143,7 @@ final class RegistrationViewController: UIViewController {
             ],
             axis: .vertical,
             alignment: .center,
-            spacing: 28
+            spacing: 20
         )
         return stackView
     }()
@@ -156,7 +157,7 @@ final class RegistrationViewController: UIViewController {
             axis: .vertical,
             alignment: .fill,
             autoresizing: false,
-            spacing: 30
+            spacing: 25
         )
         return stackView
     }()

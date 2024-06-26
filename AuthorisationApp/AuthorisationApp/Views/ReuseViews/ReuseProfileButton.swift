@@ -16,7 +16,10 @@ final class ReuseProfileButton: UIButton {
          imageName: String? = nil,
          alignment :UIControl.ContentHorizontalAlignment? = nil,
          headerOffsetRight: CGFloat? = nil,
-         autoresizing: Bool? = nil) {
+         autoresizing: Bool? = nil,
+         backgroundColor: UIColor,
+         titleColor: UIColor,
+         tintColor: UIColor) {
         
         super.init(frame: .zero)
         setupButton(
@@ -26,7 +29,10 @@ final class ReuseProfileButton: UIButton {
             imageName,
             alignment ?? .left,
             headerOffsetRight ?? 27,
-            autoresizing ?? true
+            autoresizing ?? true,
+            backgroundColor,
+            titleColor,
+            tintColor
         )
     }
     
@@ -45,11 +51,14 @@ private extension ReuseProfileButton {
         _ imageName: String?,
         _ alignment :UIControl.ContentHorizontalAlignment,
         _ headerOffsetRight: CGFloat,
-        _ autoresizing: Bool) {
+        _ autoresizing: Bool,
+        _ backgroundColor: UIColor,
+        _ titleColor: UIColor,
+        _ tintColor: UIColor) {
             
-            self.backgroundColor = .appRed
+            self.backgroundColor = backgroundColor
             self.setTitle(title, for: .normal)
-            self.setTitleColor(.white, for: .normal)
+            self.setTitleColor(titleColor, for: .normal)
             self.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
             self.layer.cornerRadius = 7
             self.addTarget(target, action: selector, for: .touchUpInside)
@@ -67,7 +76,7 @@ private extension ReuseProfileButton {
                 let icon = UIImage(systemName: imageName)
                 self.setImage(icon, for: .normal)
                 self.imageView?.contentMode = .scaleAspectFit
-                self.imageView?.tintColor = .white
+                self.imageView?.tintColor = tintColor
                 self.imageEdgeInsets = UIEdgeInsets(
                     top: 10,
                     left: 10,

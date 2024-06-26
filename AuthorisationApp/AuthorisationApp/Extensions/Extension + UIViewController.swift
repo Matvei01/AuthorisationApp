@@ -41,7 +41,7 @@ extension UIViewController {
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(
                 equalTo: view.centerYAnchor,
-                constant: 40
+                constant: 25
             ),
             
             stackView.leadingAnchor.constraint(

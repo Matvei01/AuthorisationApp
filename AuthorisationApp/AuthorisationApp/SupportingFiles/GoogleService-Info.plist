@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCuxUTIFa5d1Rye0xhXbEetYGjaSWhu38k</string>
+	<string>AIzaSyDwKNP63n2kj6OsklDcjoYXmrs7aoTDN2Y</string>
 	<key>GCM_SENDER_ID</key>
-	<string>956000812695</string>
+	<string>359040926003</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>iosmaster.com.AuthorisationApp</string>
 	<key>PROJECT_ID</key>
-	<string>authorisationapp-c38c6</string>
+	<string>authorisationapp-26cc8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>authorisationapp-c38c6.appspot.com</string>
+	<string>authorisationapp-26cc8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:956000812695:ios:d1b084e478d4aa9fa1f3d2</string>
+	<string>1:359040926003:ios:0bdca0bde9b685962efe46</string>
 </dict>
 </plist>

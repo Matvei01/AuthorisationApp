@@ -10,7 +10,7 @@
 		1A38BFE82C235DD500C22B51 /* UpdateDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38BFE72C235DD500C22B51 /* UpdateDataService.swift */; };
 		1A38C0072C259BB200C22B51 /* NotesDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C0062C259BB200C22B51 /* NotesDataService.swift */; };
 		1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */; };
-		1A96D4A72C1A043400852112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A96D4A62C1A043400852112 /* GoogleService-Info.plist */; };
+		1AA52C0D2C2C6E67006F4969 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */; };
 		1AAC3B122C29744700D14DBF /* ReuseTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B112C29744700D14DBF /* ReuseTextView.swift */; };
 		1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */; };
 		1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */; };
@@ -57,7 +57,7 @@
 		1A38BFE72C235DD500C22B51 /* UpdateDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDataService.swift; sourceTree = "<group>"; };
 		1A38C0062C259BB200C22B51 /* NotesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDataService.swift; sourceTree = "<group>"; };
 		1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotesViewController.swift; sourceTree = "<group>"; };
-		1A96D4A62C1A043400852112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1AAC3B112C29744700D14DBF /* ReuseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextView.swift; sourceTree = "<group>"; };
 		1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewCell.swift; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 				1AB3E5272C07704C0040DE8D /* AppDelegate.swift */,
 				1AB3E5292C07704C0040DE8D /* SceneDelegate.swift */,
 				1AB3E5352C07704D0040DE8D /* Info.plist */,
-				1A96D4A62C1A043400852112 /* GoogleService-Info.plist */,
+				1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -439,7 +439,7 @@
 			files = (
 				1AB3E5312C07704D0040DE8D /* Assets.xcassets in Resources */,
 				1AB3E5342C07704D0040DE8D /* Base in Resources */,
-				1A96D4A72C1A043400852112 /* GoogleService-Info.plist in Resources */,
+				1AA52C0D2C2C6E67006F4969 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

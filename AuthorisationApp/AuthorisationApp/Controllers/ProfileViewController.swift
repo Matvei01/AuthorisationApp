@@ -30,6 +30,7 @@ final class ProfileViewController: UIViewController {
         let imageView = ReuseImageView(
             tapGestureRecognizer: tapGestureRecognizer
         )
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         return imageView
     }()
     
@@ -89,8 +90,13 @@ final class ProfileViewController: UIViewController {
             title: "Выход",
             target: self,
             selector: #selector(logoutButtonTapped),
-            imageName: "arrow.backward.square.fill"
+            imageName: "arrow.backward.square.fill",
+            backgroundColor: .white,
+            titleColor: .appBlack,
+            tintColor: .appRed
         )
+        button.layer.borderColor = UIColor.appBlack.cgColor
+        button.layer.borderWidth = 1.0
         return button
     }()
     
@@ -99,7 +105,10 @@ final class ProfileViewController: UIViewController {
             title: "Мои заметки",
             target: self,
             selector: #selector(notesButtonTapped),
-            imageName: "list.bullet.clipboard.fill"
+            imageName: "list.bullet.clipboard.fill",
+            backgroundColor: .appRed,
+            titleColor: .white,
+            tintColor: .white
         )
         return button
     }()
@@ -383,10 +392,7 @@ private extension ProfileViewController {
         }
         
         if let url = URL(string: imageUrl) {
-            profileImageView.sd_setImage(
-                with: url,
-                placeholderImage: .profile
-            )
+            profileImageView.sd_setImage(with: url)
         }
     }
     
@@ -693,7 +699,7 @@ private extension ProfileViewController {
         NSLayoutConstraint.activate([
             mainStackView.centerYAnchor.constraint(
                 equalTo: view.centerYAnchor,
-                constant: -50
+                constant: -15
             ),
             mainStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,

@@ -18,6 +18,7 @@ final class NoteViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -81,7 +82,7 @@ final class NoteViewCell: UITableViewCell {
         textNoteLabel.text = note.text
         dateLabel.text = formatDate(note.date)
         if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
-            noteImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(systemName: "photo"))
+            noteImageView.sd_setImage(with: imageUrl)
         }
     }
 }
@@ -108,11 +109,11 @@ private extension NoteViewCell {
     }
     
     func formatDate(_ date: Date) -> String {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd MMMM yyyy, HH:mm"
-            formatter.locale = Locale(identifier: "ru_RU")
-            return formatter.string(from: date)
-        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy, HH:mm"
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter.string(from: date)
+    }
 }
 
 // MARK: - Constraints
