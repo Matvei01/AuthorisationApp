@@ -59,7 +59,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleNotification),
-            name: .showAddNotes,
+            name: .showAddNote,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNotification),
+            name: .showEditNote,
             object: nil
         )
     }
@@ -77,10 +83,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 rootViewController: NotesViewController()
             ))
             
-        case .showAddNotes:
+        case .showAddNote:
             setRootViewController(UINavigationController(
                 rootViewController: AddNotesViewController()
             ))
+            
+        case .showEditNote:
+            if let navigationController = window?.rootViewController as? UINavigationController,
+               let note = notification.userInfo?["note"] as? Note {
+                let editNoteVC = EditNoteViewController()
+                editNoteVC.note = note
+                navigationController.pushViewController(editNoteVC, animated: true)
+            }
         default:
             setRootViewController(RegistrationViewController())
         }

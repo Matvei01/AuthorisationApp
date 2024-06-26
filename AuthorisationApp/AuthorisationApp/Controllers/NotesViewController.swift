@@ -39,7 +39,7 @@ final class NotesViewController: UITableViewController {
         case 0:
             barButtonItemAction(notificationName: .showProfile)
         default:
-            barButtonItemAction(notificationName: .showAddNotes)
+            barButtonItemAction(notificationName: .showAddNote)
         }
     }
     
@@ -72,11 +72,16 @@ extension NotesViewController {
                             commit editingStyle: UITableViewCell.EditingStyle,
                             forRowAt indexPath: IndexPath) {
         
-            if editingStyle == .delete {
-                let note = notes[indexPath.row]
-                deleteNoteAt(indexPath: indexPath, note: note)
-            }
+        if editingStyle == .delete {
+            let note = notes[indexPath.row]
+            deleteNoteAt(indexPath: indexPath, note: note)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let note = notes[indexPath.row]
+        NotificationCenter.default.post(name: .showEditNote, object: nil, userInfo: ["note": note])
+    }
 }
 
 // MARK: - Private methods
@@ -107,7 +112,6 @@ private extension NotesViewController {
             .foregroundColor: UIColor.appBlack
         ]
         navigationController?.navigationBar.tintColor = .appRed
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.leftBarButtonItem = backBarButtonItem
         navigationItem.rightBarButtonItem = addNoteBarButtonItem
@@ -118,30 +122,30 @@ private extension NotesViewController {
     }
     
     func fetchNotes() {
-            LoadingNotesDataService.shared.fetchNotes { [weak self] result in
-                switch result {
-                case .success(let notes):
-                    self?.notes = notes
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    print("Failed to fetch notes: \(error)")
+        LoadingNotesDataService.shared.fetchNotes { [weak self] result in
+            switch result {
+            case .success(let notes):
+                self?.notes = notes
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
+            case .failure(let error):
+                print("Failed to fetch notes: \(error)")
             }
         }
+    }
     
     func deleteNoteAt(indexPath: IndexPath, note: Note) {
-            DeleteNoteService().deleteNote(note) { [weak self] result in
-                switch result {
-                case .success():
-                    self?.notes.remove(at: indexPath.row)
-                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
-                case .failure(let error):
-                    print("Failed to delete note: \(error.localizedDescription)")
-                }
+        DeleteNoteService().deleteNote(note) { [weak self] result in
+            switch result {
+            case .success():
+                self?.notes.remove(at: indexPath.row)
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            case .failure(let error):
+                print("Failed to delete note: \(error.localizedDescription)")
             }
         }
+    }
 }
 
 
