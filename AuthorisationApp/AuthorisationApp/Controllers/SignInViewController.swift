@@ -174,7 +174,7 @@ private extension SignInViewController {
         
         let authUserData = AuthUserData(email: email, password: password)
         
-        authModel.SignIn(userData: authUserData) { [weak self] result in
+        authModel.signIn(userData: authUserData) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

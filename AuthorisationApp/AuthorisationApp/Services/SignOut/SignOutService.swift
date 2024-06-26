@@ -13,14 +13,21 @@ final class SignOutService {
     
     private init() {}
     
-    func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
+    func signOut(completion: @escaping (Result<Void, SignOutError>) -> Void) {
         do {
             try Auth.auth().signOut()
+            print("User successfully signed out.")
             completion(.success(()))
-            print("Exit")
         } catch {
-            completion(.failure(error))
+            print("Error signing out: \(error.localizedDescription)")
+            completion(.failure(.signOutFailed(error)))
         }
+    }
+}
+
+extension SignOutService {
+    enum SignOutError: Error {
+        case signOutFailed(Error)
     }
 }
 

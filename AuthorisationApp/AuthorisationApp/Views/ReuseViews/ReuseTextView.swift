@@ -10,22 +10,22 @@ import UIKit
 final class ReuseTextView: UITextView {
     
     // MARK: - Initializer
-        init(font: UIFont) {
-            let textContainer = NSTextContainer(size: .zero)
-            let layoutManager = NSLayoutManager()
-            let textStorage = NSTextStorage()
-            
-            layoutManager.addTextContainer(textContainer)
-            textStorage.addLayoutManager(layoutManager)
-            
-            super.init(frame: .zero, textContainer: textContainer)
-            setupTextView(font: font)
-        }
+    init(font: UIFont) {
+        let textContainer = NSTextContainer(size: .zero)
+        let layoutManager = NSLayoutManager()
+        let textStorage = NSTextStorage()
         
-        @available(*, unavailable)
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        
+        super.init(frame: .zero, textContainer: textContainer)
+        setupTextView(font: font)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func setupTextView(font: UIFont) {
         self.contentInset = UIEdgeInsets(

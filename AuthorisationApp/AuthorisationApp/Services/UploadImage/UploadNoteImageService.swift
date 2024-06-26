@@ -14,9 +14,10 @@ final class UploadNoteImageService {
     
     private init() {}
     
-    func uploadImage(documentID: String, imageData: Data, completion: @escaping (Result<String, Error>) -> Void) {
+    func uploadImage(documentID: String, imageData: Data, completion: @escaping (Result<String, UploadNoteImageError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated."])))
+            print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
@@ -27,23 +28,31 @@ final class UploadNoteImageService {
         metaData.contentType = "image/jpeg"
         
         storageRef.putData(imageData, metadata: metaData) { metadata, error in
-            guard let _ = metadata else {
-                completion(.failure(error!))
-                return
-            }
-            
             if let error = error {
-                completion(.failure(error))
+                print("Error uploading image data: \(error.localizedDescription)")
+                completion(.failure(.uploadFailed(error)))
                 return
             }
             
             storageRef.downloadURL { url, error in
                 if let error = error {
-                    completion(.failure(error))
+                    print("Error getting download URL: \(error.localizedDescription)")
+                    completion(.failure(.urlRetrievalFailed(error)))
                 } else if let downloadURL = url {
                     completion(.success(downloadURL.absoluteString))
+                } else {
+                    print("Download URL is nil.")
+                    completion(.failure(.urlRetrievalFailed(nil)))
                 }
             }
         }
+    }
+}
+
+extension UploadNoteImageService {
+    enum UploadNoteImageError: Error {
+        case userNotAuthenticated
+        case uploadFailed(Error)
+        case urlRetrievalFailed(Error?)
     }
 }

@@ -13,9 +13,10 @@ final class DeleteNoteService {
     
     private let db = Firestore.firestore()
     
-    func deleteNote(_ note: Note, completion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteNote(_ note: Note, completion: @escaping (Result<Void, DeleteNoteError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated."])))
+            print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
@@ -24,12 +25,19 @@ final class DeleteNoteService {
         
         noteRef.delete { error in
             if let error = error {
-                completion(.failure(error))
                 print("Error deleting document: \(error.localizedDescription)")
+                completion(.failure(.documentDeletionFailed(error)))
             } else {
-                completion(.success(()))
                 print("Note successfully deleted.")
+                completion(.success(()))
             }
         }
+    }
+}
+
+extension DeleteNoteService {
+    enum DeleteNoteError: Error {
+        case userNotAuthenticated
+        case documentDeletionFailed(Error)
     }
 }

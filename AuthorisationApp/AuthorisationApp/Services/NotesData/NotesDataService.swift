@@ -16,9 +16,10 @@ final class NotesDataService {
     
     private let db = Firestore.firestore()
     
-    func addNote(note: Note, imageData: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
+    func addNote(note: Note, imageData: Data?, completion: @escaping (Result<Void, AddNoteError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated."])))
+            print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
@@ -33,7 +34,8 @@ final class NotesDataService {
         var documentRef: DocumentReference? = nil
         documentRef = db.collection("users").document(userID).collection("notes").addDocument(data: noteData) { error in
             if let error = error {
-                completion(.failure(error))
+                print("Failed to create document: \(error.localizedDescription)")
+                completion(.failure(.documentCreationFailed(error)))
                 return
             }
             
@@ -43,18 +45,29 @@ final class NotesDataService {
                     case .success(let imageUrl):
                         documentRef?.updateData(["imageUrl": imageUrl]) { error in
                             if let error = error {
-                                completion(.failure(error))
+                                print("Failed to update image URL: \(error.localizedDescription)")
+                                completion(.failure(.imageUrlUpdateFailed(error)))
                             } else {
                                 completion(.success(()))
                             }
                         }
                     case .failure(let error):
-                        completion(.failure(error))
+                        print("Failed to upload image: \(error.localizedDescription)")
+                        completion(.failure(.imageUploadFailed(error)))
                     }
                 }
             } else {
                 completion(.success(()))
             }
         }
+    }
+}
+
+extension NotesDataService {
+    enum AddNoteError: Error {
+        case userNotAuthenticated
+        case documentCreationFailed(Error)
+        case imageUploadFailed(Error)
+        case imageUrlUpdateFailed(Error)
     }
 }

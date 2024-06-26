@@ -12,9 +12,10 @@ import FirebaseFirestore
 final class UpdateNotesService {
     private let db = Firestore.firestore()
     
-    func updateNote(note: Note, imageData: Data?, completion: @escaping (Result<Void, Error>) -> Void) {
+    func updateNote(note: Note, imageData: Data?, completion: @escaping (Result<Void, UpdateNoteError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not authenticated."])))
+            print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
@@ -29,7 +30,8 @@ final class UpdateNotesService {
         
         document.updateData(noteData) { error in
             if let error = error {
-                completion(.failure(error))
+                print("Failed to update note: \(error.localizedDescription)")
+                completion(.failure(.noteUpdateFailed(error)))
                 return
             }
             
@@ -39,18 +41,28 @@ final class UpdateNotesService {
                     case .success(let imageUrl):
                         document.updateData(["imageUrl": imageUrl]) { error in
                             if let error = error {
-                                completion(.failure(error))
+                                print("Failed to update note with image URL: \(error.localizedDescription)")
+                                completion(.failure(.noteUpdateFailed(error)))
                             } else {
                                 completion(.success(()))
                             }
                         }
                     case .failure(let error):
-                        completion(.failure(error))
+                        print("Failed to upload image: \(error.localizedDescription)")
+                        completion(.failure(.imageUploadFailed(error)))
                     }
                 }
             } else {
                 completion(.success(()))
             }
         }
+    }
+}
+
+extension UpdateNotesService {
+    enum UpdateNoteError: Error {
+        case userNotAuthenticated
+        case noteUpdateFailed(Error)
+        case imageUploadFailed(Error)
     }
 }

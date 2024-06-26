@@ -14,38 +14,38 @@ final class UpdateDataService {
     
     private init() {}
     
-    private func updateUserField(_ field: String, value: Any, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    private func updateUserField(_ field: String, value: Any, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         guard let currentUserId = Auth.auth().currentUser?.uid else {
-            completion(.failure(.userNotAuthenticated))
             print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
         let userRef = Firestore.firestore().collection("users").document(currentUserId)
         userRef.updateData([field: value]) { error in
             if let error = error {
-                completion(.failure(.updateFailed))
                 print("Error updating \(field): \(error.localizedDescription)")
+                completion(.failure(.updateFailed(error)))
             } else {
                 completion(.success(()))
             }
         }
     }
     
-    func updateUserImageUrl(_ imageUrl: String, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func updateUserImageUrl(_ imageUrl: String, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         updateUserField("imageUrl", value: imageUrl, completion: completion)
     }
     
-    func updateUserName(_ newName: String, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func updateUserName(_ newName: String, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         updateUserField("name", value: newName, completion: completion)
     }
     
-    func updateUserBirthDate(_ newBirthDate: Date, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func updateUserBirthDate(_ newBirthDate: Date, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         let timestamp = Timestamp(date: newBirthDate)
         updateUserField("birthDate", value: timestamp, completion: completion)
     }
     
-    func updateUserEmail(_ newEmail: String, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func updateUserEmail(_ newEmail: String, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         updateUserField("email", value: newEmail) { [weak self] result in
             switch result {
             case .success:
@@ -56,43 +56,43 @@ final class UpdateDataService {
         }
     }
     
-    func reauthenticateUser(password: String, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func reauthenticateUser(password: String, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(.userNotAuthenticated))
             print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
         guard let email = user.email else {
-            completion(.failure(.updateFailed))
             print("Email not found.")
+            completion(.failure(.emailNotFound))
             return
         }
         
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         user.reauthenticate(with: credential) { result, error in
             if let error = error {
-                completion(.failure(.reauthenticationFailed))
                 print("Error reauthenticating user: \(error.localizedDescription)")
+                completion(.failure(.reauthenticationFailed(error)))
             } else {
                 completion(.success(()))
             }
         }
     }
     
-    func updateAuthEmail(_ newEmail: String, password: String, completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func updateAuthEmail(_ newEmail: String, password: String, completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         reauthenticateUser(password: password) { [weak self] result in
             switch result {
             case .success:
                 guard let user = Auth.auth().currentUser else {
-                    completion(.failure(.userNotAuthenticated))
                     print("User not authenticated.")
+                    completion(.failure(.userNotAuthenticated))
                     return
                 }
                 user.sendEmailVerification(beforeUpdatingEmail: newEmail) { error in
                     if let error = error {
-                        completion(.failure(.emailVerificationFailed))
                         print("Error sending email verification: \(error.localizedDescription)")
+                        completion(.failure(.emailVerificationFailed(error)))
                     } else {
                         self?.updateUserEmail(newEmail, completion: completion)
                     }
@@ -103,17 +103,17 @@ final class UpdateDataService {
         }
     }
     
-    func sendVerificationEmail(completion: @escaping (Result<Void, LoadDataError>) -> Void) {
+    func sendVerificationEmail(completion: @escaping (Result<Void, UpdateDataError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(.userNotAuthenticated))
             print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
         user.sendEmailVerification { error in
             if let error = error {
-                completion(.failure(.emailVerificationFailed))
                 print("Error sending verification email: \(error.localizedDescription)")
+                completion(.failure(.emailVerificationFailed(error)))
             } else {
                 completion(.success(()))
             }
@@ -122,10 +122,11 @@ final class UpdateDataService {
 }
 
 extension UpdateDataService {
-    enum LoadDataError: Error {
+    enum UpdateDataError: Error {
         case userNotAuthenticated
-        case updateFailed
-        case emailVerificationFailed
-        case reauthenticationFailed
+        case updateFailed(Error)
+        case emailVerificationFailed(Error)
+        case reauthenticationFailed(Error)
+        case emailNotFound
     }
 }

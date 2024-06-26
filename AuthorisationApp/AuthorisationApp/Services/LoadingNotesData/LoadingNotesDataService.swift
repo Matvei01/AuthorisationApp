@@ -18,8 +18,8 @@ final class LoadingNotesDataService {
     
     func fetchNotes(completion: @escaping (Result<[Note], FetchNotesError>) -> Void) {
         guard let user = Auth.auth().currentUser else {
-            completion(.failure(.userNotAuthenticated))
             print("User not authenticated.")
+            completion(.failure(.userNotAuthenticated))
             return
         }
         
@@ -28,8 +28,8 @@ final class LoadingNotesDataService {
         
         notesRef.getDocuments { snapshot, error in
             if let error = error {
-                completion(.failure(.documentRetrievalFailed))
                 print("Failed to retrieve documents for user ID \(userID): \(error.localizedDescription)")
+                completion(.failure(.documentRetrievalFailed(error)))
                 return
             }
             
@@ -44,6 +44,7 @@ final class LoadingNotesDataService {
                 guard let title = data["title"] as? String,
                       let text = data["text"] as? String,
                       let timestamp = data["date"] as? Timestamp else {
+                    print("Invalid data for document ID \(document.documentID)")
                     return nil
                 }
                 
@@ -62,7 +63,7 @@ final class LoadingNotesDataService {
 extension LoadingNotesDataService {
     enum FetchNotesError: Error {
         case userNotAuthenticated
-        case documentRetrievalFailed
+        case documentRetrievalFailed(Error)
         case invalidData
     }
 }
