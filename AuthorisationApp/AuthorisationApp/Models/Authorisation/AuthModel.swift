@@ -9,18 +9,18 @@ import Foundation
 import FirebaseAuth
 
 final class AuthModel {
-    func signIn(userData: AuthUserData, completion: @escaping(Result<UserVerification, AuthError>) -> ()) {
+    func signIn(userData: AuthUserData, completion: @escaping(Result<UserVerification, Error>) -> ()) {
         Auth.auth().signIn(withEmail: userData.email, password: userData.password) { result, error in
             
             if let error = error {
                 print("Firebase error: \(error.localizedDescription)")
-                completion(.failure(.firebaseError(error)))
+                completion(.failure(error))
                 return
             }
             
             guard let user = result?.user else {
                 print("Unknown error occurred.")
-                completion(.failure(.unknownError))
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred."])))
                 return
             }
             
@@ -37,10 +37,5 @@ extension AuthModel {
     enum UserVerification {
         case verified
         case noVerified
-    }
-    
-    enum AuthError: Error {
-        case firebaseError(Error)
-        case unknownError
     }
 }

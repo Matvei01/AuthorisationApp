@@ -14,6 +14,7 @@ final class ReuseImageView: UIImageView {
         setupImageView(image ?? UIImage(), tapGestureRecognizer)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -22,11 +23,11 @@ final class ReuseImageView: UIImageView {
         self.image = image
         self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
-        self.layer.cornerRadius = 60
+        self.layer.cornerRadius = 65
         self.addGestureRecognizer(tapGestureRecognizer)
         self.isUserInteractionEnabled = true
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        self.widthAnchor.constraint(equalToConstant: 130).isActive = true
         self.heightAnchor.constraint(equalTo: self.widthAnchor).isActive = true
     }
 }

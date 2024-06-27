@@ -297,8 +297,8 @@ private extension RegistrationViewController {
                 if success {
                     NotificationCenter.default.post(name: .showSignIn, object: nil)
                 }
-            case .failure(let failure):
-                showAlert(title: "Error", message: failure.localizedDescription)
+            case .failure(let error):
+                showAlert(title: "Error", message: error.localizedDescription)
             }
         }
     }

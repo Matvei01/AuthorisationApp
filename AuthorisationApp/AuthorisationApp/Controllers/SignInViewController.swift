@@ -170,7 +170,8 @@ private extension SignInViewController {
     }
     
     @objc func signInButtonTapped() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else { return }
         
         let authUserData = AuthUserData(email: email, password: password)
         
@@ -186,10 +187,10 @@ private extension SignInViewController {
                 case .noVerified:
                     self.showAlert(title: "Error", message: "Your email is not verified")
                 }
-            case .failure(let failure):
+            case .failure(let error):
                 self.showAlert(
                     title: "Error",
-                    message: failure.localizedDescription,
+                    message: error.localizedDescription,
                     textField: passwordTextField
                 )
             }

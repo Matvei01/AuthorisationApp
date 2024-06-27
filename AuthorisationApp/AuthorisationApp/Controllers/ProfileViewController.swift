@@ -533,14 +533,12 @@ private extension ProfileViewController {
     }
     
     @objc func logoutButtonTapped() {
-        signOutService.signOut { [weak self] result in
-            guard let self = self else { return }
-            
+        signOutService.signOut { result in
             switch result {
             case .success(_):
                 NotificationCenter.default.post(name: .showSignIn, object: nil)
             case .failure(let failure):
-                self.showAlert(title: "Error", message: failure.localizedDescription)
+                print("Error signing out: \(failure.localizedDescription)")
             }
         }
     }
@@ -583,8 +581,8 @@ private extension ProfileViewController {
             switch result {
             case .success(_):
                 self.showAlert(title: "Success", message: "Name successfully updated")
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(let error):
+                print("Failed to update name: \(error.localizedDescription)")
             }
         }
         
@@ -613,8 +611,8 @@ private extension ProfileViewController {
                 switch result {
                 case .success(_):
                     self.showAlert(title: "Success", message: "Birth date successfully updated")
-                case .failure(let failure):
-                    print(failure.localizedDescription)
+                case .failure(let error):
+                    print("Failed to update birth date: \(error.localizedDescription)")
                 }
             }
         } else {
@@ -627,7 +625,7 @@ private extension ProfileViewController {
     
     
     @objc func saveEmailButtonTapped() {
-        guard let newEmail = emailTextField.text, !newEmail.isEmpty else { 
+        guard let newEmail = emailTextField.text, !newEmail.isEmpty else {
             self.showAlert(title: "Error", message: "Email field cannot be empty")
             return
         }
@@ -642,8 +640,9 @@ private extension ProfileViewController {
                     switch result {
                     case .success(_):
                         self.showAlertForUpdateEmail(title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
-                    case .failure(let failure):
-                        print(failure.localizedDescription)
+                    case .failure(let error):
+                        self.showAlert(title: "Error", message: "Invalid password. Try again.")
+                        print("Failed to update email: \(error.localizedDescription)")
                     }
                 }
             } else {
