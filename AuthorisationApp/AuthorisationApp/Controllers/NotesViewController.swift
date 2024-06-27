@@ -11,8 +11,19 @@ final class NotesViewController: UITableViewController {
     
     // MARK: -  Private Properties
     private var notes: [Note] = []
+    private var filteredNotes: [Note] = []
+    private var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
     
     // MARK: -  UI Elements
+    private lazy var searchController = UISearchController(
+        searchResultsController: nil
+    )
+    
     private lazy var backBarButtonItem: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "arrow.backward"),
@@ -54,13 +65,21 @@ final class NotesViewController: UITableViewController {
 extension NotesViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        notes.count
+        if isFiltering {
+            return filteredNotes.count
+        }
+        return notes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteViewCell.cellId, for: indexPath)
         guard let cell = cell as? NoteViewCell else { return UITableViewCell() }
-        let note = notes[indexPath.row]
+        let note: Note
+        if isFiltering {
+            note = filteredNotes[indexPath.row]
+        } else {
+            note = notes[indexPath.row]
+        }
         cell.configure(with: note)
         return cell
     }
@@ -73,8 +92,7 @@ extension NotesViewController {
                             forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            let note = notes[indexPath.row]
-            deleteNoteAt(indexPath: indexPath, note: note)
+            handleDeleteAction(at: indexPath)
         }
     }
     
@@ -97,6 +115,8 @@ private extension NotesViewController {
         fetchNotes()
         
         setupNavigationBar()
+        
+        setupSearchController()
     }
     
     func setupSubviews(_ subviews: UIView... ) {
@@ -117,6 +137,14 @@ private extension NotesViewController {
         navigationItem.rightBarButtonItem = addNoteBarButtonItem
     }
     
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Поиск заметок"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
     func barButtonItemAction(notificationName: Notification.Name) {
         NotificationCenter.default.post(name: notificationName, object: nil)
     }
@@ -135,16 +163,60 @@ private extension NotesViewController {
         }
     }
     
-    func deleteNoteAt(indexPath: IndexPath, note: Note) {
-        DeleteNoteService().deleteNote(note) { [weak self] result in
-            switch result {
-            case .success():
-                self?.notes.remove(at: indexPath.row)
-                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
-            case .failure(let error):
-                print("Failed to delete note: \(error.localizedDescription)")
+    private func handleDeleteAction(at indexPath: IndexPath) {
+        let note: Note
+        
+        if isFiltering {
+            note = filteredNotes[indexPath.row]
+            removeNoteFromDataSource(note: note, at: indexPath.row)
+        } else {
+            note = notes[indexPath.row]
+            removeNoteFromDataSource(note: note, at: indexPath.row)
+        }
+        
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        deleteNoteFromFirebase(note: note)
+    }
+    
+    private func removeNoteFromDataSource(note: Note, at index: Int) {
+        if isFiltering {
+            filteredNotes.remove(at: index)
+            if let indexInNotes = notes.firstIndex(where: { $0.id == note.id }) {
+                notes.remove(at: indexInNotes)
+            }
+        } else {
+            notes.remove(at: index)
+            if let indexInFilteredNotes = filteredNotes.firstIndex(where: { $0.id == note.id }) {
+                filteredNotes.remove(at: indexInFilteredNotes)
             }
         }
+    }
+    
+    private func deleteNoteFromFirebase(note: Note) {
+        DeleteNoteService().deleteNote(note) { result in
+            switch result {
+            case .success:
+                print("Note successfully deleted from Firebase.")
+            case .failure(let error):
+                print("Failed to delete note from Firebase: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+extension NotesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        filteredNotes = notes.filter { (note: Note) -> Bool in
+            return note.title.lowercased().contains(searchText.lowercased()) || note.text.lowercased().contains(searchText.lowercased())
+        }
+        
+        tableView.reloadData()
     }
 }
 

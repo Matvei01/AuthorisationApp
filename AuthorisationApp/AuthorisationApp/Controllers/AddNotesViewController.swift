@@ -235,12 +235,12 @@ private extension AddNotesViewController {
         
         let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
         
-        NotesDataService.shared.addNote(note: note, imageData: imageData) { [weak self] result in
+        NotesDataService.shared.addNote(note: note, imageData: imageData) { result in
             switch result {
             case .success():
                 NotificationCenter.default.post(name: .showNotes, object: nil)
             case .failure(let error):
-                self?.showAlert(title: "Error", message: error.localizedDescription)
+                print("Error adding note: \(error.localizedDescription)")
             }
         }
     }

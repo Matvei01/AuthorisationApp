@@ -222,7 +222,6 @@ private extension EditNoteViewController {
         guard let note = note else { return }
         headerTextView.text = note.title
         textNoteTextView.text = note.text
-        dateLabel.text = formatDate(note.date)
         if let imageUrlString = note.imageUrl, let imageUrl = URL(string: imageUrlString) {
             noteImageView.sd_setImage(with: imageUrl)
         }
@@ -258,12 +257,12 @@ private extension EditNoteViewController {
         
         let imageData = noteImageView.image?.jpegData(compressionQuality: 0.75)
         
-        UpdateNotesService().updateNote(note: note, imageData: imageData) { [weak self] result in
+        UpdateNotesService().updateNote(note: note, imageData: imageData) { result in
             switch result {
             case .success():
                 NotificationCenter.default.post(name: .showNotes, object: nil)
             case .failure(let error):
-                self?.showAlert(title: "Error", message: error.localizedDescription)
+                print("Error updating note: \(error.localizedDescription)")
             }
         }
     }

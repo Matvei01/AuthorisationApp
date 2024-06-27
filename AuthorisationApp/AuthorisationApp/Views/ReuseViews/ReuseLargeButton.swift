@@ -27,8 +27,8 @@ private extension ReuseLargeButton {
         self.backgroundColor = .appRed
         self.setTitle(title, for: .normal)
         self.setTitleColor(.white, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 16.05, weight: .bold)
-        self.layer.cornerRadius = 13.76
+        self.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        self.layer.cornerRadius = 14
         self.addTarget(target, action: selector, for: .touchUpInside)
     }
 }

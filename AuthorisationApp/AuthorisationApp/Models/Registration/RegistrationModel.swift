@@ -10,26 +10,26 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class RegistrationModel {
-    func register(userData: RegUserData, imageData: Data, completion: @escaping(Result<Bool, RegistrationError>) -> ()) {
+    func register(userData: RegUserData, imageData: Data, completion: @escaping(Result<Bool, Error>) -> ()) {
         Auth.auth().createUser(withEmail: userData.email, password: userData.password) { [weak self] result, error in
             guard let self = self else { return }
             
             if let error = error {
                 print("Firebase error: \(error.localizedDescription)")
-                completion(.failure(.firebaseError(error)))
+                completion(.failure(error))
                 return
             }
             
             guard let uid = result?.user.uid else {
                 print("UID не найден.")
-                completion(.failure(.uidNotFound))
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "UID не найден."])))
                 return
             }
             
             result?.user.sendEmailVerification { error in
                 if let error = error {
                     print("Ошибка верификации email: \(error.localizedDescription)")
-                    completion(.failure(.emailVerificationFailed(error)))
+                    completion(.failure(error))
                     return
                 }
                 
@@ -38,7 +38,7 @@ final class RegistrationModel {
         }
     }
     
-    private func uploadAvatarImage(uid: String, imageData: Data, userData: RegUserData, completion: @escaping (Result<Bool, RegistrationError>) -> ()) {
+    private func uploadAvatarImage(uid: String, imageData: Data, userData: RegUserData, completion: @escaping (Result<Bool, Error>) -> ()) {
         UploadAvatarImageService.shared.uploadImage(currentUserId: uid, imageData) { result in
             switch result {
             case .success(let imageUrl):
@@ -51,12 +51,16 @@ final class RegistrationModel {
                 )
             case .failure(let error):
                 print("Ошибка загрузки изображения: \(error.localizedDescription)")
-                completion(.failure(.imageUploadFailed(error)))
+                completion(.failure(error))
             }
         }
     }
     
-    private func setUserData(uid: String, name: String, birthDate: Date, imageUrl: String, completion: @escaping (Result<Bool, RegistrationError>) -> ()) {
+    private func setUserData(uid: String,
+                             name: String,
+                             birthDate: Date,
+                             imageUrl: String,
+                             completion: @escaping (Result<Bool, Error>) -> ()) {
         
         let userData: [String: Any] = [
             "name": name,
@@ -70,20 +74,10 @@ final class RegistrationModel {
             .setData(userData) { error in
                 if let error = error {
                     print("Ошибка сохранения данных пользователя: \(error.localizedDescription)")
-                    completion(.failure(.userDataSettingFailed(error)))
+                    completion(.failure(error))
                 } else {
                     completion(.success(true))
                 }
             }
-    }
-}
-
-extension RegistrationModel {
-    enum RegistrationError: Error {
-        case firebaseError(Error)
-        case uidNotFound
-        case emailVerificationFailed(Error)
-        case imageUploadFailed(Error)
-        case userDataSettingFailed(Error)
     }
 }
