@@ -185,11 +185,11 @@ private extension SignInViewController {
                     print("Go to profile")
                     NotificationCenter.default.post(name: .showProfile, object: nil)
                 case .noVerified:
-                    self.showAlert(title: "Error", message: "Your email is not verified")
+                    UIAlertController.showAlert(on: self, title: "Error", message: "Your email is not verified")
                 }
             case .failure(let error):
-                self.showAlert(
-                    title: "Error",
+                UIAlertController.showAlert(
+                    on: self, title: "Error",
                     message: error.localizedDescription,
                     textField: passwordTextField
                 )

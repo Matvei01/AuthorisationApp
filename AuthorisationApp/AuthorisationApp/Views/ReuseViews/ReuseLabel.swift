@@ -17,7 +17,13 @@ final class ReuseLabel: UILabel {
          numberOfLines: Int? = nil) {
         
         super.init(frame: .zero)
-        setupLabel(text ?? "", textColor, font, textAlignment ?? .left, numberOfLines ?? 1)
+        setupLabel(
+            text ?? "",
+            textColor,
+            font,
+            textAlignment ?? .left, 
+            numberOfLines ?? 1
+        )
     }
     
     @available(*, unavailable)

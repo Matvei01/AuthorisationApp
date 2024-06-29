@@ -19,7 +19,7 @@ final class EditNoteViewController: BaseNoteViewController {
     override func saveButtonTapped() {
         guard let title = headerTextView.text, !title.isEmpty,
               let text = textNoteTextView.text, !text.isEmpty else {
-            showAlert(title: "Ошибка", message: "Заполните все поля")
+            UIAlertController.showAlert(on: self, title: "Ошибка", message: "Заполните все поля")
             return
         }
         

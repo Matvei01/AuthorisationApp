@@ -55,14 +55,13 @@ class BaseNoteViewController: UIViewController {
     }()
     
     private(set) lazy var noteImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .note
-        imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .appRed
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-        imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(tapGestureRecognizer)
+        let imageView = ReuseImageView(
+            image: .note,
+            tapGestureRecognizer: tapGestureRecognizer,
+            cornerRadius: 10,
+            width: 170,
+            height: 140
+        )
         return imageView
     }()
     
@@ -207,7 +206,6 @@ private extension BaseNoteViewController {
         setConstraintsForAddNoteStackView()
         setConstraintsFor(headerTextView, multiplier: 0.07)
         setConstraintsFor(textNoteTextView, multiplier: 0.2)
-        setConstraintsForNoteImageView()
         setConstraintsForSaveButton()
     }
     
@@ -235,17 +233,6 @@ private extension BaseNoteViewController {
             ),
             textView.heightAnchor.constraint(
                 equalTo: view.heightAnchor, multiplier: multiplier
-            )
-        ])
-    }
-    
-    func setConstraintsForNoteImageView() {
-        NSLayoutConstraint.activate([
-            noteImageView.widthAnchor.constraint(
-                equalToConstant: 170
-            ),
-            noteImageView.heightAnchor.constraint(
-                equalToConstant: 140
             )
         ])
     }
