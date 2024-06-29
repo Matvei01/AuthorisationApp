@@ -83,7 +83,10 @@ final class RegistrationViewController: UIViewController {
     private lazy var loadImageView: UIImageView = {
         let imageView = ReuseImageView(
             image: .profile,
-            tapGestureRecognizer: tapGestureRecognizer
+            tapGestureRecognizer: tapGestureRecognizer,
+            cornerRadius: 65,
+            width: 130,
+            height: 130
         )
         return imageView
     }()
@@ -271,7 +274,7 @@ private extension RegistrationViewController {
               let password = passwordTextField.text, !password.isEmpty,
               let image = loadImageView.image,
               let imageData = image.jpegData(compressionQuality: 0.1) else {
-            showAlert(title: "Error", message: "Fill in all the fields")
+            UIAlertController.showAlert(on: self, title: "Error", message: "Fill in all the fields")
             return
         }
         
@@ -283,7 +286,7 @@ private extension RegistrationViewController {
         
         guard dateRegex.evaluate(with: birthDate),
               let birthDate = dateFormatter.date(from: birthDate) else {
-            showAlert(title: "Error", message: "Invalid birth date format. Please use dd.MM.yyyy")
+            UIAlertController.showAlert(on: self, title: "Error", message: "Invalid birth date format. Please use dd.MM.yyyy")
             return
         }
         
@@ -298,7 +301,7 @@ private extension RegistrationViewController {
                     NotificationCenter.default.post(name: .showSignIn, object: nil)
                 }
             case .failure(let error):
-                showAlert(title: "Error", message: error.localizedDescription)
+                UIAlertController.showAlert(on: self, title: "Error", message: error.localizedDescription)
             }
         }
     }

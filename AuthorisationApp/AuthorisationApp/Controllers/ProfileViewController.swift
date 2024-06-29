@@ -28,7 +28,11 @@ final class ProfileViewController: UIViewController {
     
     private lazy var profileImageView: UIImageView = {
         let imageView = ReuseImageView(
-            tapGestureRecognizer: tapGestureRecognizer
+            image: .profile,
+            tapGestureRecognizer: tapGestureRecognizer,
+            cornerRadius: 65,
+            width: 130,
+            height: 130
         )
         imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         return imageView
@@ -408,7 +412,7 @@ private extension ProfileViewController {
                 self.updateDataService.updateUserImageUrl(imageUrl) { result in
                     switch result {
                     case .success(_):
-                        self.showAlert(title: "Success", message: "Photo successfully updated")
+                        UIAlertController.showAlert(on: self, title: "Success", message: "Photo successfully updated")
                     case .failure(let failure):
                         print(failure.localizedDescription)
                     }
@@ -417,31 +421,6 @@ private extension ProfileViewController {
                 print("Error uploading image: \(error.localizedDescription)")
             }
         }
-    }
-    
-    func promptForPassword(completion: @escaping (String?) -> Void) {
-        let alertController = UIAlertController(
-            title: "Введите пароль",
-            message: "Для изменения email введите текущий пароль",
-            preferredStyle: .alert
-        )
-        alertController.addTextField { textField in
-            textField.isSecureTextEntry = true
-            textField.placeholder = "Пароль"
-        }
-        let confirmAction = UIAlertAction(title: "OK", style: .default) { _ in
-            if let password = alertController.textFields?.first?.text {
-                completion(password)
-            } else {
-                completion(nil)
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel) { _ in
-            completion(nil)
-        }
-        alertController.addAction(confirmAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: nil)
     }
     
     func isValidEmail(_ email: String) -> Bool {
@@ -570,7 +549,7 @@ private extension ProfileViewController {
     
     @objc func saveNameButtonTapped() {
         guard let newName = nameTextField.text, !newName.isEmpty else {
-            self.showAlert(title: "Error", message: "Name field cannot be empty")
+            UIAlertController.showAlert(on: self, title: "Error", message: "Name field cannot be empty")
             return
         }
         
@@ -580,7 +559,7 @@ private extension ProfileViewController {
             
             switch result {
             case .success(_):
-                self.showAlert(title: "Success", message: "Name successfully updated")
+                UIAlertController.showAlert(on: self, title: "Success", message: "Name successfully updated")
             case .failure(let error):
                 print("Failed to update name: \(error.localizedDescription)")
             }
@@ -592,7 +571,7 @@ private extension ProfileViewController {
     
     @objc func saveBirthDateButtonTapped() {
         guard let newBirthDateText = birthDateTextField.text, !newBirthDateText.isEmpty else {
-            self.showAlert(title: "Error", message: "Date field cannot be empty")
+            UIAlertController.showAlert(on: self, title: "Error", message: "Date field cannot be empty")
             return
         }
         
@@ -610,13 +589,13 @@ private extension ProfileViewController {
                 
                 switch result {
                 case .success(_):
-                    self.showAlert(title: "Success", message: "Birth date successfully updated")
+                    UIAlertController.showAlert(on: self, title: "Success", message: "Birth date successfully updated")
                 case .failure(let error):
                     print("Failed to update birth date: \(error.localizedDescription)")
                 }
             }
         } else {
-            self.showAlert(title: "Error", message: "Invalid date format. Please use dd.MM.yyyy")
+            UIAlertController.showAlert(on: self, title: "Error", message: "Invalid date format. Please use dd.MM.yyyy")
         }
         
         birthDateTextField.resignFirstResponder()
@@ -626,32 +605,36 @@ private extension ProfileViewController {
     
     @objc func saveEmailButtonTapped() {
         guard let newEmail = emailTextField.text, !newEmail.isEmpty else {
-            self.showAlert(title: "Error", message: "Email field cannot be empty")
-            return
-        }
-        
-        promptForPassword { [weak self] password in
-            guard let self = self else { return }
-            
-            guard let password = password else { return }
-            if isValidEmail(newEmail) {
-                emailLabel.text = newEmail
-                self.updateDataService.updateAuthEmail(newEmail, password: password) { result in
-                    switch result {
-                    case .success(_):
-                        self.showAlertForUpdateEmail(title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
-                    case .failure(let error):
-                        self.showAlert(title: "Error", message: "Invalid password. Try again.")
-                        print("Failed to update email: \(error.localizedDescription)")
-                    }
-                }
-            } else {
-                self.showAlert(title: "Error", message: "Invalid email format")
+                UIAlertController.showAlert(on: self, title: "Error", message: "Email field cannot be empty")
+                return
             }
-        }
-        
-        emailTextField.resignFirstResponder()
-        toolbarEmail.removeFromSuperview()
+            
+            UIAlertController.showPasswordPrompt(on: self) { [weak self] password in
+                guard let self = self else { return }
+                
+                guard let password = password else {
+                    UIAlertController.showAlert(on: self, title: "Error", message: "Password is required to change email.")
+                    return
+                }
+                
+                if self.isValidEmail(newEmail) {
+                    self.emailLabel.text = newEmail
+                    self.updateDataService.updateAuthEmail(newEmail, password: password) { result in
+                        switch result {
+                        case .success(_):
+                            UIAlertController.showAlertForUpdateEmail(on: self, title: "Success", message: "Email successfully updated. You will be redirected to the login screen and will have to log in again. A link has been sent to your new email address. Please click on it to verify.")
+                        case .failure(let error):
+                            UIAlertController.showAlert(on: self, title: "Error", message: "Invalid password. Try again.")
+                            print("Failed to update email: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    UIAlertController.showAlert(on: self, title: "Error", message: "Invalid email format")
+                }
+            }
+            
+            emailTextField.resignFirstResponder()
+            toolbarEmail.removeFromSuperview()
     }
     
     @objc func dateChanged() {
