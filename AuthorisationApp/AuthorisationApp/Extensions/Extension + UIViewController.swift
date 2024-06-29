@@ -35,36 +35,4 @@ extension UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    
-    // MARK: - Reuse Constraints
-    func setConstraintsFor(_ stackView: UIStackView) {
-        NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor,
-                constant: 25
-            ),
-            
-            stackView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: 30
-            ),
-            stackView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -30
-            )
-        ])
-    }
-    
-    func setConstraintsFor(largeAuthButton: UIButton,
-                           smallAuthButton: UIButton,
-                           widthAnchorForSmallButton: CGFloat,
-                           stackView: UIStackView) {
-        
-        NSLayoutConstraint.activate([
-            largeAuthButton.heightAnchor.constraint(equalToConstant: 70),
-            largeAuthButton.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            
-            smallAuthButton.widthAnchor.constraint(equalToConstant: widthAnchorForSmallButton)
-        ])
-    }
 }

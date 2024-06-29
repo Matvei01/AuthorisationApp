@@ -16,6 +16,7 @@
 		1AA52C132C2C8453006F4969 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C122C2C8453006F4969 /* FirebaseAuth */; };
 		1AA52C152C2C8453006F4969 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C142C2C8453006F4969 /* FirebaseFirestore */; };
 		1AA52C172C2C8453006F4969 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C162C2C8453006F4969 /* FirebaseStorage */; };
+		1AA52C192C2FF81B006F4969 /* BaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA52C182C2FF81B006F4969 /* BaseNoteViewController.swift */; };
 		1AAC3B122C29744700D14DBF /* ReuseTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B112C29744700D14DBF /* ReuseTextView.swift */; };
 		1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */; };
 		1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */; };
@@ -58,6 +59,7 @@
 		1A38C0062C259BB200C22B51 /* NotesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDataService.swift; sourceTree = "<group>"; };
 		1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotesViewController.swift; sourceTree = "<group>"; };
 		1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AA52C182C2FF81B006F4969 /* BaseNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNoteViewController.swift; sourceTree = "<group>"; };
 		1AAC3B112C29744700D14DBF /* ReuseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextView.swift; sourceTree = "<group>"; };
 		1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewCell.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */,
 				1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */,
 				1AAC3B4A2C2BF23C00D14DBF /* EditNoteViewController.swift */,
+				1AA52C182C2FF81B006F4969 /* BaseNoteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				1AB3E54B2C078F8B0040DE8D /* ReuseTextField.swift in Sources */,
 				1AB3E5492C07842B0040DE8D /* ReuseLabel.swift in Sources */,
 				1AB3E5282C07704C0040DE8D /* AppDelegate.swift in Sources */,
+				1AA52C192C2FF81B006F4969 /* BaseNoteViewController.swift in Sources */,
 				1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */,
 				1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */,
 				1ADE20752C132C31006173D3 /* Extension + UIViewController.swift in Sources */,
