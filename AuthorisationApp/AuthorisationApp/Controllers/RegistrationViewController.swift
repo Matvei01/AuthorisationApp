@@ -348,7 +348,7 @@ private extension RegistrationViewController {
             birthDateTextField
         )
         
-        setConstraintsFor(mainRegistrationStackView)
+        setConstraintsForMainRegistrationStackView()
         
         setConstraintsFor(
             largeAuthButton: registrationButton,
@@ -356,6 +356,37 @@ private extension RegistrationViewController {
             widthAnchorForSmallButton: 60,
             stackView: mainRegistrationStackView
         )
+    }
+    
+    func setConstraintsForMainRegistrationStackView() {
+        NSLayoutConstraint.activate([
+            mainRegistrationStackView.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor,
+                constant: 25
+            ),
+            
+            mainRegistrationStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 30
+            ),
+            mainRegistrationStackView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -30
+            )
+        ])
+    }
+    
+    func setConstraintsFor(largeAuthButton: UIButton,
+                           smallAuthButton: UIButton,
+                           widthAnchorForSmallButton: CGFloat,
+                           stackView: UIStackView) {
+        
+        NSLayoutConstraint.activate([
+            largeAuthButton.heightAnchor.constraint(equalToConstant: 70),
+            largeAuthButton.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+            
+            smallAuthButton.widthAnchor.constraint(equalToConstant: widthAnchorForSmallButton)
+        ])
     }
     
     func setConstraintsFor(_ textFields: UITextField...) {

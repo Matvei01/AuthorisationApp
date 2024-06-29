@@ -218,7 +218,7 @@ extension SignInViewController: UITextFieldDelegate {
 // MARK: - Constraints
 private extension SignInViewController {
     func setConstraints() {
-        setConstraintsFor(mainSignInStackView)
+        setConstraintsForMainSignInStackView()
         
         setConstraintsFor(
             largeAuthButton: signInButton,
@@ -226,5 +226,36 @@ private extension SignInViewController {
             widthAnchorForSmallButton: 125,
             stackView: mainSignInStackView
         )
+    }
+    
+    func setConstraintsForMainSignInStackView() {
+        NSLayoutConstraint.activate([
+            mainSignInStackView.centerYAnchor.constraint(
+                equalTo: view.centerYAnchor,
+                constant: 25
+            ),
+            
+            mainSignInStackView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 30
+            ),
+            mainSignInStackView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -30
+            )
+        ])
+    }
+    
+    func setConstraintsFor(largeAuthButton: UIButton,
+                           smallAuthButton: UIButton,
+                           widthAnchorForSmallButton: CGFloat,
+                           stackView: UIStackView) {
+        
+        NSLayoutConstraint.activate([
+            largeAuthButton.heightAnchor.constraint(equalToConstant: 70),
+            largeAuthButton.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+            
+            smallAuthButton.widthAnchor.constraint(equalToConstant: widthAnchorForSmallButton)
+        ])
     }
 }
