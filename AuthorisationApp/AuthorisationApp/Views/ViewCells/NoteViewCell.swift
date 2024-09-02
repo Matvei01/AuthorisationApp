@@ -34,7 +34,7 @@ final class NoteViewCell: UITableViewCell {
     
     private lazy var textNoteLabel: UILabel = {
         let label = ReuseLabel(
-            text: "Text note jghghghghghghhghghghhgghhghghghgghhghghghg",
+            text: "Text note",
             textColor: .appBlack,
             font: .systemFont(ofSize: 16, weight: .medium)
         )
@@ -119,16 +119,47 @@ private extension NoteViewCell {
 // MARK: - Constraints
 private extension NoteViewCell {
     func setConstraints() {
+        setConstraintsForNoteImageView()
+        setConstraintsForNoteStackView()
+    }
+    
+    func setConstraintsForNoteImageView() {
         NSLayoutConstraint.activate([
-            noteImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            noteImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            noteImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            noteImageView.trailingAnchor.constraint(equalTo: noteStackView.leadingAnchor, constant: -10),
-            noteImageView.widthAnchor.constraint(equalToConstant: 110),
-            
-            noteStackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            noteStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            noteStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            noteImageView.topAnchor.constraint(
+                equalTo: topAnchor,
+                constant: 10
+            ),
+            noteImageView.leadingAnchor.constraint(
+                equalTo: leadingAnchor,
+                constant: 10
+            ),
+            noteImageView.bottomAnchor.constraint(
+                equalTo: bottomAnchor,
+                constant: -10
+            ),
+            noteImageView.trailingAnchor.constraint(
+                equalTo: noteStackView.leadingAnchor,
+                constant: -10
+            ),
+            noteImageView.widthAnchor.constraint(
+                equalToConstant: 110
+            )
+        ])
+    }
+    
+    func setConstraintsForNoteStackView() {
+        NSLayoutConstraint.activate([
+            noteStackView.topAnchor.constraint(
+                equalTo: topAnchor,
+                constant: 20
+            ),
+            noteStackView.bottomAnchor.constraint(
+                equalTo: bottomAnchor, constant: -20
+            ),
+            noteStackView.trailingAnchor.constraint(
+                equalTo: trailingAnchor,
+                constant: -10
+            )
         ])
     }
 }

@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A074F842C85A79F008D4967 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A074F832C85A79F008D4967 /* GoogleService-Info.plist */; };
 		1A38BFE82C235DD500C22B51 /* UpdateDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38BFE72C235DD500C22B51 /* UpdateDataService.swift */; };
 		1A38C0072C259BB200C22B51 /* NotesDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C0062C259BB200C22B51 /* NotesDataService.swift */; };
 		1A38C00F2C27336100C22B51 /* AddNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */; };
-		1AA52C0D2C2C6E67006F4969 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */; };
 		1AA52C192C2FF81B006F4969 /* BaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA52C182C2FF81B006F4969 /* BaseNoteViewController.swift */; };
-		1AA52C1B2C2FFE39006F4969 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C1A2C2FFE39006F4969 /* SDWebImage */; };
-		1AA52C1D2C2FFE39006F4969 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C1C2C2FFE39006F4969 /* SDWebImageMapKit */; };
-		1AA52C1F2C2FFE56006F4969 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C1E2C2FFE56006F4969 /* FirebaseAuth */; };
-		1AA52C212C2FFE56006F4969 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C202C2FFE56006F4969 /* FirebaseFirestore */; };
-		1AA52C232C2FFE56006F4969 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C222C2FFE56006F4969 /* FirebaseStorage */; };
 		1AA52C252C302362006F4969 /* Extension + UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA52C242C302362006F4969 /* Extension + UIAlertController.swift */; };
+		1AA52C272C302894006F4969 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C262C302894006F4969 /* SDWebImage */; };
+		1AA52C292C302894006F4969 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C282C302894006F4969 /* SDWebImageMapKit */; };
+		1AA52C2B2C3028B6006F4969 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C2A2C3028B6006F4969 /* FirebaseAuth */; };
+		1AA52C2D2C3028B6006F4969 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C2C2C3028B6006F4969 /* FirebaseFirestore */; };
+		1AA52C2F2C3028B6006F4969 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA52C2E2C3028B6006F4969 /* FirebaseStorage */; };
+		1AA52C312C303168006F4969 /* ReuseDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA52C302C303168006F4969 /* ReuseDatePicker.swift */; };
+		1AA52C332C3034CE006F4969 /* ReuseTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA52C322C3034CE006F4969 /* ReuseTapGestureRecognizer.swift */; };
 		1AAC3B122C29744700D14DBF /* ReuseTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B112C29744700D14DBF /* ReuseTextView.swift */; };
 		1AAC3B1E2C2AD42C00D14DBF /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */; };
 		1AAC3B202C2AE20400D14DBF /* NoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */; };
@@ -55,12 +57,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A074F832C85A79F008D4967 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A38BFE72C235DD500C22B51 /* UpdateDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDataService.swift; sourceTree = "<group>"; };
 		1A38C0062C259BB200C22B51 /* NotesDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDataService.swift; sourceTree = "<group>"; };
 		1A38C00E2C27336100C22B51 /* AddNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotesViewController.swift; sourceTree = "<group>"; };
-		1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1AA52C182C2FF81B006F4969 /* BaseNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNoteViewController.swift; sourceTree = "<group>"; };
 		1AA52C242C302362006F4969 /* Extension + UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIAlertController.swift"; sourceTree = "<group>"; };
+		1AA52C302C303168006F4969 /* ReuseDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseDatePicker.swift; sourceTree = "<group>"; };
+		1AA52C322C3034CE006F4969 /* ReuseTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTapGestureRecognizer.swift; sourceTree = "<group>"; };
 		1AAC3B112C29744700D14DBF /* ReuseTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseTextView.swift; sourceTree = "<group>"; };
 		1AAC3B1D2C2AD42C00D14DBF /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		1AAC3B1F2C2AE20400D14DBF /* NoteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewCell.swift; sourceTree = "<group>"; };
@@ -104,11 +108,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AA52C1D2C2FFE39006F4969 /* SDWebImageMapKit in Frameworks */,
-				1AA52C212C2FFE56006F4969 /* FirebaseFirestore in Frameworks */,
-				1AA52C1F2C2FFE56006F4969 /* FirebaseAuth in Frameworks */,
-				1AA52C232C2FFE56006F4969 /* FirebaseStorage in Frameworks */,
-				1AA52C1B2C2FFE39006F4969 /* SDWebImage in Frameworks */,
+				1AA52C292C302894006F4969 /* SDWebImageMapKit in Frameworks */,
+				1AA52C2D2C3028B6006F4969 /* FirebaseFirestore in Frameworks */,
+				1AA52C2B2C3028B6006F4969 /* FirebaseAuth in Frameworks */,
+				1AA52C2F2C3028B6006F4969 /* FirebaseStorage in Frameworks */,
+				1AA52C272C302894006F4969 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +253,7 @@
 				1AB3E5272C07704C0040DE8D /* AppDelegate.swift */,
 				1AB3E5292C07704C0040DE8D /* SceneDelegate.swift */,
 				1AB3E5352C07704D0040DE8D /* Info.plist */,
-				1AA52C0C2C2C6E66006F4969 /* GoogleService-Info.plist */,
+				1A074F832C85A79F008D4967 /* GoogleService-Info.plist */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -282,6 +286,8 @@
 				1ADE20662C08C936006173D3 /* ReuseStackView.swift */,
 				1AB29B8A2C1D6050001BD233 /* ReuseImageView.swift */,
 				1AAC3B112C29744700D14DBF /* ReuseTextView.swift */,
+				1AA52C302C303168006F4969 /* ReuseDatePicker.swift */,
+				1AA52C322C3034CE006F4969 /* ReuseTapGestureRecognizer.swift */,
 			);
 			path = ReuseViews;
 			sourceTree = "<group>";
@@ -388,11 +394,11 @@
 			);
 			name = AuthorisationApp;
 			packageProductDependencies = (
-				1AA52C1A2C2FFE39006F4969 /* SDWebImage */,
-				1AA52C1C2C2FFE39006F4969 /* SDWebImageMapKit */,
-				1AA52C1E2C2FFE56006F4969 /* FirebaseAuth */,
-				1AA52C202C2FFE56006F4969 /* FirebaseFirestore */,
-				1AA52C222C2FFE56006F4969 /* FirebaseStorage */,
+				1AA52C262C302894006F4969 /* SDWebImage */,
+				1AA52C282C302894006F4969 /* SDWebImageMapKit */,
+				1AA52C2A2C3028B6006F4969 /* FirebaseAuth */,
+				1AA52C2C2C3028B6006F4969 /* FirebaseFirestore */,
+				1AA52C2E2C3028B6006F4969 /* FirebaseStorage */,
 			);
 			productName = AuthorisationApp;
 			productReference = 1AB3E5242C07704C0040DE8D /* AuthorisationApp.app */;
@@ -442,7 +448,7 @@
 			files = (
 				1AB3E5312C07704D0040DE8D /* Assets.xcassets in Resources */,
 				1AB3E5342C07704D0040DE8D /* Base in Resources */,
-				1AA52C0D2C2C6E67006F4969 /* GoogleService-Info.plist in Resources */,
+				1A074F842C85A79F008D4967 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +469,7 @@
 				1AB586BA2C1AE6F3001B890A /* RegUserData.swift in Sources */,
 				1AAC3B252C2B324600D14DBF /* UploadNoteImageService.swift in Sources */,
 				1AAC3B232C2B30FE00D14DBF /* Note.swift in Sources */,
+				1AA52C312C303168006F4969 /* ReuseDatePicker.swift in Sources */,
 				1ADE20672C08C936006173D3 /* ReuseStackView.swift in Sources */,
 				1A38C0072C259BB200C22B51 /* NotesDataService.swift in Sources */,
 				1A38BFE82C235DD500C22B51 /* UpdateDataService.swift in Sources */,
@@ -474,6 +481,7 @@
 				1AB586C92C1CA028001B890A /* LoadUserData.swift in Sources */,
 				1AB29B8B2C1D6050001BD233 /* ReuseImageView.swift in Sources */,
 				1ADE20452C08C1D9006173D3 /* ReuseSmallButton.swift in Sources */,
+				1AA52C332C3034CE006F4969 /* ReuseTapGestureRecognizer.swift in Sources */,
 				1AAC3B3F2C2B574C00D14DBF /* DeleteNoteService.swift in Sources */,
 				1ADE20432C08AC1C006173D3 /* ReuseLargeButton.swift in Sources */,
 				1AB586C32C1B0F1A001B890A /* AppModel.swift in Sources */,
@@ -640,6 +648,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -671,6 +680,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -731,27 +741,27 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1AA52C1A2C2FFE39006F4969 /* SDWebImage */ = {
+		1AA52C262C302894006F4969 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1AB29BA12C1F075A001BD233 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
 		};
-		1AA52C1C2C2FFE39006F4969 /* SDWebImageMapKit */ = {
+		1AA52C282C302894006F4969 /* SDWebImageMapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1AB29BA12C1F075A001BD233 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
 		};
-		1AA52C1E2C2FFE56006F4969 /* FirebaseAuth */ = {
+		1AA52C2A2C3028B6006F4969 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A38BFDA2C216B8900C22B51 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		1AA52C202C2FFE56006F4969 /* FirebaseFirestore */ = {
+		1AA52C2C2C3028B6006F4969 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A38BFDA2C216B8900C22B51 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		1AA52C222C2FFE56006F4969 /* FirebaseStorage */ = {
+		1AA52C2E2C3028B6006F4969 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A38BFDA2C216B8900C22B51 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;

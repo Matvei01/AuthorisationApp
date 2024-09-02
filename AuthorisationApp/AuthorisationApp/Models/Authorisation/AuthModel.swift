@@ -19,8 +19,7 @@ final class AuthModel {
             }
             
             guard let user = result?.user else {
-                print("Unknown error occurred.")
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred."])))
+                print("User is not registered")
                 return
             }
             
