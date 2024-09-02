@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - UI Elements
     private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let tapGestureRecognizer = UITapGestureRecognizer(
+        let tapGestureRecognizer = ReuseTapGestureRecognizer(
             target: self,
             action: #selector(loadImageTapped)
         )
@@ -28,7 +28,6 @@ final class ProfileViewController: UIViewController {
     
     private lazy var profileImageView: UIImageView = {
         let imageView = ReuseImageView(
-            image: .profile,
             tapGestureRecognizer: tapGestureRecognizer,
             cornerRadius: 65,
             width: 130,
@@ -236,53 +235,32 @@ final class ProfileViewController: UIViewController {
     }()
     
     private lazy var datePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.maximumDate = Calendar.current.date(
-            byAdding: .year,
-            value: -18,
-            to: Date()
+        let picker = ReuseDatePicker(
+            target: self,
+            action: #selector(dateChanged)
         )
-        picker.preferredDatePickerStyle = .wheels
-        picker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         return picker
     }()
     
     private lazy var nameTextField: UITextField = {
-        let textField = ReuseTextField(
+        createTextField(
             placeholder: "Введите свое имя"
         )
-        textField.layer.borderColor = UIColor.appRed.cgColor
-        textField.layer.borderWidth = 1.0
-        textField.layer.cornerRadius = 8.0
-        textField.delegate = self
-        return textField
     }()
-    
+        
     private lazy var birthDateTextField: UITextField = {
-        let textField = ReuseTextField(
-            placeholder: "Введите свою дату рождения"
+        createTextField(
+            placeholder: "Введите свою дату рождения",
+            inputView: datePicker
         )
-        textField.layer.borderColor = UIColor.appRed.cgColor
-        textField.layer.borderWidth = 1.0
-        textField.layer.cornerRadius = 8.0
-        textField.inputView = datePicker
-        textField.delegate = self
-        return textField
     }()
-    
+        
     private lazy var emailTextField: UITextField = {
-        let textField = ReuseTextField(
+        createTextField(
             placeholder: "Введите свой email"
         )
-        textField.layer.borderColor = UIColor.appRed.cgColor
-        textField.layer.borderWidth = 1.0
-        textField.layer.cornerRadius = 8.0
-        textField.autocapitalizationType = .none
-        textField.delegate = self
-        return textField
     }()
-    
+        
     private lazy var toolbarName: UIToolbar = {
         createToolbar(
             textField: nameTextField,
@@ -470,6 +448,18 @@ private extension ProfileViewController {
             animated: false
         )
         return toolbar
+    }
+    
+    func createTextField(placeholder: String ,inputView: UIView? = nil) -> UITextField {
+        let textField = ReuseTextField(
+            placeholder: placeholder
+        )
+        textField.layer.borderColor = UIColor.appRed.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.cornerRadius = 8.0
+        textField.inputView = inputView
+        textField.delegate = self
+        return textField
     }
     
     func setupPencilButtonAction(for textField: UITextField, label: UILabel, toolbar: UIToolbar) {
@@ -679,9 +669,9 @@ private extension ProfileViewController {
     
     func setConstraintsForMainStackView() {
         NSLayoutConstraint.activate([
-            mainStackView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor,
-                constant: -15
+            mainStackView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 50
             ),
             mainStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,

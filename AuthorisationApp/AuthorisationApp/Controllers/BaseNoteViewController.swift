@@ -93,14 +93,14 @@ class BaseNoteViewController: UIViewController {
         return stackView
     }()
     
-    private(set) lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let tapGestureRecognizer = UITapGestureRecognizer(
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tapGestureRecognizer = ReuseTapGestureRecognizer(
             target: self,
             action: #selector(noteImageTapped)
         )
         return tapGestureRecognizer
     }()
-    
+        
     private(set) lazy var imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -211,9 +211,9 @@ private extension BaseNoteViewController {
     
     func setConstraintsForAddNoteStackView() {
         NSLayoutConstraint.activate([
-            editNoteStackView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor,
-                constant: -20
+            editNoteStackView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 40
             ),
             editNoteStackView.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
@@ -241,7 +241,7 @@ private extension BaseNoteViewController {
         NSLayoutConstraint.activate([
             saveButton.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor,
-                constant: -50
+                constant: -30
             ),
             saveButton.leadingAnchor.constraint(
                 equalTo: editNoteStackView.leadingAnchor

@@ -213,7 +213,8 @@ extension NotesViewController: UISearchResultsUpdating {
     
     private func filterContentForSearchText(_ searchText: String) {
         filteredNotes = notes.filter { (note: Note) -> Bool in
-            return note.title.lowercased().contains(searchText.lowercased()) || note.text.lowercased().contains(searchText.lowercased())
+            return note.title.lowercased().contains(searchText.lowercased()) 
+            || note.text.lowercased().contains(searchText.lowercased())
         }
         
         tableView.reloadData()

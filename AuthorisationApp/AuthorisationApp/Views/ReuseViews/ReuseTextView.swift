@@ -35,7 +35,6 @@ final class ReuseTextView: UITextView {
             right: 15
         )
         self.font = font
-        self.backgroundColor = .white
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.appBlack.cgColor
         self.layer.borderWidth = 1.0

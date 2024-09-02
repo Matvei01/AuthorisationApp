@@ -73,13 +73,13 @@ final class RegistrationViewController: UIViewController {
     }()
     
     private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let tapGestureRecognizer = UITapGestureRecognizer(
+        let tapGestureRecognizer = ReuseTapGestureRecognizer(
             target: self,
             action: #selector(loadImageTapped)
         )
         return tapGestureRecognizer
     }()
-    
+        
     private lazy var loadImageView: UIImageView = {
         let imageView = ReuseImageView(
             image: .profile,
@@ -179,15 +179,10 @@ final class RegistrationViewController: UIViewController {
     }()
     
     private lazy var datePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.maximumDate = Calendar.current.date(
-            byAdding: .year,
-            value: -18,
-            to: Date()
+        let picker = ReuseDatePicker(
+            target: self,
+            action: #selector(dateChanged)
         )
-        picker.preferredDatePickerStyle = .wheels
-        picker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         return picker
     }()
     
@@ -363,9 +358,9 @@ private extension RegistrationViewController {
     
     func setConstraintsForMainRegistrationStackView() {
         NSLayoutConstraint.activate([
-            mainRegistrationStackView.centerYAnchor.constraint(
-                equalTo: view.centerYAnchor,
-                constant: 25
+            mainRegistrationStackView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 40
             ),
             
             mainRegistrationStackView.leadingAnchor.constraint(

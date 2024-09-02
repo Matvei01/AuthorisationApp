@@ -22,7 +22,6 @@ final class RegistrationModel {
             
             guard let uid = result?.user.uid else {
                 print("UID не найден.")
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "UID не найден."])))
                 return
             }
             
